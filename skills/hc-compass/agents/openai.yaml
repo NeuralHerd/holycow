@@ -1,0 +1,7 @@
+interface:
+  display_name: "HolyCow Compass"
+  short_description: "Resolve uncertainty across working sessions"
+  default_prompt: "Use $hc-compass to map this effort's outcome, unresolved questions, and the next decision to resolve."
+
+policy:
+  allow_implicit_invocation: false

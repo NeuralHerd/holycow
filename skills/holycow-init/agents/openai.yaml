@@ -1,0 +1,7 @@
+interface:
+  display_name: "Initialize HolyCow"
+  short_description: "Configure a repo for the HolyCow workflow"
+  default_prompt: "Use $holycow-init to configure this repository for HolyCow, reuse existing conventions, and report verified capabilities and setup gaps."
+
+policy:
+  allow_implicit_invocation: false

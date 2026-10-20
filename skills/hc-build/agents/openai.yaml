@@ -1,0 +1,7 @@
+interface:
+  display_name: "HolyCow Build"
+  short_description: "Implement and debug with verification"
+  default_prompt: "Use $hc-build to implement or diagnose this scoped work, verify the outcome, and review any resulting changes."
+
+policy:
+  allow_implicit_invocation: false

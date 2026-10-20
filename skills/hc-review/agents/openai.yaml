@@ -1,0 +1,7 @@
+interface:
+  display_name: "HolyCow Review"
+  short_description: "Review changes with actionable evidence"
+  default_prompt: "Use $hc-review to review these changes against the agreed behavior and project standards, with evidence-backed findings and verification limits."
+
+policy:
+  allow_implicit_invocation: false

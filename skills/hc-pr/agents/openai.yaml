@@ -1,0 +1,7 @@
+interface:
+  display_name: "HolyCow PR"
+  short_description: "Explain PR changes, evidence, and merge risks"
+  default_prompt: "Use $hc-pr to draft this pull request description from the actual changes, verification evidence, and merge risks, following the repository template."
+
+policy:
+  allow_implicit_invocation: false

@@ -1,0 +1,7 @@
+interface:
+  display_name: "HolyCow Retro"
+  short_description: "Improve future work from session evidence"
+  default_prompt: "Use $hc-retro to identify evidence-backed improvements from this session, with concrete recommendations and verification limits."
+
+policy:
+  allow_implicit_invocation: false

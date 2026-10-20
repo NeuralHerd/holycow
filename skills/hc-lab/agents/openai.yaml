@@ -1,0 +1,7 @@
+interface:
+  display_name: "HolyCow Lab"
+  short_description: "Test ideas with focused, runnable experiments"
+  default_prompt: "Use $hc-lab to build the smallest useful experiment for this question, then help me evaluate the result."
+
+policy:
+  allow_implicit_invocation: false
