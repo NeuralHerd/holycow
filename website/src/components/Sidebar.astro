@@ -3,9 +3,11 @@ import { groups, skills } from '../data/skills';
 const current = Astro.url.pathname;
 const docs = [
   ['Getting started', '/docs/getting-started/'],
-  ['Using HolyCow in Herdr', '/docs/herdr/'],
-  ['Publishing this website', '/docs/hosting/'],
+  ['Recommended setup: Herdr', '/docs/herdr/'],
+];
+const projectDocs = [
   ['Design & evaluation', '/docs/skill-design-review/'],
+  ['Publishing this website', '/docs/hosting/'],
   ['Credits & attribution', '/docs/attribution/'],
 ];
 ---
@@ -16,7 +18,9 @@ const docs = [
       <p class="sidebar-label">Documentation</p>
       {docs.map(([label, href]) => <a href={href} aria-current={current === href ? 'page' : undefined}>{label}</a>)}
       {groups.map(group => <div class="sidebar-group"><p class="sidebar-label">{group}</p>{skills.filter(skill => skill.group === group).map(skill => <a href={`/skills/${skill.name}/`} aria-current={current === `/skills/${skill.name}/` ? 'page' : undefined}>{skill.name}</a>)}</div>)}
-      <p class="sidebar-label">Project</p><a href="https://github.com/NeuralHerd/holycow/issues">Feedback & contributions ↗</a>
+      <p class="sidebar-label">Project</p>
+      {projectDocs.map(([label, href]) => <a href={href} aria-current={current === href ? 'page' : undefined}>{label}</a>)}
+      <a href="https://github.com/NeuralHerd/holycow/issues">Feedback & contributions ↗</a>
     </nav>
   </details>
 </aside>

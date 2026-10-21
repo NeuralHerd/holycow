@@ -85,6 +85,12 @@ HolyCow Guide recommends the smallest useful next step:
 
 These are chat invocations, not shell commands. Replace `holycow-guide` with any skill below when you already know what you need. `holycow-init` is optional repository onboarding; the other skills work without it.
 
+## Recommended setup: Herdr + herdr-projects
+
+For coordinating several agents, we recommend **HolyCow + [Herdr](https://herdr.dev) + [herdr-projects](https://github.com/eliasstravik/herdr-projects)**. Herdr organizes the agent terminals; herdr-projects adds a task board, delegation, and review; HolyCow supplies the workflow guidance. Our role instructions select the useful skills automatically inside Herdr.
+
+The [setup guide](website/src/content/docs/herdr.md) includes installation, Anil's model choices, copyable configuration, and the Interaction Service example. HolyCow also works directly in your usual agent chat.
+
 ## Choose a skill
 
 | Skill | Use it for | Outcome |
@@ -194,12 +200,6 @@ Prefer improving an existing skill or conditional reference when it already owns
 
 ## Credits and license
 
-HolyCow draws from three complementary sources:
-
-- [Matt Pocock's skills](https://github.com/mattpocock/skills): questioning, discovery, prototypes, and delivery workflows.
-- [Lauren Tan / poteto's pstack](https://github.com/cursor/plugins/tree/main/pstack): domain modeling, design judgment, and verification of downstream effects.
-- [Addy Osmani's agent-skills](https://github.com/addyosmani/agent-skills): quality requirements, focused review, and operational readiness.
-
-The PR guidance also retains the credit to Dex Horthy / HumanLayer's `show-me` through Matt's work. See [full attribution](docs/attribution.md) for pinned source links and adaptation details, and the [design review](docs/skill-design-review.md) for the choices adopted and omitted.
+Thanks to Matt Pocock, Lauren Tan, Addy Osmani, and Dex Horthy / HumanLayer for the work HolyCow builds on. See [credits](docs/attribution.md).
 
 [MIT licensed](LICENSE). Each skill carries its own `LICENSE` with the applicable upstream notices so credit travels with selective installation.
