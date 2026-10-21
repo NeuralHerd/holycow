@@ -4,7 +4,7 @@ This website is an Astro static build, designed for **Cloudflare Workers Static 
 
 Cloudflare recommends Workers Static Assets for new static websites. Requests served as static assets are free and unlimited, and asset storage has no additional charge. This site has no Worker script, server rendering, database, or paid service dependency. See [Cloudflare's recommendation](https://developers.cloudflare.com/workers/best-practices/workers-best-practices/) and [static asset pricing](https://developers.cloudflare.com/workers/static-assets/billing-and-limitations/).
 
-Free Workers Builds currently includes 3,000 build minutes per month, one concurrent build, and a 20-minute build timeout. The documentation site should fit comfortably within that allowance under ordinary use. Check the [current limits](https://developers.cloudflare.com/workers/ci-cd/builds/limits-and-pricing/) before changing the build or adding services.
+GitHub Actions builds and deploys this site. Standard GitHub-hosted runners are free for public repositories; private repositories use the account's included Actions allowance. See [GitHub Actions billing](https://docs.github.com/en/billing/concepts/product-billing/github-actions).
 
 ## Preview locally
 
@@ -25,22 +25,20 @@ npm run preview
 
 Verification checks Astro types, builds the static pages, and checks internal page links and anchors. The deployable output is `website/dist`.
 
-## Connect GitHub to Cloudflare
+## Automatic deployment from GitHub
 
-After the website changes are pushed to GitHub:
+The `Deploy website` workflow in `.github/workflows/deploy-website.yml` runs on pushes to `main`. It installs the locked dependencies, runs `npm run verify`, and deploys with `npx wrangler deploy` only after verification succeeds. It uses Node.js from `website/.node-version` and builds from the entire repository because the website reads Markdown outside `website`.
 
-1. In Cloudflare, open **Workers & Pages → holycow → Settings → Builds** and connect the existing Worker to the `NeuralHerd/holycow` GitHub repository. Limit the GitHub app's repository access to this repository.
-2. Select `main` as the production branch and `website` as the project root.
-3. Use `npm run verify` as the build command and `npx wrangler deploy` as the deploy command. Set the build environment's Node version to `24.15.0` if it does not pick up `.node-version`.
-4. Use the committed `wrangler.jsonc`. It names the Worker `holycow`, publishes only `dist`, and attaches `holycow.neuralherd.dev` as a custom domain.
-5. Enable automatic builds for `main`. Leave other branch builds disabled unless preview deployments are wanted.
-6. Deploy, then check the custom domain and the generated `workers.dev` address. Confirm the successful build shows the commit pushed to `main`.
+Repository setup under **Settings → Secrets and variables → Actions**:
 
-Git integration rebuilds the site when changes are pushed to the selected branch. Build from the entire repository: the website reads Markdown outside the `website` directory. If you configure build watch paths, include `skills/**`, `docs/**`, `evals/**`, `README.md`, and `website/**`.
+- Add the repository secret `CLOUDFLARE_API_TOKEN` with the restricted deployment token.
+- Add the repository variable `CLOUDFLARE_ACCOUNT_ID` with the Cloudflare account ID that owns `holycow` and `neuralherd.dev`.
 
-After the connection is enabled, publishing a docs or skill update only requires committing and pushing it to `main`. Cloudflare installs the locked dependencies, runs verification, and deploys only after verification succeeds. Check the Worker's **Deployments** tab for the build result; a failed build leaves the previous deployment live. This uses Cloudflare Workers Builds, so no GitHub Actions deployment workflow or GitHub deployment secret is needed.
+The deployment token needs **Workers Scripts: Edit** and **Account Settings: Read** in that account; **Workers Routes: Edit** and **Zone: Read** only for `neuralherd.dev`; and **User Details: Read** and **Memberships: Read**. It needs no database, storage, queue, or AI permissions. Store its value only in the repository secret. To rotate it, replace that secret and rerun the workflow.
 
-See [Cloudflare's Git integration documentation](https://developers.cloudflare.com/workers/ci-cd/builds/).
+After setup, publish a docs or skill update by committing and pushing to `main`. Check **Actions → Deploy website** for the result and confirm the run shows the expected commit. You can also use **Run workflow** with `main` to redeploy. A failed verification leaves the previous deployment live. Keep Cloudflare's separate Git builds disconnected to avoid duplicate deployments.
+
+The committed `wrangler.jsonc` names the Worker `holycow`, publishes `dist`, and attaches `holycow.neuralherd.dev`. See [Cloudflare's GitHub Actions documentation](https://developers.cloudflare.com/workers/ci-cd/external-cicd/github-actions/).
 
 ## Connect holycow.neuralherd.dev
 
