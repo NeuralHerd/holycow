@@ -8,7 +8,7 @@ Start where you are. A new idea can begin with questions and prototypes; a clear
 
 > **Early release:** ten foundational skills are available. Live workflow evaluation across all three harnesses is still pending. The scenarios in `evals/` describe expected behavior, not passing results.
 
-[Install](#install) · [Choose a skill](#choose-a-skill) · [Example workflows](#example-workflows) · [Contribute](#contribute)
+[Install](#install) · [Update](#update) · [Choose a skill](#choose-a-skill) · [Example workflows](#example-workflows) · [Contribute](#contribute)
 
 ## Install
 
@@ -29,6 +29,49 @@ npx skills@latest add NeuralHerd/holycow -g -a claude-code codex cursor --skill 
 Keep only the agents you use after `-a`. For a project-scoped installation, run from that project and omit `-g`. Review the installer's destinations and confirmation before proceeding. See the [CLI installation reference](https://github.com/vercel-labs/skills/blob/main/docs/commands.md) for options.
 
 Open your project in the harness and check its skill picker. If the new skills do not appear, reload skill discovery or restart the harness.
+
+## Update
+
+The installation commands above follow this repository's default branch, `main`. Maintainers publish skill updates by pushing changes there; a separate npm release is not required. `@latest` selects the Skills CLI version, not a HolyCow version.
+
+To refresh **only HolyCow**, including newly added skills, rerun the installation command:
+
+```sh
+npx skills@latest add NeuralHerd/holycow -g -a claude-code codex cursor --skill '*'
+```
+
+Keep your original agents and installation scope: omit `-g` and run from the project root for a project installation. Replace `'*'` with specific skill names if you only want a subset. Reinstallation can overwrite local edits to installed skills.
+
+For routine maintenance of skills already tracked by the CLI:
+
+```sh
+# Check for available updates
+npx skills@latest check
+
+# Update one globally installed skill
+npx skills@latest update hc-refine -g
+
+# Update all globally installed skills, including other repositories
+npx skills@latest update -g
+```
+
+Use `-p` instead of `-g` with `update` for project installations, from the project root. See the [Skills CLI update reference](https://github.com/vercel-labs/skills/blob/main/docs/commands.md#skills-update).
+
+### Renamed skills
+
+Install the replacement name, confirm it is available, then remove the old name. For the `ask-holycow` to `holycow-guide` rename:
+
+```sh
+npx skills@latest add NeuralHerd/holycow -g -a claude-code codex cursor --skill holycow-guide
+```
+
+After confirming `holycow-guide` is installed:
+
+```sh
+npx skills@latest remove ask-holycow -g -a claude-code codex cursor
+```
+
+Use your original agents and scope for both commands. Check the skill picker after updating. Start a fresh conversation for the updated instructions, or ask an ongoing session to re-read the changed skill before continuing.
 
 ## First use
 
@@ -123,6 +166,8 @@ npx skills@latest add . -g -a claude-code codex cursor --skill '*'
 
 Keep the checkout available if the installer links to it. Preserve each whole skill directory, including references, assets, scripts, `agents/openai.yaml`, and `LICENSE`.
 
+To update an installation linked directly to this checkout, run `git pull --ff-only` here. If the installation contains copies, rerun the local installation command after pulling. New or renamed skill directories also need the installation command again; remove obsolete names as described under [Update](#renamed-skills).
+
 Preview the banner from the repository root with Python 3:
 
 ```sh
@@ -136,6 +181,10 @@ PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s evals -p 'test_init_ba
 ```
 
 The [evaluation directory](evals/) contains manual scenarios for all ten skills and invocation behavior. Run those in fresh harness sessions, record the version, inputs, actual actions, and results, and keep expected answers hidden from the executing agent. Passing renderer tests or parsing a skill file does not establish workflow quality. The [design review](docs/skill-design-review.md) records the current foundations and evaluation approach.
+
+## Documentation website
+
+The Astro website in [`website/`](website/) renders this README, skill instructions, supporting references, and public documentation directly from the repository. It is live at [holycow.neuralherd.dev](https://holycow.neuralherd.dev) on Cloudflare Workers Static Assets. See the [website setup and publishing guide](website/src/content/docs/hosting.md) for local preview, automatic publishing from GitHub, and custom-domain setup.
 
 ## Contribute
 

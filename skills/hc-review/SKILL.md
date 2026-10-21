@@ -13,7 +13,7 @@ In a repository, use the HolyCow context linked by its instructions, or `docs/ag
 
 ## Establish the review scope
 
-Identify the requested PR, revision range, staged changes, or local work. Read [change scope](references/change-scope.md) before selecting a Git comparison. Include relevant new files when reviewing work in progress; a commit-only diff is insufficient.
+Identify the requested PR, revision range, staged changes, or local work. Before selecting a Git comparison, read [change scope](references/change-scope.md), resolving the path from this skill's directory. This applies equally to standalone review and Build's self-review, including when the skill is read directly. Reuse complete, unchanged guidance already read in this session; disclose an unavailable reference and the resulting scope-verification limits. Include relevant new files when reviewing work in progress; a commit-only diff is insufficient.
 
 Record the baseline, target revision or local state, and included paths. Use the supplied target or reliably established workflow context; ask only when ambiguity materially changes the review. An invalid ref must be resolved before reviewing that comparison, not silently replaced.
 

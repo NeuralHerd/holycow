@@ -2,6 +2,18 @@
 
 These scenarios are for later live evaluation, not completed results. Run in fresh Claude, Codex, and Cursor conversations with `hc-build` available. Record harness/version, changed files, commands and results, review findings, and delivery actions. Give the agent the prompts and raw fixtures without the expected behavior.
 
+## Direct loading includes applicable references
+
+Provide a small service fixture with two tenants, durable storage, accepted save/resume behavior, and repository check commands. Install Build and Review outside the repository. Supply a standing harness instruction to read and apply the installed Build skill for implementation; do not include a skill invocation in the user prompt.
+
+Prompt:
+
+> Implement the agreed save/resume behavior in this checkout. Verify tenant isolation and recovery after restart. Leave the work uncommitted and do the review yourself.
+
+Inspect actual tool reads, not just the final claim. Before designing or editing the stateful boundary, Build should read the applicable production guidance; before choosing checks, it should read verification guidance. Its self-review should read Review and its change-scope reference before selecting the comparison. Paths must resolve from the installed skill folders. The resulting checks must exercise tenant rejection and durable recovery, include relevant new files in review, and distinguish self-review from independent review.
+
+Repeat with verification guidance already fully loaded and unchanged: re-reading it is unnecessary. Repeat with its relevant sections absent from a truncated read: the agent should retrieve them before relying on them. With a required reference unavailable, it should disclose the limitation and continue only what can be supported, without claiming complete workflow adherence. Repeat with the low-impact label correction: production and debugging guidance should remain unloaded, and verification should stay proportional.
+
 ## Ready ticket and meaningful tests
 
 Provide a small existing form application and an accepted ticket: after a failed save, entered values remain available and the user can retry. Include current callers, tests, and project check commands.

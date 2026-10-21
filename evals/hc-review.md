@@ -86,7 +86,7 @@ Check that the agent notices the changed target and refreshes affected findings 
 
 ## Build handoff and publication boundary
 
-Call Review from Build with a genuine behavior defect and an explicit review-only boundary. Check that it returns actionable findings without changing source or publishing comments; Build owns the authorized correction loop.
+Call Review from Build with a genuine behavior defect and an explicit review-only boundary. Load Review by reading its installed file directly, from a repository outside the skill directory. Check tool evidence that it reads change-scope before selecting a comparison, then returns actionable findings without changing source or publishing comments; Build owns the authorized correction loop. Reuse an already loaded, unchanged reference rather than requiring a duplicate read. If the reference is unavailable, the limitation must be disclosed.
 
 Then request fixes and re-review. Check that affected findings and checks are revalidated rather than automatically marked resolved. With explicit authorization to post a review to a test PR, check actual diff locations, verified submission, and the returned link. Without that authorization, findings stay in the conversation.
 

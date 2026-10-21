@@ -1,0 +1,13 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "holycow",
+  "compatibility_date": "2026-10-21",
+  "workers_dev": true,
+  "routes": [
+    { "pattern": "holycow.neuralherd.dev", "custom_domain": true }
+  ],
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page"
+  }
+}

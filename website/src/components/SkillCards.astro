@@ -1,0 +1,42 @@
+---
+import { skills, groups } from '../data/skills';
+---
+<div class="catalogue-controls" data-filter-controls hidden>
+  <label class="search-label"><span aria-hidden="true">⌕</span><input id="skill-search" type="search" placeholder="Find a skill, a task, a next step…" aria-label="Find a skill" /></label>
+  <div class="filter-buttons" role="group" aria-label="Filter skills by stage">
+    {['All skills', ...groups].map((group, i) => <button type="button" data-filter={i === 0 ? '' : group} aria-pressed={i === 0 ? 'true' : 'false'}>{group}</button>)}
+  </div>
+</div>
+<div class="skill-grid">
+  {skills.map((skill, i) => <a class="skill-card" href={`/skills/${skill.name}/`} data-skill-card data-group={skill.group} data-search={`${skill.name} ${skill.title} ${skill.description} ${skill.when}`.toLowerCase()}>
+    <div class="card-top"><span class={`skill-symbol tone-${groups.indexOf(skill.group as typeof groups[number])}`} aria-hidden="true">{skill.symbol}</span><span class="card-number">{String(i + 1).padStart(2, '0')}</span></div>
+    <p class="skill-name">{skill.name}</p><h3>{skill.title}</h3><p>{skill.description}</p>
+    <span class="card-bottom"><span>{skill.group}</span><span aria-hidden="true">↗</span></span>
+  </a>)}
+</div>
+<p class="filter-status" data-filter-status role="status" aria-live="polite"></p>
+<script>
+  const controls = document.querySelector<HTMLElement>('[data-filter-controls]');
+  if (controls) controls.hidden = false;
+  const search = document.querySelector<HTMLInputElement>('#skill-search');
+  const cards = Array.from(document.querySelectorAll<HTMLElement>('[data-skill-card]'));
+  const buttons = document.querySelectorAll<HTMLButtonElement>('[data-filter]');
+  let group = '';
+  function filter() {
+    const query = search?.value.trim().toLowerCase() ?? '';
+    let count = 0;
+    cards.forEach(card => {
+      const matches = (!group || card.dataset.group === group) && (card.dataset.search ?? '').includes(query);
+      card.hidden = !matches;
+      if (matches) count++;
+    });
+    const status = document.querySelector('[data-filter-status]');
+    if (status) status.textContent = count ? `${count} ${count === 1 ? 'skill' : 'skills'} to explore` : 'No matching skills. Try another term or choose All skills.';
+  }
+  search?.addEventListener('input', filter);
+  buttons.forEach(button => button.addEventListener('click', () => {
+    group = button.dataset.filter ?? '';
+    buttons.forEach(item => item.setAttribute('aria-pressed', String(item === button)));
+    filter();
+  }));
+</script>

@@ -1,0 +1,165 @@
+:root {
+    color-scheme: light;
+
+    --ink: #1d1d1f;
+    --ink-90: #1d1d1fe6;
+    --ink-80: #1d1d1fcc;
+    --ink-70: #1d1d1fb3;
+    --ink-50: #1d1d1f80;
+    --ink-20: #1d1d1f33;
+    --ink-13: #1d1d1f21;
+    --ink-10: #1d1d1f1a;
+
+    --white: #ffffff;
+    --white-90: #ffffffe6;
+    --white-80: #ffffffcc;
+    --white-60: #ffffff99;
+    --white-30: #ffffff4d;
+    --white-13: #ffffff21;
+    --white-10: #ffffff1a;
+
+    --black-50: #00000080;
+    --black-05: #0000000d;
+
+    --background-primary: #f9f9fa;
+    --background-secondary: #f5f5f7;
+    --background-tertiary: #f0f0f2;
+    --background-white: #ffffff;
+    --background-expert: #f9f9f9;
+    --background-green: #e3f0e6;
+    --background-banner: #fbe57d;
+    --background-dark: #1d1d1f;
+    --background-inverse: #111413;
+    --background-card-dark: #1d1d1fe6;
+
+    --gradient-peach: #fdd4a3;
+    --gradient-coral: #fba69e;
+    --gradient-pink: #fb6fec;
+    --gradient-blue: #84a9fa;
+    --gradient-sky: #90dcf7;
+    --gradient-green: #c7e9ab;
+
+    --gradient-cta: linear-gradient(
+        var(--gradient-peach),
+        var(--gradient-peach) 13%,
+        var(--gradient-coral) 32%,
+        var(--gradient-pink) 49%,
+        var(--gradient-blue) 68%,
+        var(--gradient-sky) 86%,
+        var(--gradient-green)
+    );
+
+    --gradient-cta-hover: linear-gradient(
+        var(--gradient-blue),
+        var(--gradient-pink),
+        var(--gradient-coral),
+        var(--gradient-peach),
+        var(--gradient-coral),
+        var(--gradient-pink),
+        var(--gradient-blue)
+    );
+
+    --gradient-faq: linear-gradient(
+        var(--background-primary),
+        var(--background-tertiary)
+    );
+
+    --gradient-section-fade: linear-gradient(
+        #f0f0f200,
+        var(--background-tertiary)
+    );
+
+    --gradient-product-overlay: linear-gradient(
+        141deg,
+        var(--black-50) 10%,
+        transparent 55%,
+        transparent 102%
+    );
+
+    --accent-blue: #0070d9;
+    --accent-coral: #ff7c5b;
+    --accent-gold: #ffa641;
+    --accent-green: #1fa368;
+    --accent-pink: #ea4b93;
+    --accent-sky-blue: #07aafc;
+    --accent-teal: #00aabd;
+    --accent-violet: #884de6;
+    --accent-yellow: #fccb07;
+
+    --dial-green: #99c374;
+    --dial-green-muted: #99c374cc;
+    --badge-success: #008060;
+
+    --input-foreground: #333333;
+    --input-unit: #636366;
+    --input-surface: #1a1a1a05;
+    --input-border: #1a1a1a1a;
+
+    --background: var(--background-primary);
+    --foreground: var(--ink-80);
+
+    --card: var(--background-white);
+    --card-foreground: var(--ink);
+    --card-dark: var(--background-card-dark);
+    --card-dark-foreground: var(--white);
+    --card-muted: var(--background-expert);
+
+    --popover: var(--background-white);
+    --popover-foreground: var(--ink);
+
+    --primary: var(--background-inverse);
+    --primary-foreground: var(--background-secondary);
+
+    --secondary: var(--background-secondary);
+    --secondary-foreground: var(--ink);
+
+    --muted: var(--background-tertiary);
+    --muted-foreground: var(--ink-70);
+
+    --accent: var(--background-secondary);
+    --accent-foreground: var(--ink);
+
+    --destructive: oklch(0.577 0.245 27.325);
+
+    --border: var(--ink-13);
+    --border-strong: var(--ink-20);
+    --input: var(--input-border);
+    --ring: var(--accent-blue);
+
+    --chart-1: var(--accent-blue);
+    --chart-2: var(--accent-green);
+    --chart-3: var(--accent-coral);
+    --chart-4: var(--accent-violet);
+    --chart-5: var(--accent-gold);
+
+    --radius: 1rem;
+
+    --sidebar: var(--background-primary);
+    --sidebar-foreground: var(--ink);
+    --sidebar-primary: var(--background-inverse);
+    --sidebar-primary-foreground: var(--background-secondary);
+    --sidebar-accent: var(--background-secondary);
+    --sidebar-accent-foreground: var(--ink);
+    --sidebar-border: var(--ink-13);
+    --sidebar-ring: var(--ink);
+
+    --footer: var(--background-dark);
+    --footer-foreground: var(--white);
+    --footer-muted: var(--white-80);
+    --footer-label: var(--white-60);
+    --footer-border: var(--white-30);
+    --footer-bar: var(--white-10);
+    --footer-input-border: var(--white-13);
+
+    --banner: var(--background-banner);
+    --usp: var(--background-green);
+}
+
+h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        color: var(--ink);
+    }

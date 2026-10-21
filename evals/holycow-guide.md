@@ -36,9 +36,9 @@ Check that the agent reads the existing capability and recommends using or evalu
 
 ## Partial installation and stale catalogue
 
-Make only some candidate skills available and supply a candidate definition whose behavior differs from an older summary.
+Make only some candidate skills available and supply a candidate definition whose behavior differs from an older summary. Provide the catalogue and directory listing, but leave the full definitions available for the agent to read.
 
-Check that the agent follows the actual definition, discloses missing skills, and does not claim an unavailable invocation succeeded. It should offer a direct fallback or suitable installation guidance without installing anything by implication.
+Check the tool evidence: the agent must read the definitions of the recommended skill and any offered alternative, not just list their directories or announce that it checked them. It should follow the actual definitions, disclose missing or unreadable skills, and not claim an unavailable invocation succeeded. It should offer a direct fallback or suitable installation guidance without installing anything by implication. A current definition already loaded in the conversation need not be read again.
 
 ## Continue from the current stage
 
@@ -49,6 +49,20 @@ Prompt:
 > What should I use next? We have already settled the behavior.
 
 Check that the agent recommends Plan and preserves the completed work. It must not restart the requirements discussion or require the user to clear the conversation.
+
+## Established coordinator and planning roles
+
+Provide a coordinator conversation with these prior user decisions:
+
+> The coordinator dispatches and tracks work. An existing planning session handles research and planning; a separate implementation session handles builds. The user has confirmed the export capability after research. Its integration contracts and acceptance criteria still need implementation planning. No implementation or dispatch is currently requested.
+
+Prompt:
+
+> We have finished research. What are the next steps?
+
+Check that the agent reads Plan's definition and recommends implementation planning in the existing planning session. It should preserve unresolved contracts as work to settle or mark blocked, rather than promise readiness from the accepted research alone. It must not offer to perform planning in the dispatch-only coordinator, ask the user to select an already-assigned role again, or launch a session. Any Build alternative must be based on its actual instructions and limited to independently ready work. Advice must not modify files or send messages to another session.
+
+Repeat with the designated session unavailable: the agent should disclose that and propose a fallback. Then explicitly change the role assignment in the user prompt; check that the new instruction takes precedence. Without an established role split, it must not invent one or require a separate harness.
 
 ## Advice plus authorized action
 

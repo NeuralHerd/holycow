@@ -11,6 +11,18 @@ Implement or investigate the requested outcome and produce supporting evidence. 
 
 In a repository, use the HolyCow context linked by its instructions, or `docs/agents/holycow.md` when present. Read only relevant sections and reuse context already loaded. Continue without it; recorded capabilities may need rechecking in this session.
 
+## Load the applicable guidance
+
+Whether invoked by name or read directly, load the applicable references before the steps below. Resolve their paths from this skill's directory. Reuse complete, unchanged guidance already read in this session; retrieve needed sections omitted by truncated tool output.
+
+| When to read | Required guidance |
+| --- | --- |
+| Before choosing checks for an implementation or verification task | [Verification](references/verification.md) |
+| Before designing or changing trust boundaries, persistent or shared state, service reliability, or infrastructure | [Production concerns](references/production.md), limited to the affected concerns |
+| Before investigating a reported bug, performance regression, or unexplained failure | [Debugging](references/debugging.md) |
+
+If a condition arises later, load its guidance then. Include the applicable guidance in the implementation and verification approach. Disclose unavailable guidance and its practical limits; reading this entrypoint alone does not establish that the complete workflow was followed.
+
 ## Establish the work
 
 Read the supplied ticket or brief, relevant updates, acceptance criteria, dependencies, and linked decisions or experiments. State the ticket's name when working from a tracker. A clear direct request is also sufficient; do not require a specification, tracker, or another HolyCow skill.
@@ -31,15 +43,11 @@ For stateful logic or an interface change, identify the caller's use, state owne
 
 ## Investigate failures when needed
 
-When diagnosing a bug, performance regression, or unexplained failure during implementation, read [debugging guidance](references/debugging.md). Establish a signal for the reported symptom, distinguish plausible causes with evidence, and avoid repeated speculative patches. Feature work without such a failure does not need this reference.
+Establish a signal for the reported symptom, distinguish plausible causes with evidence, and avoid repeated speculative patches. Feature work without such a failure does not need the debugging reference.
 
 Honor diagnosis-only and no-edit boundaries. A diagnosis-only request does not authorize applying a fix. Report the supported cause or remaining uncertainty and the next useful action; implementation, change review, and delivery steps apply only to authorized changes.
 
 ## Implement in small verified steps
-
-Read [verification guidance](references/verification.md) when choosing tests and before the final handoff.
-
-When the change affects trust boundaries, persistent or shared state, service reliability, or infrastructure, also read [production concerns](references/production.md). Apply only the affected concerns.
 
 For behavior changes with meaningful automated coverage, use a focused red-green cycle: express the expected behavior at an agreed or established boundary, observe the relevant failure, then make the smallest change that satisfies it. Extend one behavior at a time. Respect project-specific testing requirements; do not create ceremonial tests for trivial reversible edits.
 
@@ -55,13 +63,13 @@ Work directly unless delegation is requested or otherwise authorized by the user
 
 Review the actual task changes, including staged, unstaged, and new files; do not rely on a commit-only diff that omits the work. Compare them with acceptance criteria, relevant repository standards, and the behavior of affected callers.
 
-Read and follow the installed [hc-review instructions](../hc-review/SKILL.md) for this explicitly requested workflow. If unavailable, disclose that and perform a direct review; do not describe self-review as independent review. Independent reviewer agents follow the user's delegation rules.
+Read and follow the installed [hc-review instructions](../hc-review/SKILL.md), including its required supporting guidance, for this workflow. Self-review follows the same scope-selection guidance as a separate review. If unavailable, disclose that and perform a direct review; do not describe self-review as independent review. Independent reviewer agents follow the user's delegation rules.
 
 Address substantiated findings within scope, investigate uncertain claims, and rerun checks affected by fixes. Do not change accepted behavior solely to satisfy a review suggestion. Keep unresolved material findings visible.
 
 ## Verify and hand off
 
-Confirm each acceptance criterion and applicable standing quality requirement using the appropriate evidence. Report failed, skipped, or unavailable checks explicitly and distinguish observed results from assumptions. Unverified critical behavior means the work remains incomplete or needs further validation.
+Before the final handoff, confirm that the applicable guidance above informed the checks, and address any missed verification. Confirm each acceptance criterion and applicable standing quality requirement using the appropriate evidence. Report failed, skipped, or unavailable checks explicitly and distinguish observed results from assumptions. Unverified critical behavior means the work remains incomplete or needs further validation.
 
 Follow the user's existing authorization and repository policy for commits, pushes, pull requests, and other delivery actions. Stage only the task's changes and preserve unrelated work, including unrelated hunks in shared files. Ticket creation or a ready label alone does not authorize these actions.
 

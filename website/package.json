@@ -1,0 +1,26 @@
+{
+  "name": "holycow-docs",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "check": "astro check",
+    "preview": "astro preview",
+    "verify": "npm run check && npm run build && node scripts/check-links.mjs",
+    "deploy": "npm run verify && wrangler deploy"
+  },
+  "dependencies": {
+    "@astrojs/markdown-remark": "7.3.3",
+    "@astrojs/sitemap": "3.7.4",
+    "astro": "7.4.1"
+  },
+  "engines": {
+    "node": ">=22.22.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.11",
+    "typescript": "6.0.3",
+    "wrangler": "4.151.3"
+  }
+}

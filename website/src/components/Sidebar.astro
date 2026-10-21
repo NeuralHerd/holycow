@@ -1,0 +1,30 @@
+---
+import { groups, skills } from '../data/skills';
+const current = Astro.url.pathname;
+const docs = [
+  ['Getting started', '/docs/getting-started/'],
+  ['Using HolyCow in Herdr', '/docs/herdr/'],
+  ['Publishing this website', '/docs/hosting/'],
+  ['Design & evaluation', '/docs/skill-design-review/'],
+  ['Credits & attribution', '/docs/attribution/'],
+];
+---
+<aside class="docs-sidebar">
+  <details class="sidebar-disclosure" open>
+    <summary>Browse the documentation <span aria-hidden="true">⌄</span></summary>
+    <nav aria-label="Documentation">
+      <p class="sidebar-label">Documentation</p>
+      {docs.map(([label, href]) => <a href={href} aria-current={current === href ? 'page' : undefined}>{label}</a>)}
+      {groups.map(group => <div class="sidebar-group"><p class="sidebar-label">{group}</p>{skills.filter(skill => skill.group === group).map(skill => <a href={`/skills/${skill.name}/`} aria-current={current === `/skills/${skill.name}/` ? 'page' : undefined}>{skill.name}</a>)}</div>)}
+      <p class="sidebar-label">Project</p><a href="https://github.com/NeuralHerd/holycow/issues">Feedback & contributions ↗</a>
+    </nav>
+  </details>
+</aside>
+<script>
+  const sidebar = document.querySelector<HTMLDetailsElement>('.sidebar-disclosure');
+  const mobile = window.matchMedia('(max-width: 960px)');
+  if (sidebar) {
+    sidebar.open = !mobile.matches;
+    mobile.addEventListener('change', () => { sidebar.open = !mobile.matches; });
+  }
+</script>

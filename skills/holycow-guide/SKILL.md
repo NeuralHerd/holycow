@@ -13,7 +13,7 @@ Recommend the smallest useful next step from the user's current situation. Help 
 
 Distinguish choosing a skill for project work from deciding what to add to the toolkit itself. Reuse the stated outcome, accepted decisions, completed work, and actual blockers. Ask a concise clarifying question only when missing information changes the recommendation.
 
-Inspect the relevant available skill definitions before describing their behavior or recommending that a step be skipped. The table below is an orientation aid, not a substitute for current instructions. Check availability in the active harness; a skill mentioned in the catalogue is not necessarily installed.
+Use the table below to shortlist candidates, then read each candidate's `SKILL.md` before recommending it, including any offered alternative. Reuse a definition already loaded in this conversation unless it has changed. Check availability in the intended harness; a directory listing or catalogue description does not verify the skill's behavior or boundaries. If a definition cannot be read, disclose that limit instead of describing its capabilities as verified.
 
 | Immediate need | Candidate |
 | --- | --- |
@@ -29,7 +29,9 @@ Inspect the relevant available skill definitions before describing their behavio
 
 ## Recommend a bounded route
 
-Lead with one recommendation and why it fits now. State the expected result and any material prerequisite. Include a short alternative only when a real trade-off warrants it.
+Lead with one recommendation and why it fits now. State the expected result and any material prerequisite. Include a short alternative only when a real trade-off warrants it; make any implementation alternative conditional on its requirements and prerequisites being settled.
+
+Preserve the user's established role and harness assignments. Recommend an existing suitable session when known, rather than asking the user to choose its role again. If that session is unavailable, explain the limitation and offer a fallback. Do not invent a role split when none is established.
 
 Start from the current stage. Clear work can go directly to Build; reviewing an existing PR need not restart planning. Init is optional, and Compass is for uncertainty that benefits from a persistent map. A failed check calls for investigation, not automatically a retrospective.
 

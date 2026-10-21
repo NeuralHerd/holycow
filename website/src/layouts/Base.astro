@@ -1,0 +1,62 @@
+---
+import Mark from '../components/Mark.astro';
+import '../styles/eden.css';
+import '../styles/global.css';
+interface Props { title: string; description: string; wide?: boolean; noindex?: boolean }
+const { title, description, wide = false, noindex = false } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f9f9fa" />
+    <title>{title} · HolyCow</title>
+    <meta name="description" content={description} />
+    {!noindex && <link rel="canonical" href={canonical} />}
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="HolyCow" />
+    <meta property="og:title" content={`${title} · HolyCow`} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    {noindex && <meta name="robots" content="noindex" />}
+  </head>
+  <body>
+    <a href="#main" class="skip-link">Skip to content</a>
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="brand" href="/" aria-label="HolyCow home"><Mark /><span>HolyCow<span class="brand-by">by NeuralHerd</span></span></a>
+        <nav aria-label="Main navigation">
+          <a href="/#skills">Skills</a><a href="/docs/getting-started/">Docs</a><a class="github-link" href="https://github.com/NeuralHerd/holycow">GitHub <span aria-hidden="true">↗</span></a>
+          <a class="button button-small" href="/docs/getting-started/#install">Get started <span aria-hidden="true">↗</span></a>
+        </nav>
+      </div>
+    </header>
+    <main id="main" class:list={[wide && 'wide-main']}><slot /></main>
+    <footer class="site-footer">
+      <div><a class="footer-brand" href="/">HolyCow<span aria-hidden="true"> ↗</span></a><p>Better questions. Verified code. Your workflow.</p></div>
+      <div class="footer-links"><a href="/docs/getting-started/">Documentation</a><a href="/docs/attribution/">Credits</a><a href="https://github.com/NeuralHerd/holycow/blob/main/LICENSE">MIT license</a><a href="https://github.com/NeuralHerd/holycow">GitHub ↗</a></div>
+      <p class="footer-note">Made by <a href="https://github.com/NeuralHerd">NeuralHerd</a>. Open source, and open to better ideas.</p>
+    </footer>
+    <span class="sr-only" id="copy-status" role="status" aria-live="polite"></span>
+    <script>
+      document.querySelectorAll<HTMLButtonElement>('[data-copy]').forEach(button => {
+        button.addEventListener('click', async () => {
+          const label = button.innerHTML;
+          const status = document.querySelector('#copy-status');
+          try {
+            await navigator.clipboard.writeText(button.dataset.copy ?? '');
+            button.textContent = 'Copied ✓';
+            if (status) status.textContent = 'Copied to clipboard.';
+          } catch {
+            button.textContent = 'Select to copy';
+            if (status) status.textContent = 'Clipboard unavailable. Select and copy the text below.';
+          }
+          setTimeout(() => { button.innerHTML = label; }, 2000);
+        });
+      });
+    </script>
+  </body>
+</html>

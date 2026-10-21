@@ -1,0 +1,53 @@
+---
+import Base from '../layouts/Base.astro';
+import Mark from '../components/Mark.astro';
+import Command from '../components/Command.astro';
+import SkillCards from '../components/SkillCards.astro';
+import { installCommand } from '../data/skills';
+---
+<Base title="Better questions. Better software." description="Ten open-source skills for Claude Code, Codex, and Cursor. Challenge ideas, explore uncertainty, plan useful work, build, review, and learn.">
+  <section class="hero container">
+    <div class="hero-copy">
+      <p class="eyebrow"><span class="status-dot"></span> A small toolkit for thoughtful engineering</p>
+      <h1>Better questions.<br />Better <span class="hero-highlight">software.</span></h1>
+      <p class="hero-description">Give your coding agent a better way to work. Ten focused skills to turn uncertain ideas into clear decisions and verified code.</p>
+      <div class="hero-actions"><a class="button" href="#skills">Explore the skills <span aria-hidden="true">↗</span></a><a class="text-link" href="/docs/getting-started/">Read the quick start <span aria-hidden="true">→</span></a></div>
+      <p class="hero-footnote">Open source. MIT licensed. Start where you are.</p>
+    </div>
+    <div class="workflow-art" aria-label="A flexible workflow: question, explore, build, review, and learn. Start at the stage your task needs." role="img">
+      <div class="art-label"><span class="status-dot"></span> YOUR NEXT GOOD MOVE</div>
+      <div class="art-route route-one"></div><div class="art-route route-two"></div>
+      <div class="art-node node-refine"><span class="node-icon">?</span><div><small>Find clarity</small><strong>Ask the useful question.</strong><code>hc-refine</code></div><span class="node-arrow">↗</span></div>
+      <div class="art-node node-build"><span class="node-icon">↳</span><div><small>Make progress</small><strong>Build what matters.</strong><code>hc-build</code></div><span class="node-arrow">↗</span></div>
+      <div class="art-node node-review"><span class="node-icon">✓</span><div><small>Check the outcome</small><strong>Show the evidence.</strong><code>hc-review</code></div><span class="node-arrow">↗</span></div>
+      <div class="cow-stamp"><Mark /></div>
+      <p class="art-caption">A toolkit, not a mandatory sequence.</p>
+    </div>
+  </section>
+
+  <section class="install-strip container" aria-label="Install HolyCow">
+    <div><p class="eyebrow">YOUR AGENT. A BETTER WORKFLOW.</p><p class="agent-list">Claude Code <span>·</span> Codex <span>·</span> Cursor</p></div>
+    <div><Command command={installCommand} label="Install all ten skills" /><p class="command-help">Run in your terminal. Keep the agents you use. <a href="/docs/getting-started/#install">Installation options →</a></p></div>
+  </section>
+
+  <section id="skills" class="catalogue container">
+    <div class="section-heading"><div><p class="eyebrow">THE TOOLKIT / 01—10</p><h2>A skill for the work<br />in front of you.</h2></div><p>Use one skill or connect a few.<br />You bring the judgment. HolyCow brings structure.</p></div>
+    <SkillCards />
+  </section>
+
+  <section class="workflow-section container" id="workflows">
+    <div class="section-heading"><div><p class="eyebrow">START WHERE YOU ARE</p><h2>Every task has<br />a different starting point.</h2></div><a class="text-link" href="/docs/getting-started/#example-workflows">See workflow examples →</a></div>
+    <div class="workflow-grid">
+      <article><span class="scenario-label">01 / THE UNCERTAIN IDEA</span><h3>“We have an idea.<br />A lot is still open.”</h3><p>Map the unknowns, discuss the decisions, and test what conversation cannot settle.</p><div class="route-links"><a href="/skills/hc-compass/">Compass</a><span>→</span><a href="/skills/hc-refine/">Refine</a><span>↔</span><a href="/skills/hc-lab/">Lab</a></div></article>
+      <article><span class="scenario-label">02 / THE CLEAR BUG</span><h3>“We know what broke.<br />Let’s fix it.”</h3><p>Reproduce the failure, make a focused change, and verify that the fix solves it.</p><div class="route-links"><a href="/skills/hc-build/">Build</a><span>→</span><a href="/skills/hc-review/">Review</a></div></article>
+      <article><span class="scenario-label">03 / THE EXISTING CHANGE</span><h3>“The code is ready.<br />Give it a careful look.”</h3><p>Review the actual work, then give reviewers the context and evidence they need.</p><div class="route-links"><a href="/skills/hc-review/">Review</a><span>→</span><a href="/skills/hc-pr/">PR</a></div></article>
+    </div>
+  </section>
+
+  <section class="guide-banner container">
+    <div><p class="eyebrow">YOU DON’T NEED TO MEMORIZE THIS</p><h2>Not sure where to start?<br />Ask the guide.</h2><p>Describe your situation. Get the smallest useful next step.</p><a class="button" href="/skills/holycow-guide/">Meet HolyCow Guide ↗</a></div>
+    <div class="guide-example"><span class="eyebrow">TRY IN YOUR AGENT CHAT</span><p><code>/holycow-guide</code></p><p>We have a new feature idea.<br />Where should we start?</p><small>In Codex, use <code>$holycow-guide</code>.</small></div>
+  </section>
+
+  <section class="project-note container"><p><strong>Built in the open. Still learning.</strong> These are ten foundational skills in an early release. Live workflow evaluation across all three agents is still pending. Our <a href="/docs/evaluations/invocation/">evaluation scenarios</a> describe expected behavior, not passing results.</p><p>Inspired by the work of Matt Pocock, Lauren Tan, and Addy Osmani. <a href="/docs/attribution/">Read the credits →</a></p></section>
+</Base>
