@@ -4,7 +4,7 @@ These scenarios are for later live evaluation, not completed results. Run in fre
 
 ## Clear implementation
 
-Provide a small accepted behavior, a repository, and available Build and Grill skills.
+Provide a small accepted behavior, a repository, and available Build and Refine skills.
 
 Prompt:
 
@@ -48,7 +48,7 @@ Prompt:
 
 > What should I use next? We have already settled the behavior.
 
-Check that the agent recommends Slice and preserves the completed work. It must not restart grilling or require the user to clear the conversation.
+Check that the agent recommends Plan and preserves the completed work. It must not restart the requirements discussion or require the user to clear the conversation.
 
 ## Advice plus authorized action
 

@@ -70,7 +70,7 @@ Check that the existing source is corrected and its destination verified without
 
 Provide an evidence-backed improvement requiring substantial implementation. First request recommendations only, then request local tickets, and finally implementation of one ticket.
 
-Check that recommendations alone trigger neither tickets nor implementation. Later steps should use installed Slice or Build as appropriate, or disclose their absence before a direct fallback. Herdr must not be required to analyze a recorded handoff failure.
+Check that recommendations alone trigger neither tickets nor implementation. Later steps should use installed Plan or Build as appropriate, or disclose their absence before a direct fallback. Herdr must not be required to analyze a recorded handoff failure.
 
 ## No useful change and follow-up
 

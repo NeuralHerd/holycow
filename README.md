@@ -23,7 +23,7 @@ npx skills@latest add NeuralHerd/holycow -g -a claude-code codex cursor --skill 
 Or install just the skill you need:
 
 ```sh
-npx skills@latest add NeuralHerd/holycow -g -a claude-code codex cursor --skill hc-grill
+npx skills@latest add NeuralHerd/holycow -g -a claude-code codex cursor --skill hc-refine
 ```
 
 Keep only the agents you use after `-a`. For a project-scoped installation, run from that project and omit `-g`. Review the installer's destinations and confirmation before proceeding. See the [CLI installation reference](https://github.com/vercel-labs/skills/blob/main/docs/commands.md) for options.
@@ -49,21 +49,21 @@ These are chat invocations, not shell commands. Replace `ask-holycow` with any s
 | [ask-holycow](skills/ask-holycow/SKILL.md) | Choosing what to do next | A recommendation, reason, and expected result |
 | [holycow-init](skills/holycow-init/SKILL.md) | Preparing or auditing a repository's workflow | Small project context, useful pointers, and verified capability status |
 | [hc-compass](skills/hc-compass/SKILL.md) | Uncertainty that spans several sessions | An evolving map of questions, dependencies, decisions, and evidence |
-| [hc-grill](skills/hc-grill/SKILL.md) | Challenging an idea or settling requirements | Agreed scope and decisions, with recommendations and trade-offs |
+| [hc-refine](skills/hc-refine/SKILL.md) | Challenging an idea or settling requirements | Agreed scope and decisions, with recommendations and trade-offs |
 | [hc-lab](skills/hc-lab/SKILL.md) | Answering a question through a prototype or diagram | An inspectable experiment, observations, limitations, and feedback |
-| [hc-slice](skills/hc-slice/SKILL.md) | Turning accepted understanding into deliverable work | A concise brief and, when requested, dependency-aware tickets |
+| [hc-plan](skills/hc-plan/SKILL.md) | Turning accepted understanding into deliverable work | A concise brief and, when requested, dependency-aware tickets |
 | [hc-build](skills/hc-build/SKILL.md) | Implementing agreed work or diagnosing a failure | Scoped changes or diagnosis, verification evidence, and a handoff |
 | [hc-review](skills/hc-review/SKILL.md) | Reviewing changes against intent and project standards | Prioritized, substantiated findings and coverage limits |
 | [hc-pr](skills/hc-pr/SKILL.md) | Explaining a change to reviewers | A PR description covering behavior, evidence, and merge risk |
 | [hc-retro](skills/hc-retro/SKILL.md) | Improving future work from session evidence | A few concrete improvements and ways to evaluate them |
 
-Grill includes optional glossary and decision-record updates. Build includes debugging, meaningful testing, behavior-preserving refactoring, and conditional production guidance. Separate skills for those steps are unnecessary for this workflow.
+Refine includes optional glossary and decision-record updates. Build includes debugging, meaningful testing, behavior-preserving refactoring, and conditional production guidance. Separate skills for those steps are unnecessary for this workflow.
 
 ## Example workflows
 
 Choose only the steps the task needs:
 
-- **An uncertain feature:** Compass maps the open questions; Grill resolves product decisions; Lab tests the questions that need an experiment. Slice prepares accepted work for Build.
+- **An uncertain feature:** Compass maps the open questions; Refine resolves product decisions; Lab tests the questions that need an experiment. Plan prepares accepted work for Build.
 - **A clear bug:** Build reproduces the failure, investigates, fixes it, verifies the outcome, and reviews the change.
 - **An existing PR:** Review examines the actual changes. PR can then improve the description using the observed evidence.
 - **A frustrating session:** Retro identifies supported causes and recommends improvements at the appropriate scope.
@@ -71,16 +71,16 @@ Choose only the steps the task needs:
 For example, in Claude Code or Cursor:
 
 ```text
-/hc-grill Challenge this export idea. Workspace-admin access is agreed; scheduling and failure recovery are still open. Give recommendations with trade-offs.
+/hc-refine Challenge this export idea. Workspace-admin access is agreed; scheduling and failure recovery are still open. Give recommendations with trade-offs.
 ```
 
 After the decisions are accepted:
 
 ```text
-/hc-slice Turn the accepted export behavior into small delivery tickets in our configured tracker. Keep unresolved decisions explicit.
+/hc-plan Turn the accepted export behavior into small delivery tickets in our configured tracker. Keep unresolved decisions explicit.
 ```
 
-In Codex, use `$hc-grill` and `$hc-slice` for the same requests. If your standing instructions require one question at a time, Grill follows them; explicitly allow grouped rounds if you prefer that format.
+In Codex, use `$hc-refine` and `$hc-plan` for the same requests. If your standing instructions require one question at a time, Refine follows them; explicitly allow grouped rounds if you prefer that format.
 
 Build reads Review when available and uses PR for a requested PR description. Missing companions are disclosed before a direct fallback. PR descriptions, commits, pushes, tracker updates, and deployment follow the user's authorization and repository policy; selecting a skill does not grant blanket permission for the rest of the workflow.
 
@@ -99,7 +99,7 @@ Use the [invocation scenarios](evals/invocation.md) to check your harness's beha
 
 Init reuses repository conventions and creates or updates a small context document only when appropriate. The default is `docs/agents/holycow.md`; an existing location linked by project instructions takes precedence. Skills read relevant sections and continue without that document when it is absent. See [project context](skills/holycow-init/references/project-context.md).
 
-**Trackers:** Compass and Slice use the configured Jira, GitHub Issues, Linear, or other supported tracker through tools available in the current harness. Connections and permissions must already exist or be configured separately. Local Markdown is available when chosen or no tracker is configured. An unavailable selected tracker is reported, not silently replaced.
+**Trackers:** Compass and Plan use the configured Jira, GitHub Issues, Linear, or other supported tracker through tools available in the current harness. Connections and permissions must already exist or be configured separately. Local Markdown is available when chosen or no tracker is configured. An unavailable selected tracker is reported, not silently replaced.
 
 **Coordination:** Herdr is optional. Authorized parallel work can use Herdr within its supported environment or native subagents; otherwise the workflow continues directly. Installing HolyCow does not itself authorize delegation. See [research coordination](skills/hc-compass/references/research.md).
 

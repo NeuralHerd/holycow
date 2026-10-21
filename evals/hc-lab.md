@@ -80,7 +80,7 @@ Check that the handoff preserves the question, accepted behavior, reasons, artif
 
 ## Direct use and negative trigger
 
-With Compass, Grill, and Herdr unavailable, check that a clear experiment request still works locally without installing them or launching extra agents.
+With Compass, Refine, and Herdr unavailable, check that a clear experiment request still works locally without installing them or launching extra agents.
 
 Negative trigger:
 

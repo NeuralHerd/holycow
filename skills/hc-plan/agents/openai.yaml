@@ -1,0 +1,7 @@
+interface:
+  display_name: "HolyCow Plan"
+  short_description: "Turn agreed decisions into verifiable work"
+  default_prompt: "Use $hc-plan to turn these accepted decisions into a concise implementation brief and appropriately sized delivery tickets."
+
+policy:
+  allow_implicit_invocation: false

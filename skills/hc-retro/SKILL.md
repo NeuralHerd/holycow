@@ -53,7 +53,7 @@ A retrospective request normally asks for analysis and recommendations. If the u
 
 Before an authorized edit, inspect the target and current working changes, preserve unrelated work, and follow the repository workflow. Reuse existing guidance or tooling where suitable. Avoid turning one session into a broad rewrite.
 
-For a substantial implementation, use `hc-build` when installed; use `hc-slice` if delivery tickets are requested. Disclose a missing companion before proceeding directly. These skills are optional, and a small authorized correction needs no additional workflow.
+For a substantial implementation, use `hc-build` when installed; use `hc-plan` if delivery tickets are requested. Disclose a missing companion before proceeding directly. These skills are optional, and a small authorized correction needs no additional workflow.
 
 Verify applied changes at the relevant boundary. A deterministic check should catch the intended failure and allow an acceptable case; an instruction edit should retain valid structure and links. Behavioral improvement from new guidance remains unproven until a later relevant run demonstrates it.
 

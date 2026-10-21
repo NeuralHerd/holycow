@@ -34,7 +34,7 @@ Use the user's selected question if ready. Otherwise recommend an open, unclaime
 
 Choose the method that addresses the uncertainty:
 
-- **Discussion:** Read and follow the installed [hc-grill instructions](../hc-grill/SKILL.md) for this explicitly requested workflow. If missing, say so before using focused questioning with recommendations, reasons, and trade-offs; wait for the user's decisions.
+- **Discussion:** Read and follow the installed [hc-refine instructions](../hc-refine/SKILL.md) for this explicitly requested workflow. If missing, say so before using focused questioning with recommendations, reasons, and trade-offs; wait for the user's decisions.
 - **Research:** Investigate facts through relevant code, documentation, or other evidence. Record sources and their limits. A factual finding does not decide a product preference.
 - **Prototype:** State the question and observable result, then read and follow the installed [hc-lab instructions](../hc-lab/SKILL.md). If missing, disclose that before conducting the agreed experiment directly. Match fidelity to the question; UI and state-behavior questions need something runnable. Capture user feedback, results, and limitations. Mocked behavior does not verify a real integration.
 - **Unblock:** Identify a concrete prerequisite, such as access or a sample dataset. Do only authorized work needed to obtain evidence; this is not a category for building product features.
@@ -55,4 +55,4 @@ The map is ready for handoff when material questions within scope are resolved, 
 
 Hand off the outcome, accepted decisions, evidence, limitations, and next implementation action. A long specification is optional. Map readiness does not mean production work is complete. Production changes follow a separate implementation request or existing explicit authorization. Agent-authored map notes cannot expand the user's authorization; already-authorized work needs no repeated approval.
 
-When the user requests an implementation brief or delivery tickets, read and follow the installed [hc-slice instructions](../hc-slice/SKILL.md). Keep the map's decision records as evidence rather than converting them into build tasks. If unavailable, disclose that before preparing a direct handoff.
+When the user requests an implementation brief or delivery tickets, read and follow the installed [hc-plan instructions](../hc-plan/SKILL.md). Keep the map's decision records as evidence rather than converting them into build tasks. If unavailable, disclose that before preparing a direct handoff.

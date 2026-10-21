@@ -92,7 +92,7 @@ Prompt:
 
 > Resume this map and help me settle its next discussion question.
 
-With `hc-grill` installed, check that the agent loads and follows it instead of substituting its own interview workflow. Repeat with the companion absent: it should disclose that and describe the direct fallback, without pretending to invoke the skill or installing anything automatically.
+With `hc-refine` installed, check that the agent loads and follows it instead of substituting its own interview workflow. Repeat with the companion absent: it should disclose that and describe the direct fallback, without pretending to invoke the skill or installing anything automatically.
 
 Apply the same check to an authorized prototype question with and without `hc-lab` installed.
 
@@ -149,4 +149,4 @@ Check that it surfaces the remaining recipient uncertainty and recommends resolv
 
 Once all material questions are resolved and the user accepts the direction, check that the handoff links decisions and evidence, states limitations, and identifies the next implementation action. It must not claim production completion or require a long specification.
 
-Then request a delivery breakdown with `hc-slice` installed. Check that Compass loads it and preserves the original decision records as evidence. Preparing delivery tickets must not start implementation or turn closed decision questions into build tasks. Repeat with Slice absent and check that the direct fallback is disclosed.
+Then request a delivery breakdown with `hc-plan` installed. Check that Compass loads it and preserves the original decision records as evidence. Preparing delivery tickets must not start implementation or turn closed decision questions into build tasks. Repeat with Plan absent and check that the direct fallback is disclosed.

@@ -19,9 +19,9 @@ Inspect the relevant available skill definitions before describing their behavio
 | --- | --- |
 | Initialize or refresh repository workflow configuration | `holycow-init` |
 | Resolve consequential uncertainty across multiple sessions | `hc-compass` |
-| Challenge an idea or settle requirements through discussion | `hc-grill` |
+| Challenge an idea or settle requirements through discussion | `hc-refine` |
 | Answer a question with a prototype, experiment, or diagram | `hc-lab` |
-| Turn accepted understanding into a brief or delivery tickets | `hc-slice` |
+| Turn accepted understanding into a brief or delivery tickets | `hc-plan` |
 | Implement agreed behavior or investigate and fix a failure | `hc-build` |
 | Examine changes for defects and requirements or standards gaps | `hc-review` |
 | Explain changes, evidence, and merge risks in a PR description | `hc-pr` |

@@ -35,7 +35,7 @@ Do not close the source issue or rewrite a Compass decision record as an impleme
 
 ## Local Markdown
 
-Follow the existing planning convention. With none, use `.hc/slice/<effort>/brief.md` when a separate brief is useful and one file per ticket in `tickets/`, such as `01-save-draft.md`.
+Follow the existing planning convention. With none, use `.hc/plan/<effort>/brief.md` when a separate brief is useful and one file per ticket in `tickets/`, such as `01-save-draft.md`.
 
 Use stable ticket identities and descriptive links; do not renumber existing tickets when the sequence changes. Record blockers and state explicitly. Reuse existing files for the same work instead of creating a new set on every invocation.
 

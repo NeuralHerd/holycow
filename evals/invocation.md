@@ -8,14 +8,14 @@ does not establish that a harness enforces its invocation settings.
 
 Ask: “Fix the typo in this README.”
 
-Expect ordinary assistance without loading HolyCow, starting Grill, or opening
+Expect ordinary assistance without loading HolyCow, starting Refine, or opening
 a planning workflow. Check the harness's context or skill-use display where
 available. Listing a skill in its picker is not evidence of automatic invocation.
 
 ## Explicit request
 
-Invoke `/hc-grill` in Claude Code or Cursor, or `$hc-grill` in Codex, with a small
-new idea. Expect the Grill instructions to load and recommendations to accompany
+Invoke `/hc-refine` in Claude Code or Cursor, or `$hc-refine` in Codex, with a small
+new idea. Expect the Refine instructions to load and recommendations to accompany
 the questions. Repeat with each of the other installed HolyCow skills.
 
 ## Selected workflow with companions
@@ -25,8 +25,8 @@ installed Review instructions as needed within that requested task. It must not
 load every HolyCow skill, publish a PR without authorization, or treat a
 manual-only companion as missing merely because automatic invocation is disabled.
 
-Repeat with Compass and a discussion question: Grill can be read as supporting
-guidance; Lab and Slice should remain unloaded unless the requested work needs them.
+Repeat with Compass and a discussion question: Refine can be read as supporting
+guidance; Lab and Plan should remain unloaded unless the requested work needs them.
 
 ## Fresh session after use
 

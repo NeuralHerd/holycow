@@ -14,7 +14,7 @@ Check that it reads the full ticket and relevant code, reproduces the missing be
 
 ## Direct request without the toolkit
 
-With Compass, Slice, Lab, Review, and a tracker unavailable, provide a clear bug report and reproducer.
+With Compass, Plan, Lab, Review, and a tracker unavailable, provide a clear bug report and reproducer.
 
 Prompt:
 

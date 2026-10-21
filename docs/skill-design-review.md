@@ -8,7 +8,7 @@ Reviewed on 2026-10-20 against the repositories' then-current revisions. This co
 | --- | --- | --- |
 | [Matt Pocock](https://github.com/mattpocock/skills/tree/5beb35b040e3de97e54fa9e386d7e42d15c295c2/skills) | Dependency-aware questioning, evolving decision maps, experiments, vertical delivery slices, and distinct review perspectives. | Keep the existing workflow foundation. This is the same revision already credited by HolyCow. A clear request can still go directly to Build. |
 | [pstack by Lauren Tan / poteto](https://github.com/cursor/plugins/tree/88d47514b82e7c44f00f2b2a72ff6dd12158038c/pstack) | Deliberate domain models, simpler interfaces, tracing consequences beyond the diff, and checking pivotal assumptions against running code. | Strengthen Build and Review without adopting the full orchestration framework. |
-| [Addy Osmani's agent-skills](https://github.com/addyosmani/agent-skills/tree/aeac41d4d005999432bb7312f7ff06383a91d59d) | Standing quality requirements, protection against weakened checks, focused adversarial review, and operational verification. | Strengthen Init, Slice, Build, and Review. Keep detailed production guidance conditional. |
+| [Addy Osmani's agent-skills](https://github.com/addyosmani/agent-skills/tree/aeac41d4d005999432bb7312f7ff06383a91d59d) | Standing quality requirements, protection against weakened checks, focused adversarial review, and operational verification. | Strengthen Init, Plan, Build, and Review. Keep detailed production guidance conditional. |
 
 ## Review of all ten skills
 
@@ -17,9 +17,9 @@ Reviewed on 2026-10-20 against the repositories' then-current revisions. This co
 | `ask-holycow` | Keep. It already selects the smallest useful next step and reads actual skill definitions. |
 | `holycow-init` | Extend discovery to standing quality requirements. Link canonical policy; distinguish enforced checks, aspirations, and exceptions. Do not manufacture numerical budgets. |
 | `hc-compass` | Keep. It already separates questions from delivery tickets, records evidence, and coordinates bounded research under the user's delegation rules. |
-| `hc-grill` | Keep. Recommendations, dependency-aware rounds, factual investigation, partial answers, and optional glossary/ADR updates are already present. |
+| `hc-refine` | Keep. Recommendations, dependency-aware rounds, factual investigation, partial answers, and optional glossary/ADR updates are already present. |
 | `hc-lab` | Keep. It already offers executable experiments, fair alternatives, real-service evidence when necessary, and explicit limits on simulations. |
-| `hc-slice` | Link standing quality requirements separately from acceptance criteria and include affected operational concerns in the delivery brief. |
+| `hc-plan` | Link standing quality requirements separately from acceptance criteria and include affected operational concerns in the delivery brief. |
 | `hc-build` | Identify state ownership and invariants before implementation. Characterize behavior before refactoring, probe critical external assumptions, preserve checks, and retain a concrete resumption checkpoint. Load production guidance only for affected work. |
 | `hc-review` | Follow serialized data and runtime dependencies beyond symbol callers. Check critical safety assumptions and changes that weaken tests or gates. Give authorized reviewers the contract and evidence without persuasive author framing. |
 | `hc-pr` | Keep. Its existing evidence, compatibility, and recovery guidance already distinguishes a Git revert from undoing system effects. |
@@ -49,6 +49,6 @@ Herdr remains optional. Claude, Codex, and Cursor keep explicit invocation contr
 
 ## Evaluation still needed
 
-The new cases in [Init](../evals/holycow-init.md), [Slice](../evals/hc-slice.md), [Build](../evals/hc-build.md), and [Review](../evals/hc-review.md) describe expected behavior; they are not passing results.
+The new cases in [Init](../evals/holycow-init.md), [Plan](../evals/hc-plan.md), [Build](../evals/hc-build.md), and [Review](../evals/hc-review.md) describe expected behavior; they are not passing results.
 
 For live comparison, use equivalent fixtures and permissions in fresh sessions, keep expected results hidden from the executing agent, and record the skill revision, harness/model, actual outcomes, and observed context use. Include simple tasks to detect unnecessary process as well as failure cases. Repeat consequential cases before attributing a difference to the skill change. File validation and word counts cannot establish behavioral improvement or token savings.

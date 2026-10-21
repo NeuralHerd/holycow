@@ -1,6 +1,6 @@
 # Research coordination
 
-Parallelism is for independent fact-finding that benefits from separate attention. Do not fan out speculative questions, duplicate work already done, or ask multiple agents to grill the user. Respect explicit limits on delegation and cost. Existing authorization remains valid; do not request approval for each researcher.
+Parallelism is for independent fact-finding that benefits from separate attention. Do not fan out speculative questions, duplicate work already done, or ask multiple agents to interview the user. Respect explicit limits on delegation and cost. Existing authorization remains valid; do not request approval for each researcher.
 
 ## Choose the available mechanism
 

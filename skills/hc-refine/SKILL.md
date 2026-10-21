@@ -1,11 +1,11 @@
 ---
-name: hc-grill
-description: Use when the user asks to be grilled or to stress-test an idea, requirement, plan, or decision before acting.
+name: hc-refine
+description: Use when the user asks to refine or stress-test an idea, requirement, plan, or decision before acting.
 license: MIT
 disable-model-invocation: true
 ---
 
-# hc-grill
+# hc-refine
 
 Reach shared understanding through questions that expose consequential assumptions. The user makes decisions; the agent investigates facts.
 

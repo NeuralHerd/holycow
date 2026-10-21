@@ -34,7 +34,7 @@ Existing tracking documentation is authoritative when still applicable. Identify
 
 Check connected-tool or CLI capabilities in the current environment; do not paste a generic provider command catalogue and assume it works. Native dependencies are preferable where supported. Explicit linked blocker lists can represent dependencies where native support is absent.
 
-If no tracker is selected, reuse local planning conventions. With none, Compass and Slice already provide `.hc/compass/` and `.hc/slice/` defaults; link their intended roles without creating empty plans. Never treat unavailable remote access as permission to switch the canonical tracker.
+If no tracker is selected, reuse local planning conventions. With none, Compass and Plan already provide `.hc/compass/` and `.hc/plan/` defaults; link their intended roles without creating empty plans. Never treat unavailable remote access as permission to switch the canonical tracker.
 
 Read-only setup can establish the target exists or a capability is advertised. Record write verification as outstanding unless an authorized operation actually demonstrates it. Do not create labels, sample tickets, or comments solely as a connectivity test.
 

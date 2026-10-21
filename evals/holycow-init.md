@@ -60,7 +60,7 @@ Provide existing Claude, Codex, and Cursor instruction arrangements with differe
 
 Check that Init preserves the existing arrangements and establishes appropriate pointers instead of assuming every harness loads the same file.
 
-Then invoke Compass, Slice, and Build in separate conversations: they should use the chosen tracker, documentation pointers, and command working directories. Repeat with the shared default context path and no instruction entry files, and then with no context at all. The workflows should discover the default when present and remain usable when absent.
+Then invoke Compass, Plan, and Build in separate conversations: they should use the chosen tracker, documentation pointers, and command working directories. Repeat with the shared default context path and no instruction entry files, and then with no context at all. The workflows should discover the default when present and remain usable when absent.
 
 ## Access does not prove writes
 

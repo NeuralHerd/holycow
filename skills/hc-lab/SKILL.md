@@ -13,7 +13,7 @@ In a repository, use the HolyCow context linked by its instructions, or `docs/ag
 
 ## Frame the experiment
 
-Identify the unresolved question, relevant accepted decisions, and what observation would help answer it. Reuse context from the conversation or a Compass question without requiring either `hc-compass` or `hc-grill`.
+Identify the unresolved question, relevant accepted decisions, and what observation would help answer it. Reuse context from the conversation or a Compass question without requiring either `hc-compass` or `hc-refine`.
 
 For a new idea, start from the intended user and outcome; no repository or specification is required. In an existing system, inspect the relevant code, instructions, and design conventions before building.
 

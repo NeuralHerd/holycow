@@ -1,0 +1,7 @@
+interface:
+  display_name: "HolyCow Refine"
+  short_description: "Stress-test requirements through decision rounds"
+  default_prompt: "Use $hc-refine to challenge this requirement and resolve the decisions that matter."
+
+policy:
+  allow_implicit_invocation: false

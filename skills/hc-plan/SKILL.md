@@ -1,11 +1,11 @@
 ---
-name: hc-slice
+name: hc-plan
 description: Use when the user wants to turn agreed ideas, decisions, a plan, or prototype findings into an implementation brief or dependency-aware delivery tickets.
 license: MIT
 disable-model-invocation: true
 ---
 
-# hc-slice
+# hc-plan
 
 Turn accepted understanding into work another session can implement and verify. Preserve the decisions and evidence; do not invent the missing design.
 
@@ -17,7 +17,7 @@ Use the conversation, provided plan, existing issue, Compass map, or Lab outcome
 
 Separate accepted requirements, observed behavior, proposals, and unresolved questions. Resolve contradictions that affect the work before presenting it as ready. Preserve explicit exclusions and limitations of prototype evidence.
 
-Do not repeat a full interview. Ask only about gaps that change scope, expected behavior, or verification, with a recommendation, reason, and trade-off. If further discussion or experimentation is needed, recommend `hc-grill` or `hc-lab` when available; do not require their installation. Keep affected work blocked while preparing independent settled work.
+Do not repeat a full interview. Ask only about gaps that change scope, expected behavior, or verification, with a recommendation, reason, and trade-off. If further discussion or experimentation is needed, recommend `hc-refine` or `hc-lab` when available; do not require their installation. Keep affected work blocked while preparing independent settled work.
 
 ## Produce the right-sized brief
 
@@ -33,7 +33,7 @@ Capture only what an implementer needs:
 
 Describe responsibilities and interfaces rather than prescribing an unverified file-by-file implementation. Verified code pointers may help navigation. Include a small accepted schema, type, or state-transition snippet when it expresses a decision more precisely than prose; link its source and preserve its limitations.
 
-## Slice by verifiable outcomes
+## Plan by verifiable outcomes
 
 When tickets are requested, read [ticket design and storage](references/tickets.md).
 

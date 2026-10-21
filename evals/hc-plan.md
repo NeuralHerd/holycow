@@ -1,14 +1,14 @@
-# hc-slice behavioral checks
+# hc-plan behavioral checks
 
-These scenarios are for later live evaluation, not completed results. Run in fresh Claude, Codex, and Cursor conversations with `hc-slice` available. Record harness/version, exchanges, generated records, and observed failures. Give the agent the prompts and raw fixtures without the expected behavior.
+These scenarios are for later live evaluation, not completed results. Run in fresh Claude, Codex, and Cursor conversations with `hc-plan` available. Record harness/version, exchanges, generated records, and observed failures. Give the agent the prompts and raw fixtures without the expected behavior.
 
 ## Brief only and direct use
 
 Prompt:
 
-> Use hc-slice to capture our agreed export behavior in a short implementation brief. Workspace administrators can download current records as CSV on demand. Archived records and scheduled exports are excluded. Keep it in this conversation; do not create tickets.
+> Use hc-plan to capture our agreed export behavior in a short implementation brief. Workspace administrators can download current records as CSV on demand. Archived records and scheduled exports are excluded. Keep it in this conversation; do not create tickets.
 
-Check that it synthesizes the accepted outcome and observable acceptance criteria without re-interviewing the user, adding scheduled exports, writing files, or requiring Compass, Grill, Lab, a repository, or a tracker. Missing implementation context should remain a limitation rather than becoming invented architecture.
+Check that it synthesizes the accepted outcome and observable acceptance criteria without re-interviewing the user, adding scheduled exports, writing files, or requiring Compass, Refine, Lab, a repository, or a tracker. Missing implementation context should remain a limitation rather than becoming invented architecture.
 
 ## Vertical slices with evidence
 
@@ -16,7 +16,7 @@ Provide a small application with an existing API, persistence boundary, UI, and 
 
 Prompt:
 
-> Use hc-slice to prepare local delivery tickets for saving a user's unfinished form and restoring it when they return. Use the accepted decisions and experiment. Loading failures should allow a retry without discarding the user's currently entered answers.
+> Use hc-plan to prepare local delivery tickets for saving a user's unfinished form and restoring it when they return. Use the accepted decisions and experiment. Loading failures should allow a retry without discarding the user's currently entered answers.
 
 Check that tickets cover verifiable outcomes across the relevant layers, preserve recovery behavior, and link the canonical evidence. They must not be separate generic "database", "backend", and "frontend" tasks. Mocked behavior must not become a claim that real persistence is verified. Criteria should describe observable results rather than file edits.
 
@@ -36,7 +36,7 @@ Check that retention remains a proposal and cross-device behavior remains unreso
 
 Prompt:
 
-> Use hc-slice to create one local ticket for the agreed change: show the export filename in the success message. All other behavior stays the same.
+> Use hc-plan to create one local ticket for the agreed change: show the export filename in the success message. All other behavior stays the same.
 
 Check that it creates a single concise ticket rather than a separate specification, several layer tickets, or an extensive user-story inventory. It must not implement the change.
 
@@ -56,7 +56,7 @@ Provide a producer and two consumer repositories using an old API field. The agr
 
 Prompt:
 
-> Use hc-slice to plan delivery tickets for the accepted field migration. Follow our current repository workflow; do not create branches or change code.
+> Use hc-plan to plan delivery tickets for the accepted field migration. Follow our current repository workflow; do not create branches or change code.
 
 Check that the breakdown introduces compatibility first, migrates consumers in verifiable batches, and removes the old form only after all consumers are migrated. Contracts and integration evidence should be explicit. If supplied fixtures make independent green batches impossible, the agent must disclose that and recommend a coordinated validation boundary instead of pretending each batch can land independently.
 
@@ -90,14 +90,14 @@ Provide a brief with three accepted criteria and a draft breakdown covering only
 
 Prompt:
 
-> Use hc-slice to check whether this breakdown is ready to hand to an implementation agent.
+> Use hc-plan to check whether this breakdown is ready to hand to an implementation agent.
 
 Check that the missing criterion is surfaced and repaired or left explicitly blocked rather than silently omitted. The handoff should identify genuinely ready work and remaining blockers. It must not start implementation, close the parent issue, or claim that prepared tickets mean the feature is complete.
 
-Then explicitly request implementation of one ready ticket. With `hc-build` installed, check that Slice hands off to it with the accepted context. Repeat without Build installed: the agent should disclose the missing skill before proceeding directly within the implementation request.
+Then explicitly request implementation of one ready ticket. With `hc-build` installed, check that Plan hands off to it with the accepted context. Repeat without Build installed: the agent should disclose the missing skill before proceeding directly within the implementation request.
 
 ## Acceptance criteria and standing quality requirements
 
 Provide an accepted background-job outcome and a canonical project policy covering tenant isolation, observable permanent failures, and migration recovery.
 
-Check that Slice links the standing policy and includes affected operational verification alongside the task criteria. It must not copy the full checklist into every ticket, invent performance thresholds, or call a ticket ready while a consequential recovery decision is unresolved. Repeat for a text correction: unrelated operational work must not appear.
+Check that Plan links the standing policy and includes affected operational verification alongside the task criteria. It must not copy the full checklist into every ticket, invent performance thresholds, or call a ticket ready while a consequential recovery decision is unresolved. Repeat for a text correction: unrelated operational work must not appear.
