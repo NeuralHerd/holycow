@@ -1,7 +1,0 @@
-interface:
-  display_name: "Ask HolyCow"
-  short_description: "Choose the next useful HolyCow skill"
-  default_prompt: "Use $ask-holycow to recommend the next useful skill or workflow for this situation, based on current skill capabilities and completed work."
-
-policy:
-  allow_implicit_invocation: false

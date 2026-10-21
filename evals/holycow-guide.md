@@ -1,6 +1,6 @@
-# ask-holycow behavioral checks
+# holycow-guide behavioral checks
 
-These scenarios are for later live evaluation, not completed results. Run in fresh Claude, Codex, and Cursor conversations with `ask-holycow` available. Record harness/version, skill definitions inspected, recommendation, clarifying questions, and actions. Give prompts and raw context without the expected behavior.
+These scenarios are for later live evaluation, not completed results. Run in fresh Claude, Codex, and Cursor conversations with `holycow-guide` available. Record harness/version, skill definitions inspected, recommendation, clarifying questions, and actions. Give prompts and raw context without the expected behavior.
 
 ## Clear implementation
 

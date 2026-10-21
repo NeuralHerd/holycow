@@ -32,21 +32,21 @@ Open your project in the harness and check its skill picker. If the new skills d
 
 ## First use
 
-Ask HolyCow recommends the smallest useful next step:
+HolyCow Guide recommends the smallest useful next step:
 
 | Harness | Example prompt in the agent chat |
 | --- | --- |
-| Claude Code | `/ask-holycow We have a new feature idea. Where should we start?` |
-| Codex | `$ask-holycow We have a new feature idea. Where should we start?` |
-| Cursor | `/ask-holycow We have a new feature idea. Where should we start?` |
+| Claude Code | `/holycow-guide We have a new feature idea. Where should we start?` |
+| Codex | `$holycow-guide We have a new feature idea. Where should we start?` |
+| Cursor | `/holycow-guide We have a new feature idea. Where should we start?` |
 
-These are chat invocations, not shell commands. Replace `ask-holycow` with any skill below when you already know what you need. `holycow-init` is optional repository onboarding; the other skills work without it.
+These are chat invocations, not shell commands. Replace `holycow-guide` with any skill below when you already know what you need. `holycow-init` is optional repository onboarding; the other skills work without it.
 
 ## Choose a skill
 
 | Skill | Use it for | Outcome |
 | --- | --- | --- |
-| [ask-holycow](skills/ask-holycow/SKILL.md) | Choosing what to do next | A recommendation, reason, and expected result |
+| [holycow-guide](skills/holycow-guide/SKILL.md) | Choosing what to do next | A recommendation, reason, and expected result |
 | [holycow-init](skills/holycow-init/SKILL.md) | Preparing or auditing a repository's workflow | Small project context, useful pointers, and verified capability status |
 | [hc-compass](skills/hc-compass/SKILL.md) | Uncertainty that spans several sessions | An evolving map of questions, dependencies, decisions, and evidence |
 | [hc-refine](skills/hc-refine/SKILL.md) | Challenging an idea or settling requirements | Agreed scope and decisions, with recommendations and trade-offs |

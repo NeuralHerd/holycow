@@ -31,11 +31,14 @@ Investigate directly. Delegate research only when requested, using the user's ch
 
 Ask the ready questions: those whose prerequisites are settled. Group independent questions into manageable rounds. Ask a single question when it gates the others or the user requests that format. Questions dependent on an unanswered question belong in a later round.
 
-For each question, give a recommendation with its reason and material trade-off. Make accepting it easy without hiding alternatives:
+For each decision question, present a short numbered list of viable options immediately below the question. Put the recommended option first and label it **Recommended**. Give each option's reason and main trade-off; usually two or three options are enough. Keep the choice self-contained rather than burying the recommendation in earlier analysis or ending with only "Shall we?"
 
-> ❓ **Q1: Include archived records?** Should this export include archived records?
+> ❓ **Q1: Which records should this export include?**
 >
-> ➡️ **Recommend:** Exclude them initially to match the current view; historical exports would need a separate choice.
+> 1. **Current records only — Recommended.** Matches the current view and keeps the export focused; omits historical records.
+> 2. **Current and archived records.** Supports historical analysis; adds records outside the current view.
+
+Do not invent weak alternatives to fill the list. If only one option fits the accepted constraints, explain why and ask for confirmation. If missing evidence prevents a recommendation, state what is missing. Factual clarifications can be direct questions without options. Accept a custom answer as well as an option number.
 
 Use stable, unique question numbers across rounds so short or dictated replies are easy to map. Wait for the user's answers.
 

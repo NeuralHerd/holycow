@@ -18,7 +18,9 @@ Prompt:
 
 > Use hc-refine to settle our record-export behavior. CSV format and workspace-admin access are already agreed. We still need to decide whether exports are on-demand or scheduled, and whether archived records are included. Scheduled delivery details depend on choosing scheduled exports.
 
-Check that the first round groups the two independent decisions, gives a recommendation and reason for each, and waits. It should not re-open CSV/admin access or ask the delivery schedule before the export mode is chosen.
+Check that the first round groups the two independent decisions and waits. Each decision should have a short numbered list directly below it, with the recommended option first and visibly labelled, plus reasons and meaningful trade-offs for the viable alternatives. A recommendation buried in analysis followed by a yes/no question is insufficient. It should not re-open CSV/admin access or ask the delivery schedule before the export mode is chosen. An option number or custom answer should both be usable replies.
+
+Repeat with a note that archived records have already been permanently deleted and cannot be exported. Check that the agent explains the constraint rather than offering an impossible alternative to fill the list. Missing facts should be investigated or clarified, not converted into invented preferences.
 
 ## Evidence and proposals
 

@@ -92,7 +92,7 @@ Prompt:
 
 > Resume this map and help me settle its next discussion question.
 
-With `hc-refine` installed, check that the agent loads and follows it instead of substituting its own interview workflow. Repeat with the companion absent: it should disclose that and describe the direct fallback, without pretending to invoke the skill or installing anything automatically.
+With `hc-refine` installed, check that the agent loads and follows it instead of substituting its own interview workflow. For a decision with viable alternatives, verify that it presents numbered options directly below the question, puts the labelled recommendation first, and gives reasons and trade-offs. Loading the skill but ending with only a yes/no question after lengthy analysis does not satisfy this check. Repeat with the companion absent: it should disclose that and describe the direct fallback, without pretending to invoke the skill or installing anything automatically.
 
 Apply the same check to an authorized prototype question with and without `hc-lab` installed.
 

@@ -11,7 +11,9 @@ Prepare a repository for the HolyCow workflow by discovering its conventions, fi
 
 ## Show the Init identity
 
-Start an Init run with the Cyber Halo Cow: a gold halo, cyan-to-violet mechanical cow, and HolyCow wordmark. Use the bundled [terminal renderer](scripts/banner.py) rather than recreating the artwork. Follow [terminal presentation](references/terminal.md) to choose visible terminal output or a plain chat fallback, and show the identity once per run. Omit decoration for quiet or machine-readable requests.
+Before repository discovery, read [terminal presentation](references/terminal.md) and display the Cyber Halo Cow using the bundled [terminal renderer](scripts/banner.py). In a visible shell it uses a gold halo, cyan-to-violet mechanical cow, and HolyCow wordmark. In a harness that captures or collapses tool output, run the documented plain-text command and reproduce its output in a visible monospace response before continuing setup. Running `--help`, reading the script, or leaving its output inside a collapsed tool result does not display the identity to the user.
+
+Show the identity once per run; omit decoration for quiet or machine-readable requests. If an interrupted run missed the banner, display it and resume from the completed setup work instead of restarting discovery.
 
 During setup, give brief updates at meaningful transitions: discovery, configuration, and verification. Report actual outcomes, including unresolved choices and unavailable checks; do not simulate progress percentages or announce readiness before verification. The banner makes no connection claims. An audit uses the same identity but does not imply configuration was applied.
 

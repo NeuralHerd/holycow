@@ -14,7 +14,7 @@ Reviewed on 2026-10-20 against the repositories' then-current revisions. This co
 
 | Skill | Decision and reason |
 | --- | --- |
-| `ask-holycow` | Keep. It already selects the smallest useful next step and reads actual skill definitions. |
+| `holycow-guide` | Keep. It already selects the smallest useful next step and reads actual skill definitions. |
 | `holycow-init` | Extend discovery to standing quality requirements. Link canonical policy; distinguish enforced checks, aspirations, and exceptions. Do not manufacture numerical budgets. |
 | `hc-compass` | Keep. It already separates questions from delivery tickets, records evidence, and coordinates bounded research under the user's delegation rules. |
 | `hc-refine` | Keep. Recommendations, dependency-aware rounds, factual investigation, partial answers, and optional glossary/ADR updates are already present. |

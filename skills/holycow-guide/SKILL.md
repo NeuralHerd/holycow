@@ -1,11 +1,11 @@
 ---
-name: ask-holycow
+name: holycow-guide
 description: Use when the user asks which HolyCow skill or workflow to use next, or whether the toolkit needs an additional skill.
 license: MIT
 disable-model-invocation: true
 ---
 
-# Ask HolyCow
+# HolyCow Guide
 
 Recommend the smallest useful next step from the user's current situation. Help them use the toolkit without memorizing it or following a mandatory sequence.
 

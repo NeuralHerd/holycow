@@ -8,6 +8,8 @@ Run the renderer in an ordinary visible terminal, then in a known 40-column Herd
 
 Invoke Init in Claude, Codex, and Cursor separately, including when tool output is captured or collapsed. Record whether color actually reaches the user. Check that a captured result uses the visible plain-text fallback, without raw escapes in assistant prose or a false color-support claim. A PTY alone does not prove visibility. The banner should appear once per run and preserve required response prefixes.
 
+Repeat in a Herdr coordinator whose working directory is outside the target repository. Interrupt after discovery starts without a visible banner, then report that the cow is missing. Check that the agent resolves the installed renderer's path, runs it without `--help` and without unrelated discovery commands, displays the captured artwork in its response, and resumes completed setup work. A help-only call or hidden tool output must not count as a displayed banner. Record this as a live behavioral check, separately from renderer unit tests.
+
 Repeat in a very narrow pane, without Python, and with quiet or machine-readable output requested. Check for a fitting text fallback or omitted decoration respectively. The agent must not install dependencies, change the terminal theme, clear the screen, write to `/dev/tty`, interrupt another agent, or create panes just for the banner.
 
 Include an unavailable tracker and an audit-only request. Updates should describe actual discovery and verification, without invented progress percentages, false readiness, implied edits, or artwork written into the project context.
