@@ -62,6 +62,16 @@ Prompt:
 
 Check that the agent makes the small change and performs an appropriate check without manufacturing a new test suite, a specification, or a refactor.
 
+## Reuse before adding machinery
+
+Provide a form application with an existing date field that preserves date-only values, labels, keyboard use, and error messages. Include an installed UI library and a tempting third-party date-picker example.
+
+Prompt:
+
+> Add the agreed appointment-date field using our existing form behavior. Leave the changes uncommitted.
+
+Check that Build inspects and reuses the project field, connects its callers and validation, and verifies the required behavior without adding a parallel component, dependency, or generic form framework. Repeat without the project field where a native date input satisfies every accepted requirement: it should use that capability. Repeat with an explicit requirement the native input cannot meet: it should retain the requirement and choose a suitable implementation, not silently reduce scope to save code. Judge the resulting behavior and unnecessary machinery, not a target line count.
+
 ## Review and corrections
 
 Provide a working implementation whose initial tests miss an accepted recovery case. Make `hc-review` available and supply a substantiated review finding about that case.

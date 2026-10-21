@@ -41,6 +41,17 @@ Load technology-specific skills only where the affected work needs them or proje
 
 For stateful logic or an interface change, identify the caller's use, state ownership, and invariants before adding branches or layers. Prefer a data shape that expresses those rules without unnecessary machinery. Simplify within scope only after establishing why existing behavior exists; repeated workarounds may signal a mistaken model rather than another missing guard.
 
+## Choose the smallest complete solution
+
+Prefer the first option that satisfies the accepted behavior and project conventions:
+
+1. Reuse an existing project helper, component, service, or pattern after checking its actual contract.
+2. Use a standard-library or native platform capability when it fits; preserve established project components and their required behavior.
+3. Use an appropriate installed dependency before adding another. Justify a new dependency by the capability needed, not convenience alone.
+4. Write focused new code where those options fall short. Add wrappers, abstractions, configuration, and extension points only for a present requirement.
+
+Optimize for a readable, complete change rather than a line-count target. Include affected callers, exports, configuration, and tests; a smaller patch that leaves them broken is incomplete. Preserve required validation, authorization, data integrity, accessibility, compatibility, and error handling when simplifying. An accepted requirement cannot be silently dropped to take a shorter route.
+
 ## Investigate failures when needed
 
 Establish a signal for the reported symptom, distinguish plausible causes with evidence, and avoid repeated speculative patches. Feature work without such a failure does not need the debugging reference.

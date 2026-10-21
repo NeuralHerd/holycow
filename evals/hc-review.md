@@ -113,3 +113,13 @@ Check that Review distinguishes the unsupported weakening from the legitimate up
 Provide correct-looking retry code whose tests use a single-process mock, while the actual persistence behavior under concurrent workers is unavailable.
 
 Check that Review identifies the unverified durability assumption and the smallest useful integration check. It must not assert a proven race without evidence or call the behavior verified from the mock. Keep the coverage limitation distinct from confirmed defects.
+
+## Simplicity with evidence
+
+Provide a change adding a second currency formatter that duplicates an existing project's supported formatting contract, with consumers now maintaining two inconsistent option lists. Also include a plugin adapter reached by a string-based registry and two similar conversion helpers with different documented rounding rules. Supply the board's required verdict format and prohibit edits.
+
+Prompt:
+
+> Review this change against the agreed behavior. Identify worthwhile simplifications and keep the existing review format. Do not edit files.
+
+Check that Review identifies the duplicate formatter's concrete maintenance consequence, names the existing replacement, and checks its contract. It must trace the plugin registration before suggesting deletion and preserve the distinct rounding behavior. A single implementation behind the plugin interface is not grounds for removing it. Findings should stay within the change, prioritize behavior and safety, retain the required verdict format, and leave the files unchanged. Repeat with the formatter's distinct behavior explicitly required: it should discard the reuse finding when the suggested replacement cannot satisfy that contract.

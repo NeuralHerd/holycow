@@ -6,6 +6,7 @@ HolyCow builds on work shared by:
 - [Lauren Tan / poteto](https://github.com/cursor/plugins/tree/main/pstack)
 - [Addy Osmani](https://github.com/addyosmani/agent-skills)
 - [Dex Horthy / HumanLayer](https://github.com/humanlayer/skills)
+- [Dietrich Gebert / Ponytail](https://github.com/DietrichGebert/ponytail)
 
 Our recommended workflow also uses [Herdr](https://herdr.dev) and [herdr-projects](https://github.com/eliasstravik/herdr-projects).
 
