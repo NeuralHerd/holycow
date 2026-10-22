@@ -1,0 +1,205 @@
+---
+import { skills } from '../data/skills';
+import Command from './Command.astro';
+
+const routes = [
+  { id: 'all', label: 'The whole map', start: 'holycow-guide', nodes: skills.map(skill => skill.name), note: 'Every connection is an option. Select a skill to see when it helps and a prompt to try.' },
+  { id: 'idea', label: 'An idea to explore', start: 'hc-refine', nodes: ['hc-compass', 'hc-refine', 'hc-lab', 'hc-plan', 'hc-build', 'hc-review', 'hc-pr'], note: 'Start with Refine. Add Lab when you need evidence, Compass for uncertainty across sessions, and Plan when delivery needs breaking down. Build once the direction is agreed; Review and PR help with the resulting change.' },
+  { id: 'task', label: 'A clear task or bug', start: 'hc-build', nodes: ['hc-build', 'hc-review'], note: 'Go straight to Build to implement or diagnose the failure, then Review the change. Review findings may send you back to Build.' },
+  { id: 'change', label: 'Changes to review', start: 'hc-review', nodes: ['hc-review', 'hc-pr'], note: 'Start with Review of the actual changes. If findings need fixes, return to Build. Use PR when you need a description grounded in the result.' },
+  { id: 'session', label: 'A session to learn from', start: 'hc-retro', nodes: ['hc-retro'], note: 'Start with Retro and the session evidence. Carry a few concrete improvements into your next task. A failing check alone calls for investigation in Build.' },
+];
+const positions = [
+  { name: 'hc-compass', x: 10, y: 15, cue: 'Unknowns across sessions', action: 'Map the questions', kind: 'branch' },
+  { name: 'hc-refine', x: 10, y: 47, cue: 'The idea needs clarity', action: 'Settle the decisions', kind: 'main' },
+  { name: 'hc-lab', x: 30, y: 80, cue: 'You need evidence', action: 'Try an experiment', kind: 'branch' },
+  { name: 'hc-plan', x: 30, y: 47, cue: 'Delivery needs structure', action: 'Break down the work', kind: 'main' },
+  { name: 'hc-build', x: 50, y: 47, cue: 'The task is actionable', action: 'Implement & verify', kind: 'main' },
+  { name: 'hc-review', x: 70, y: 47, cue: 'There are changes to check', action: 'Review the evidence', kind: 'main' },
+  { name: 'hc-pr', x: 90, y: 47, cue: 'Reviewers need context', action: 'Explain the change', kind: 'main' },
+  { name: 'hc-retro', x: 90, y: 80, cue: 'There is learning to capture', action: 'Improve the next task', kind: 'branch' },
+];
+const edges = [
+  { from: 'hc-compass', to: 'hc-refine', d: 'M100 118 V172', optional: true },
+  { from: 'hc-refine', to: 'hc-plan', d: 'M185 220.9 H215' },
+  { from: 'hc-refine', to: 'hc-lab', d: 'M100 270 V362 Q100 376 114 376 H215', optional: true },
+  { from: 'hc-lab', to: 'hc-refine', d: 'M215 393 H80 Q64 393 64 379 V270', optional: true },
+  { from: 'hc-lab', to: 'hc-plan', d: 'M300 327 V270', optional: true },
+  { from: 'hc-plan', to: 'hc-build', d: 'M385 220.9 H415' },
+  { from: 'hc-build', to: 'hc-review', d: 'M585 220.9 H615' },
+  { from: 'hc-review', to: 'hc-pr', d: 'M785 220.9 H815' },
+  { from: 'hc-review', to: 'hc-build', d: 'M700 270 V291 Q700 304 687 304 H513 Q500 304 500 291 V270', optional: true },
+  { from: 'hc-pr', to: 'hc-retro', d: 'M900 270 V327', optional: true },
+  { from: 'hc-retro', to: 'hc-refine', d: 'M900 425 V438 Q900 451 887 451 H22 Q8 451 8 437 V235 Q8 221 15 221', optional: true },
+];
+---
+<div class="skill-map" id="workflows" data-skill-map>
+  <div class="map-routes" role="group" aria-label="Choose your starting situation">
+    {routes.map((route, i) => <button type="button" data-map-route={route.id} data-route-nodes={route.nodes.join(' ')} data-route-start={route.start} aria-pressed={i === 0 ? 'true' : 'false'} aria-controls="map-canvas map-route-note">{route.label}</button>)}
+  </div>
+  <div class="map-route-note" id="map-route-note" role="status" aria-live="polite" aria-atomic="true">
+    {routes.map((route, i) => <p data-route-note={route.id} hidden={i !== 0}><strong>{i === 0 ? 'Your route, your call.' : route.label + '.'}</strong> {route.note}</p>)}
+  </div>
+
+  <div class="map-surface">
+    <div class="map-topline"><span class="eyebrow"><span class="status-dot"></span> THE HOLYCOW FIELD MAP</span><span class="map-instruction">Select any skill to explore <span aria-hidden="true">↙</span></span></div>
+    <div class="map-helpers">
+      {skills.slice(0, 2).map((skill, i) => <button type="button" class="map-helper" data-map-node={skill.name} aria-pressed={i === 0 ? 'true' : 'false'} aria-controls={`map-detail-${skill.name}`}>
+        <span class="helper-icon" aria-hidden="true">{skill.symbol}</span><span><strong>{i === 0 ? 'Not sure where to start?' : 'New to this repository?'}</strong><span><code>{skill.name}</code> · {i === 0 ? 'Ask for a next step' : 'Optional orientation'}</span></span><span aria-hidden="true">↗</span>
+      </button>)}
+    </div>
+
+    <div class="map-canvas" id="map-canvas" role="group" aria-label="Skill connections. Possible routes, not a required sequence.">
+      <div class="map-stage-labels" aria-hidden="true"><span>FIND CLARITY</span><span>MAKE IT REAL</span><span>CHECK & LEARN</span></div>
+      <svg class="map-connections" viewBox="0 0 1000 470" preserveAspectRatio="none" aria-hidden="true">
+        <defs><marker id="map-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M1 1 9 5 1 9" fill="none" stroke="context-stroke" stroke-width="1.5" /></marker></defs>
+        {edges.map(edge => <path class:list={['map-edge', edge.optional && 'map-edge-optional']} data-map-edge data-from={edge.from} data-to={edge.to} d={edge.d} marker-end="url(#map-arrow)" />)}
+      </svg>
+      {positions.map(position => {
+        const skill = skills.find(skill => skill.name === position.name)!;
+        return <button type="button" class:list={['map-node', `map-node-${position.kind}`]} style={`--node-x: ${position.x}%; --node-y: ${position.y}%`} data-map-node={skill.name} aria-pressed="false" aria-controls={`map-detail-${skill.name}`}>
+          <span class="node-cue">{position.cue}</span><span class="map-node-heading"><span class="map-symbol" aria-hidden="true">{skill.symbol}</span><code>{skill.name}</code></span><strong>{position.action}</strong>
+        </button>;
+      })}
+      <span class="map-annotation annotation-evidence">need evidence?</span>
+      <span class="map-annotation annotation-decided">direction agreed</span>
+      <span class="map-annotation annotation-fixes">findings → fix → check again</span>
+      <span class="map-annotation annotation-learning">↺ carry learning into the next task</span>
+    </div>
+    <div class="map-legend"><span><i></i> A possible next step</span><span><i class="legend-optional"></i> When useful / return loop</span><span>Any skill can be your starting point.</span></div>
+  </div>
+
+  <section class="map-details" aria-label="Explore the selected skill">
+    <div class="detail-toolbar"><span class="eyebrow">TAKE A CLOSER LOOK</span><label>Use in <select data-map-agent aria-label="Agent for example prompts"><option value="/">Claude Code</option><option value="$">Codex</option><option value="/">Cursor</option></select></label></div>
+    {skills.map((skill, i) => <div class="map-detail" id={`map-detail-${skill.name}`} data-map-detail={skill.name} hidden={i !== 0}>
+      <div class="detail-title"><code>{skill.name}</code><h3>{skill.title}</h3><a href={`/skills/${skill.name}/`}>Read the skill guide <span aria-hidden="true">↗</span></a></div>
+      <div class="detail-explanation"><h4>WHEN IT HELPS</h4><p>{skill.when}</p><h4>WHAT YOU LEAVE WITH</h4><p>{skill.outcome}</p></div>
+      <div class="detail-prompt"><Command command={`/${skill.name} ${skill.prompt}`} label="Try in your agent chat" /><p>Invoke it in your agent chat after installing HolyCow.</p></div>
+    </div>)}
+  </section>
+</div>
+
+<script>
+  const map = document.querySelector<HTMLElement>('[data-skill-map]');
+  if (map) {
+    const nodes = Array.from(map.querySelectorAll<HTMLButtonElement>('[data-map-node]'));
+    const routes = Array.from(map.querySelectorAll<HTMLButtonElement>('[data-map-route]'));
+    const panels = Array.from(map.querySelectorAll<HTMLElement>('[data-map-detail]'));
+    function selectSkill(name: string) {
+      nodes.forEach(node => node.setAttribute('aria-pressed', String(node.dataset.mapNode === name)));
+      panels.forEach(panel => { panel.hidden = panel.dataset.mapDetail !== name; });
+    }
+    nodes.forEach(node => node.addEventListener('click', () => selectSkill(node.dataset.mapNode!)));
+    routes.forEach(route => route.addEventListener('click', () => {
+      const routeNodes = (route.dataset.routeNodes ?? '').split(' ');
+      const isOverview = route.dataset.mapRoute === 'all';
+      map.dataset.route = route.dataset.mapRoute;
+      routes.forEach(button => button.setAttribute('aria-pressed', String(button === route)));
+      nodes.forEach(node => { node.dataset.onRoute = String(routeNodes.includes(node.dataset.mapNode!)); });
+      map.querySelectorAll<SVGPathElement>('[data-map-edge]').forEach(edge => {
+        edge.dataset.onRoute = String(!isOverview && routeNodes.includes(edge.dataset.from!) && routeNodes.includes(edge.dataset.to!));
+      });
+      map.querySelectorAll<HTMLElement>('[data-route-note]').forEach(note => { note.hidden = note.dataset.routeNote !== route.dataset.mapRoute; });
+      selectSkill(route.dataset.routeStart!);
+    }));
+    map.querySelector<HTMLSelectElement>('[data-map-agent]')?.addEventListener('change', event => {
+      const prefix = (event.target as HTMLSelectElement).value;
+      panels.forEach(panel => {
+        const code = panel.querySelector('pre code');
+        const copy = panel.querySelector<HTMLButtonElement>('[data-copy]');
+        if (code && copy) {
+          const prompt = prefix + code.textContent!.slice(1);
+          code.textContent = prompt;
+          copy.dataset.copy = prompt;
+        }
+      });
+    });
+  }
+</script>
+
+<style>
+  .map-routes { display: flex; gap: 7px; flex-wrap: wrap; margin-bottom: 22px; }
+  .map-routes button { border: 1px solid var(--border); border-radius: 50px; padding: 10px 17px; color: var(--ink-70); background: transparent; font-size: 12px; }
+  .map-routes [aria-pressed="true"] { background: var(--primary); color: var(--primary-foreground); border-color: var(--primary); }
+  .map-surface { border: 1px solid var(--border); border-radius: 20px; overflow: hidden; background: var(--card); }
+  .map-topline { padding: 22px 26px 19px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .map-topline .eyebrow { margin: 0; font-size: 9px; }
+  .map-instruction { font-size: 11px; color: var(--ink-70); }
+  .map-instruction > span { margin-left: 10px; }
+  .map-helpers { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; padding: 0 26px 22px; }
+  .map-helper { text-align: left; display: flex; align-items: center; gap: 12px; border: 1px solid var(--border); border-radius: 10px; padding: 13px 16px; background: var(--background); color: var(--ink); }
+  .helper-icon { font-size: 24px; color: var(--accent-blue); }
+  .map-helper strong { font-size: 12px; font-weight: 550; display: block; }
+  .map-helper > span > span { display: block; font-size: 10px; color: var(--ink-70); margin-top: 3px; }
+  .map-helper > span:last-child { margin-left: auto; font-size: 17px; }
+  .map-helper[aria-pressed="true"] { border-color: var(--accent-blue); box-shadow: 0 0 0 1px var(--accent-blue); }
+  .map-canvas { position: relative; height: 470px; background-color: var(--background); background-image: radial-gradient(var(--ink-13) .7px, transparent .7px); background-size: 15px 15px; border-block: 1px solid var(--border); }
+  .map-stage-labels { position: absolute; top: 27px; left: 25%; right: 4%; display: flex; justify-content: space-between; font: 9px/1.5 monospace; letter-spacing: 1.3px; color: var(--ink-70); }
+  .map-connections { position: absolute; inset: 0; height: 100%; width: 100%; overflow: visible; }
+  .map-edge { fill: none; stroke: var(--ink-50); stroke-width: 1.5; }
+  .map-edge-optional { stroke-dasharray: 4 4; stroke: var(--ink-50); }
+  .map-edge[data-on-route="true"] { stroke: var(--chart-1); stroke-width: 2; }
+  .map-node { width: 17%; height: 98px; position: absolute; left: var(--node-x); top: var(--node-y); transform: translate(-50%, -50%); padding: 13px 12px; border: 1px solid var(--border-strong); background: var(--card); color: var(--ink); border-radius: 11px; text-align: left; box-shadow: 0 3px 9px var(--black-05); }
+  .map-node-heading { display: flex; gap: 8px; align-items: center; margin-block: 6px 5px; }
+  .map-node code { font-size: 12px; font-weight: 600; }
+  .map-symbol { width: 23px; height: 23px; border-radius: 6px; background: var(--background-green); font-size: 17px; text-align: center; line-height: 23px; flex-shrink: 0; }
+  .map-node-main:nth-of-type(n+4) .map-symbol { background: color-mix(in srgb, var(--gradient-sky) 40%, var(--card)); }
+  .map-node-branch .map-symbol { background: color-mix(in srgb, var(--gradient-peach) 55%, var(--card)); }
+  .map-node strong { font-size: 11px; font-weight: 500; display: block; }
+  .node-cue { font-size: 9px; color: var(--ink-70); display: block; white-space: nowrap; }
+  .map-node[data-on-route="false"] { background: var(--background-secondary); box-shadow: none; }
+  .map-node[data-on-route="true"] { border-color: var(--accent-blue); }
+  .map-node[aria-pressed="true"] { border-color: var(--accent-blue); box-shadow: 0 0 0 2px var(--accent-blue), 0 5px 15px var(--black-05); }
+  .map-node:hover, .map-helper:hover { border-color: var(--accent-blue); }
+  .map-annotation { position: absolute; font: 9px/1.5 monospace; color: var(--ink-70); background: var(--background); padding: 2px 6px; }
+  .annotation-evidence { left: 11%; top: 65%; }
+  .annotation-decided { left: 32%; top: 62%; }
+  .annotation-fixes { left: 52%; top: 63%; }
+  .annotation-learning { left: 47%; bottom: 1%; }
+  .map-legend { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 23px; padding: 16px 26px; font-size: 10px; color: var(--ink-70); }
+  .map-legend > span { display: flex; align-items: center; gap: 8px; }
+  .map-legend > span:last-child { margin-left: auto; }
+  .map-legend i { width: 21px; border-top: 1px solid var(--ink-50); }
+  .map-legend .legend-optional { border-top-style: dashed; }
+  .map-route-note { padding: 0 2px 22px; font-size: 12px; line-height: 1.8; min-height: 63px; }
+  .map-route-note p { margin: 0; color: var(--ink-70); }
+  .map-route-note strong { color: var(--ink); font-weight: 550; }
+  .map-details { border: 1px solid var(--border); border-radius: 17px; background: var(--card); padding: 24px 26px 27px; margin-top: 24px; }
+  .detail-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-bottom: 25px; }
+  .detail-toolbar .eyebrow { margin: 0; font-size: 9px; }
+  .detail-toolbar label { display: flex; gap: 10px; align-items: center; font-size: 11px; color: var(--ink-70); }
+  .detail-toolbar select { background: var(--background); border: 1px solid var(--border); border-radius: 7px; color: var(--ink); padding: 6px 10px; font: inherit; }
+  .map-detail { display: grid; grid-template-columns: .8fr 1.1fr 1.2fr; gap: 30px; }
+  .detail-title > code { display: block; font-size: 11px; color: var(--accent-blue); margin-bottom: 12px; }
+  .detail-title h3 { font-size: 25px; margin-bottom: 20px; max-width: 230px; }
+  .detail-title a { font-size: 11px; text-decoration: none; }
+  .detail-explanation h4 { font: 9px/1.5 monospace; letter-spacing: .7px; margin: 0 0 7px; }
+  .detail-explanation p { font-size: 12px; line-height: 1.75; color: var(--ink-70); margin-bottom: 17px; }
+  .detail-explanation p:last-child { margin-bottom: 0; }
+  .detail-prompt :global(.command pre) { font-size: 11px; white-space: pre-wrap; overflow-wrap: anywhere; padding: 15px; }
+  .detail-prompt > p { margin: 9px 0 0; font-size: 10px; color: var(--ink-70); }
+  @media (max-width: 1100px) {
+    .node-cue { font-size: 8px; }.map-node { padding: 12px 9px; }.map-node-heading { gap: 5px; }.map-node code { font-size: 11px; }.map-node strong { font-size: 10px; }
+    .map-detail { grid-template-columns: 1fr 1.4fr; gap: 24px; }.detail-prompt { grid-column: 1 / -1; }.detail-title h3 { max-width: 280px; }
+  }
+  @media (max-width: 800px) {
+    .map-topline { padding: 20px; }.map-instruction { display: none; }.map-helpers { padding: 0 20px 20px; gap: 10px; }.map-helper { padding: 12px; }.map-helper > span > span { font-size: 9px; }
+    .map-canvas { height: auto; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 26px 18px; padding: 25px 20px 35px; }
+    .map-connections, .map-stage-labels, .map-annotation { display: none; }
+    .map-node { position: relative; inset: auto; transform: none; width: 100%; height: auto; min-height: 104px; padding: 14px; }
+    .map-node[data-on-route="false"] { display: none; }.map-node-branch { border-style: dashed; }
+    .map-node code { font-size: 13px; }.node-cue { font-size: 10px; white-space: normal; }.map-node strong { font-size: 12px; }.map-node-heading { margin-block: 8px 5px; gap: 8px; }
+    .map-node::after { content: '↓'; position: absolute; bottom: -25px; left: 50%; font-size: 16px; color: var(--ink-50); }
+    .map-node:last-of-type::after { content: '↺'; }
+    .skill-map[data-route="task"] .map-node[data-map-node="hc-review"]::after, .skill-map[data-route="change"] .map-node[data-map-node="hc-pr"]::after, .skill-map[data-route="idea"] .map-node[data-map-node="hc-pr"]::after { content: none; }
+    .map-node[data-map-node="hc-compass"] { grid-column: 1 / -1; }.map-node[data-map-node="hc-refine"], .map-node[data-map-node="hc-lab"] { grid-row: 2; }
+    .map-node[data-map-node="hc-plan"], .map-node[data-map-node="hc-build"], .map-node[data-map-node="hc-review"], .map-node[data-map-node="hc-pr"], .map-node[data-map-node="hc-retro"] { grid-column: 1 / -1; }
+    .map-legend { padding: 17px 20px; gap: 10px 20px; }.map-legend > span:last-child { margin-left: 0; width: 100%; }
+  }
+  @media (max-width: 540px) {
+    .map-routes { gap: 7px; }.map-routes button { font-size: 11px; padding: 8px 12px; }.map-helpers { grid-template-columns: 1fr; }
+    .map-details { padding: 20px; }.map-detail { grid-template-columns: 1fr; gap: 23px; }.detail-title h3 { margin-bottom: 12px; max-width: none; font-size: 27px; }.detail-prompt { grid-column: auto; }
+    .detail-toolbar { gap: 10px; }.detail-toolbar .eyebrow { font-size: 8px; letter-spacing: .7px; }.detail-toolbar label { font-size: 10px; gap: 6px; }
+    .map-node { padding: 13px 10px; }.node-cue { font-size: 9px; }.map-node code { font-size: 11px; }.map-node strong { font-size: 10px; }
+  }
+</style>
