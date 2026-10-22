@@ -4,6 +4,7 @@ import type { CollectionEntry } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import Sidebar from '../components/Sidebar.astro';
 import SkillReader from '../components/SkillReader.astro';
+import GettingStarted from '../components/GettingStarted.astro';
 import { skills } from '../data/skills';
 import { documentTitle, sourceUrl } from '../lib/documentation.mjs';
 
@@ -12,17 +13,18 @@ export async function getStaticPaths() {
 }
 interface Props { entry: CollectionEntry<'documentation'> }
 const { entry } = Astro.props;
+const gettingStarted = entry.id === 'docs/getting-started';
 const skill = skills.find(skill => entry.id === `skills/${skill.name}`);
 const { Content, headings } = await render(entry);
 const related = skill ? (await getCollection('documentation')).filter(item => item.id.startsWith(`skills/${skill.name}/`)) : [];
 const title = skill?.name ?? (entry.id === 'docs/getting-started' ? 'Getting started' : documentTitle(entry));
-const description = skill?.description ?? `HolyCow documentation: ${title}. Open-source development skills for Claude Code, Codex, and Cursor.`;
+const description = gettingStarted ? 'Install HolyCow, pick a skill, and try your first prompt. A visual quick start for Claude Code, Codex, and Cursor.' : skill?.description ?? `HolyCow documentation: ${title}. Open-source development skills for Claude Code, Codex, and Cursor.`;
 const toc = headings.filter(heading => heading.depth === 2 || heading.depth === 3);
 const source = sourceUrl(entry.filePath ?? 'README.md');
 const editSource = skill ? 'https://github.com/NeuralHerd/holycow/blob/main/website/src/data/skill-guides.ts' : source;
 ---
 <Base title={title} description={description} wide>
-  <div class="docs-shell">
+  {gettingStarted ? <GettingStarted /> : <div class="docs-shell">
     <Sidebar />
     <article class="doc-main">
       <div class="doc-breadcrumb"><a href="/">HolyCow</a><span>/</span><span>{skill ? skill.group : 'Documentation'}</span></div>
@@ -43,7 +45,7 @@ const editSource = skill ? 'https://github.com/NeuralHerd/holycow/blob/main/webs
     <aside class="page-toc" aria-label="On this page"><p class="sidebar-label">On this page</p>
       {skill ? <><a href="#how-it-works">How it works</a><a href="#try-heading">Try an example</a><a href="#skill-instructions">Full instructions</a></> : toc.map(heading => <a class:list={[heading.depth === 3 && 'toc-nested']} href={`#${heading.slug}`}>{heading.text}</a>)}
     </aside>
-  </div>
+  </div>}
 </Base>
 <script>
   function revealInstructions() {

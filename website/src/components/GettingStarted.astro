@@ -1,0 +1,186 @@
+---
+import Command from './Command.astro';
+import Mark from './Mark.astro';
+
+const agents = [
+  { name: 'Claude Code', id: 'claude-code', prefix: '/' },
+  { name: 'Codex', id: 'codex', prefix: '$' },
+  { name: 'Cursor', id: 'cursor', prefix: '/' },
+];
+const examples = [
+  { label: 'An idea', symbol: '✳', skill: 'holycow-guide', prompt: 'I want to add team invitations to my app. Where should I start?', outcome: 'A clear next step', detail: 'Guide recommends the skill that fits your task.' },
+  { label: 'A clear task', symbol: '↗', skill: 'hc-build', prompt: 'Fix the search box so clearing it shows all results again. Verify the fix.', outcome: 'A fix, with evidence', detail: 'Build investigates, makes the change and checks it.' },
+  { label: 'Changes to review', symbol: '✓', skill: 'hc-review', prompt: 'Review my current changes for bugs and missing requirements.', outcome: 'Findings you can act on', detail: 'Review explains what matters, where and why.' },
+];
+const installCommand = "npx skills@latest add NeuralHerd/holycow -g -a claude-code --skill '*'";
+const setupPrompt = (action: string) => `${action} all HolyCow skills globally for Claude Code. Check Node.js and Git, then run:\n${installCommand}\nVerify the installation and tell me how to reload the skills.`;
+---
+<article class="getting-started" data-getting-started>
+  <header class="start-intro">
+    <div>
+      <p class="eyebrow">Getting started</p>
+      <h1>Less reading.<br /><span>More building.</span></h1>
+      <p class="start-lede">Give your coding agent a skill. Get a clear next step.</p>
+    </div>
+    <div class="start-stamp"><Mark /><span>Small prompts.<br />Useful progress.</span></div>
+  </header>
+
+  <ol class="start-path" aria-label="Three steps to get started">
+    <li><a href="#install"><span class="step-number">01</span><div><strong>Install once</strong><span>Add all ten skills.</span></div><span class="path-symbol" aria-hidden="true">↓</span></a></li>
+    <li><a href="#first-use"><span class="step-number">02</span><div><strong>Pick your starting point</strong><span>An idea, a task or a review.</span></div><span class="path-symbol" aria-hidden="true">✳</span></a></li>
+    <li><a href="#first-prompt"><span class="step-number">03</span><div><strong>Paste a prompt</strong><span>Let your agent help.</span></div><span class="path-symbol" aria-hidden="true">↗</span></a></li>
+  </ol>
+
+  <section class="first-use" aria-labelledby="first-use">
+    <div class="start-heading"><h2 id="first-use">What are you working on?</h2><a href="/#skills">Explore all ten skills ↗</a></div>
+    <div class="start-scenarios" role="group" aria-label="Choose an example" data-start-controls hidden>
+      {examples.map((example, index) => <button type="button" data-example={index} aria-pressed={index === 0 ? 'true' : 'false'}><span aria-hidden="true">{example.symbol}</span>{example.label}</button>)}
+    </div>
+    <div class="start-agent-row" data-start-controls hidden><span>Your agent</span><div class="agent-tabs" role="group" aria-label="Agent for the example">
+      {agents.map((agent, index) => <button type="button" data-start-agent={agent.id} data-agent-name={agent.name} data-agent-prefix={agent.prefix} aria-pressed={index === 0 ? 'true' : 'false'}>{agent.name}</button>)}
+    </div></div>
+    <noscript><p>Examples below use Claude Code / Cursor syntax. In Codex, replace the leading / with $.</p></noscript>
+    <div id="first-prompt">
+    {examples.map((example, index) => <div class="start-example" data-example-panel={index}>
+      <div class="start-prompt">
+        <Command command={`/${example.skill} ${example.prompt}`} label="Paste in your agent chat" />
+      </div>
+      <span class="result-arrow" aria-hidden="true">→</span>
+      <div class="start-result"><p class="result-label">What to expect</p><h3>{example.outcome}</h3><p>{example.detail}</p><a href={`/skills/${example.skill}/`}>{example.skill} ↗</a></div>
+    </div>)}
+    </div>
+    <p class="start-note">Swap in your own task. Use only the skills you need.</p>
+  </section>
+
+  <section class="start-setup" aria-labelledby="setup">
+    <div class="start-heading"><h2 id="setup">Setup</h2><p>Node.js 22.20+ and Git</p></div>
+    <div class="start-agent-row" data-start-controls hidden><span>Install for</span><div class="agent-tabs" role="group" aria-label="Agent for setup">
+      {agents.map((agent, index) => <button type="button" data-start-agent={agent.id} data-agent-name={agent.name} data-agent-prefix={agent.prefix} aria-pressed={index === 0 ? 'true' : 'false'}>{agent.name}</button>)}
+    </div></div>
+    {['Install', 'Update'].map(action => <div class="setup-row" data-setup-action={action}>
+      <div class="setup-label"><h3 id={action.toLowerCase()}>{action}</h3><p>{action === 'Install' ? 'All ten skills. Ready in every project.' : 'Refresh HolyCow with the same command.'}</p></div>
+      <div class="setup-options">
+        <div data-install-command><Command command={installCommand} label="Run in your terminal" /></div>
+        <details><summary>Or let your agent do it</summary><div class="setup-agent-prompt"><Command command={setupPrompt(action)} label="Paste in your agent chat" /></div></details>
+      </div>
+    </div>)}
+    <p class="start-note">Open a fresh agent session after setup. Updating replaces local edits to installed skills.</p>
+    <details class="setup-more"><summary>Only for this project? More than one agent?</summary><p>Run from your project and omit <code>-g</code> for a project-only install. To install for all three agents, use <code>-a claude-code codex cursor</code>.</p><p>Coordinating multiple agents? <a href="/docs/herdr/">See the Herdr setup →</a></p></details>
+  </section>
+</article>
+
+<script>
+  const start = document.querySelector<HTMLElement>('[data-getting-started]');
+  if (start) {
+    start.querySelectorAll<HTMLElement>('[data-start-controls]').forEach(control => { control.hidden = false; });
+    const panels = start.querySelectorAll<HTMLElement>('[data-example-panel]');
+    const scenarios = start.querySelectorAll<HTMLButtonElement>('[data-example]');
+    panels.forEach((panel, index) => { panel.hidden = index !== 0; });
+    scenarios.forEach(button => button.addEventListener('click', () => {
+      scenarios.forEach(item => item.setAttribute('aria-pressed', String(item === button)));
+      panels.forEach(panel => { panel.hidden = panel.dataset.examplePanel !== button.dataset.example; });
+    }));
+
+    const agentButtons = start.querySelectorAll<HTMLButtonElement>('[data-start-agent]');
+    function updateCommand(container: Element, text: string) {
+      const code = container.querySelector('pre code');
+      const copy = container.querySelector<HTMLButtonElement>('[data-copy]');
+      if (code) code.textContent = text;
+      if (copy) copy.dataset.copy = text;
+    }
+    agentButtons.forEach(button => button.addEventListener('click', () => {
+      const { startAgent, agentName, agentPrefix } = button.dataset;
+      agentButtons.forEach(item => item.setAttribute('aria-pressed', String(item.dataset.startAgent === startAgent)));
+      panels.forEach(panel => {
+        const prompt = panel.querySelector('pre code')?.textContent ?? '';
+        updateCommand(panel, agentPrefix + prompt.slice(1));
+      });
+      const command = `npx skills@latest add NeuralHerd/holycow -g -a ${startAgent} --skill '*'`;
+      start.querySelectorAll<HTMLElement>('[data-setup-action]').forEach(row => {
+        const terminal = row.querySelector('[data-install-command]');
+        const prompt = row.querySelector('.setup-agent-prompt');
+        if (terminal) updateCommand(terminal, command);
+        if (prompt) updateCommand(prompt, `${row.dataset.setupAction} all HolyCow skills globally for ${agentName}. Check Node.js and Git, then run:\n${command}\nVerify the installation and tell me how to reload the skills.`);
+      });
+    }));
+  }
+</script>
+
+<style>
+  .getting-started { max-width: 1040px; margin: auto; padding: 60px 40px 64px; }
+  .start-intro { display: flex; justify-content: space-between; align-items: center; gap: 30px; margin-bottom: 34px; }
+  .start-intro .eyebrow { margin-bottom: 16px; }
+  .start-intro h1 { font-size: clamp(42px, 5.5vw, 64px); letter-spacing: -.06em; margin-bottom: 20px; }
+  .start-intro h1 span { background: linear-gradient(transparent 77%, var(--gradient-green) 77%); }
+  .start-lede { font-size: 17px; color: var(--ink-70); margin: 0; }
+  .start-stamp { width: 156px; height: 156px; flex-shrink: 0; border: 1px dashed var(--ink-20); border-radius: 50%; background: var(--background-green); display: flex; flex-direction: column; justify-content: center; align-items: center; transform: rotate(8deg); }
+  .start-stamp :global(svg) { width: 65px; height: 65px; color: var(--ink); }
+  .start-stamp span { margin-top: 9px; font-size: 10px; line-height: 1.5; text-align: center; }
+  .start-path { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 26px; padding: 0; margin: 0 0 42px; list-style: none; }
+  .start-path li { position: relative; }
+  .start-path li:not(:last-child)::after { content: '→'; position: absolute; right: -20px; top: 50%; transform: translateY(-50%); color: var(--ink-50); }
+  .start-path a { height: 100%; display: flex; gap: 12px; align-items: center; padding: 18px 16px; border: 1px solid var(--border); border-radius: 12px; color: var(--ink); text-decoration: none; background: var(--card); }
+  .start-path li:nth-child(2) a { background: color-mix(in srgb, var(--gradient-peach) 28%, var(--card)); }
+  .start-path li:nth-child(3) a { background: color-mix(in srgb, var(--gradient-sky) 28%, var(--card)); }
+  .start-path a:hover { border-color: var(--accent-blue); }
+  .step-number { font: 10px monospace; color: var(--ink-70); align-self: flex-start; padding-top: 3px; }
+  .start-path strong { display: block; font-size: 13px; line-height: 1.4; margin-bottom: 4px; }
+  .start-path div > span { display: block; color: var(--ink-70); font-size: 11px; }
+  .path-symbol { margin-left: auto; font-size: 22px; }
+  .start-heading { display: flex; justify-content: space-between; align-items: baseline; gap: 18px; margin-bottom: 18px; }
+  .start-heading h2 { font-size: 26px; letter-spacing: -.035em; margin: 0; }
+  .start-heading > a, .start-heading > p { font-size: 12px; margin: 0; }
+  .start-heading > a { text-decoration: none; }
+  .start-scenarios { display: flex; gap: 10px; margin-bottom: 20px; }
+  .start-scenarios button { display: flex; align-items: center; gap: 10px; padding: 10px 16px; background: var(--card); border: 1px solid var(--border); border-radius: 9px; font-size: 13px; color: var(--ink-80); }
+  .start-scenarios button > span { font-size: 17px; }
+  .start-scenarios [aria-pressed="true"] { border-color: var(--ink); background: var(--background-green); color: var(--ink); }
+  .start-agent-row { display: flex; align-items: center; gap: 15px; margin-bottom: 14px; }
+  .start-agent-row > span { font-size: 11px; color: var(--ink-70); }
+  .start-agent-row .agent-tabs button { padding: 5px 12px; font-size: 11px; }
+  .start-example { display: grid; grid-template-columns: minmax(0, 1.6fr) 18px minmax(0, 1fr); gap: 14px; align-items: center; }
+  .start-prompt { min-width: 0; }
+  .start-prompt :global(pre), .setup-options :global(pre) { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 12px; }
+  .start-prompt :global(pre) { padding: 22px 18px; font-size: 14px; }
+  .result-arrow { color: var(--ink-50); font-size: 23px; }
+  .start-result { border: 1px solid var(--border); border-radius: 12px; padding: 20px; background: var(--background-green); }
+  .start-result .result-label { font: 9px monospace; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; color: var(--ink-70); }
+  .start-result h3 { font-size: 19px; margin-bottom: 8px; letter-spacing: -.025em; }
+  .start-result p { font-size: 12px; margin-bottom: 10px; }
+  .start-result a { font: 11px monospace; text-decoration: none; }
+  .start-note { font-size: 11px; color: var(--ink-70); margin: 12px 0 0; }
+  .start-setup { margin-top: 34px; padding-top: 28px; border-top: 1px solid var(--border); }
+  .setup-row { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 24px; margin-top: 20px; }
+  .setup-label h3 { font-size: 20px; margin: 8px 0; letter-spacing: -.025em; }
+  .setup-label p { font-size: 12px; line-height: 1.5; color: var(--ink-70); margin: 0; }
+  .setup-options details { margin-top: 8px; font-size: 12px; }
+  .setup-options summary, .setup-more summary { cursor: pointer; color: var(--ink-80); }
+  .setup-agent-prompt { margin-top: 10px; }
+  .setup-more { margin-top: 18px; font-size: 12px; }
+  .setup-more p { margin: 12px 0 0; }
+  @media (max-width: 680px) {
+    .getting-started { padding: 34px 24px 45px; }
+    .start-intro { gap: 10px; margin-bottom: 28px; }
+    .start-intro h1 { font-size: clamp(35px, 8vw, 48px); }
+    .start-lede { font-size: 15px; }
+    .start-stamp { display: none; }
+    .start-path { grid-template-columns: 1fr; gap: 20px; margin-bottom: 32px; }
+    .start-path a { padding: 12px 15px; }
+    .start-path strong { font-size: 14px; }
+    .start-path li:not(:last-child)::after { content: '↓'; right: 50%; top: auto; bottom: -23px; transform: translateX(50%); }
+    .start-heading { flex-wrap: wrap; gap: 8px; }
+    .start-heading h2 { font-size: 24px; }
+    .start-scenarios { flex-wrap: wrap; gap: 7px; }
+    .start-scenarios button { padding: 8px 10px; font-size: 12px; gap: 6px; }
+    .start-agent-row { flex-wrap: wrap; gap: 8px; }
+    .start-agent-row .agent-tabs { gap: 5px; }
+    .start-agent-row .agent-tabs button { padding: 6px 10px; }
+    .start-example { grid-template-columns: 1fr; gap: 4px; }
+    .result-arrow { transform: rotate(90deg); justify-self: center; }
+    .start-result { padding: 18px; }
+    .setup-row { grid-template-columns: 1fr; gap: 12px; margin-top: 24px; }
+    .setup-label { display: flex; align-items: baseline; gap: 15px; }
+    .setup-label h3 { margin: 0; }
+    .setup-label p { max-width: 230px; }
+  }
+</style>
