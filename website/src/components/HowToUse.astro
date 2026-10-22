@@ -1,0 +1,210 @@
+---
+import Command from './Command.astro';
+import Mark from './Mark.astro';
+
+const roles = [
+  {
+    id: 'developer', name: 'Developer', symbol: '⌘', color: '--gradient-green', description: 'Build, fix, and ship.',
+    intro: 'Turn a clear task into a change you can trust.',
+    note: 'New to the repository? Start with Init to learn its conventions and checks.',
+    tasks: [
+      { label: 'Build a feature', skill: 'hc-build', name: 'Build', outcome: 'A change, with evidence', detail: 'Focused implementation, relevant checks, and any remaining limits.', prompt: 'Add team invitations using our accepted requirements and existing project conventions. Reuse the current authentication flow. Verify the new behaviour and report what passed, failed, or could not run.' },
+      { label: 'Fix a bug', skill: 'hc-build', name: 'Build', outcome: 'A reproduced and verified fix', detail: 'The cause, the change, and evidence that the failure is resolved.', prompt: 'Submitting the invitation form twice creates duplicate invitations. Reproduce the failure, find its cause, make a focused fix, and verify that repeated submissions behave correctly.' },
+      { label: 'Review changes', skill: 'hc-review', name: 'Review', outcome: 'Findings you can act on', detail: 'Prioritised issues tied to the actual changes and intended behaviour.', prompt: 'Review my current invitation changes against the accepted requirements. Check permissions, edge cases, and test coverage. Report actionable findings with evidence; do not edit files.' },
+    ],
+  },
+  {
+    id: 'qa', name: 'QA Engineer', symbol: '✓', color: '--gradient-sky', description: 'Explore, test, and automate.',
+    intro: 'Know what to test. Make every result explainable.',
+    note: 'These examples cover UI and API testing. Narrow the prompt to frontend, backend, or both.',
+    tasks: [
+      { label: 'Plan tests', skill: 'hc-plan', name: 'Plan', outcome: 'Cases ready to execute', detail: 'Preconditions, steps, expected results, priorities, and open questions.', prompt: 'Create a concise manual test plan for team invitations from our acceptance criteria. Cover UI and API behaviour, permissions, validation, expired links, and failure states. Include preconditions, steps, expected results, and priority. Flag missing requirements instead of guessing.' },
+      { label: 'Test manually', skill: 'hc-build', name: 'Build', outcome: 'Observed results and clear defects', detail: 'Expected versus actual results, reproduction steps, and available evidence.', prompt: 'Execute our accepted invitation test cases in the configured test environment using available browser and API tools. Record expected versus actual results and evidence. Investigate failures and write reproduction steps. Do not change application code. Mark any checks you cannot run.' },
+      { label: 'Automate checks', skill: 'hc-build', name: 'Build', outcome: 'Tests that verify behaviour', detail: 'Frontend and backend checks using the project’s framework and isolated test data.', prompt: 'Automate the accepted invitation cases for frontend and backend using our existing test frameworks and fixtures. Cover successful invitations, permissions, validation, and expired links. Keep test data isolated. Run the relevant tests and report passed, failed, and unrun checks.' },
+    ],
+  },
+  {
+    id: 'martech', name: 'MarTech Engineer', symbol: '↗', color: '--gradient-peach', description: 'Connect events and systems.',
+    intro: 'Make tracking and integrations behave as intended.',
+    note: 'Bring the event contract, consent rules, and integration requirements that apply to your project.',
+    tasks: [
+      { label: 'Define tracking', skill: 'hc-refine', name: 'Refine', outcome: 'An agreed event contract', detail: 'When an event fires, its payload, and how duplicate or missing events are handled.', prompt: 'Help define our signup conversion event. Clarify when it fires, required properties, the project’s consent rules, and duplicate handling. Compare realistic options and resolve the open decisions before implementation.' },
+      { label: 'Fix an integration', skill: 'hc-build', name: 'Build', outcome: 'A reliable integration fix', detail: 'A reproduced failure and checks covering the relevant retry behaviour.', prompt: 'Our CRM webhook creates duplicate contacts when a delivery is retried. Investigate using the supplied test payloads and logs. Reproduce the issue, fix it within the existing integration, and verify retries in the test environment.' },
+      { label: 'Review events', skill: 'hc-review', name: 'Review', outcome: 'Tracking gaps made visible', detail: 'Findings about event conditions, payloads, duplicates, and meaningful checks.', prompt: 'Review the tracking changes against our agreed event contract and consent behaviour. Check missing events, duplicate events, payload correctness, and test coverage. Report supported findings without editing code.' },
+    ],
+  },
+  {
+    id: 'data', name: 'Data Engineer', symbol: '≋', color: '--gradient-blue', description: 'Move data with confidence.',
+    intro: 'Understand the pipeline. Verify the data it produces.',
+    note: 'Include schemas, sample data, freshness targets, and the environment you want to use.',
+    tasks: [
+      { label: 'Map a pipeline', skill: 'hc-compass', name: 'Compass', outcome: 'A map of the unknowns', detail: 'Open questions, dependencies, accepted decisions, and the next question to resolve.', prompt: 'Map the open decisions for our customer-events pipeline. Track source ownership, schema changes, freshness, late events, and replay behaviour. Separate accepted decisions from assumptions and recommend the next question to resolve.' },
+      { label: 'Fix data quality', skill: 'hc-build', name: 'Build', outcome: 'Correct results on repeat runs', detail: 'A supported cause and checks against representative inputs and expected outputs.', prompt: 'This pipeline duplicates records when a batch is rerun. Reproduce the issue with representative test data, identify the cause, and make a focused fix. Verify the resulting records and safe reruns using the existing test setup.' },
+      { label: 'Plan a backfill', skill: 'hc-plan', name: 'Plan', outcome: 'A bounded backfill plan', detail: 'Scope, delivery steps, validation, failure recovery, and stopping conditions.', prompt: 'Plan the agreed customer-events backfill. Use our existing pipeline and environment constraints. Define scope, batches, checkpoints, validation, failure recovery, and stopping conditions. Keep unresolved decisions visible. Do not run the backfill.' },
+    ],
+  },
+  {
+    id: 'support', name: 'Technical Support', symbol: '↳', color: '--gradient-coral', description: 'Turn reports into evidence.',
+    intro: 'Give engineering a clear issue they can act on.',
+    note: 'Use sanitised examples and a test environment. Set the investigation’s access and change boundaries.',
+    tasks: [
+      { label: 'Reproduce an issue', skill: 'hc-build', name: 'Build', outcome: 'A reproducible report', detail: 'The conditions, exact steps, observed result, and evidence of the failure.', prompt: 'Investigate this reported invitation failure using the supplied sanitised report and our test environment. Reproduce it if possible and record conditions, steps, expected versus actual behaviour, and evidence. Keep the investigation read-only and report any access limitations.' },
+      { label: 'Trace the cause', skill: 'hc-build', name: 'Build', outcome: 'A supported diagnosis', detail: 'What the evidence establishes, what remains uncertain, and the next useful check.', prompt: 'Trace the reported invitation failure through the relevant code and supplied sanitised logs. Distinguish confirmed causes from hypotheses. Identify the smallest next check if evidence is missing. Do not edit code or change production state.' },
+      { label: 'Prepare a handoff', skill: 'hc-plan', name: 'Plan', outcome: 'An engineering-ready brief', detail: 'Impact, reproduction evidence, agreed scope, and verifiable acceptance criteria.', prompt: 'Turn our confirmed bug findings into a concise engineering handoff. Include impact, reproduction steps, evidence, agreed scope, and acceptance criteria. Separate unresolved questions from facts. Draft it here without publishing a ticket or starting implementation.' },
+    ],
+  },
+  {
+    id: 'operations', name: 'DevOps / SRE', symbol: '⚙', color: '--gradient-pink', description: 'Keep delivery dependable.',
+    intro: 'Understand failures and make operational changes reviewable.',
+    note: 'State the target environment and approval boundaries before changing infrastructure or deployments.',
+    tasks: [
+      { label: 'Investigate failure', skill: 'hc-build', name: 'Build', outcome: 'A diagnosis grounded in evidence', detail: 'The failing stage, likely cause, and a supported next action.', prompt: 'Investigate this failed deployment using its logs and repository configuration. Identify the failing stage and verify the cause. Recommend the smallest supported fix. Keep this investigation read-only; do not deploy or change infrastructure.' },
+      { label: 'Plan a rollout', skill: 'hc-plan', name: 'Plan', outcome: 'A rollout with clear checks', detail: 'Ordered steps, validation, rollback conditions, and required approvals.', prompt: 'Plan the accepted configuration rollout using our existing deployment process. Include environment order, validation, rollback conditions, and approval points. Identify unresolved dependencies. Produce the plan without applying changes.' },
+      { label: 'Review configuration', skill: 'hc-review', name: 'Review', outcome: 'Operational risks caught early', detail: 'Actionable findings about correctness, permissions, reliability, and verification.', prompt: 'Review the current infrastructure and CI configuration changes against the agreed requirements. Check permissions, failure behaviour, deployment compatibility, and verification. Report supported findings without applying changes.' },
+    ],
+  },
+];
+---
+<article class="role-guide" data-role-guide>
+  <header class="role-intro">
+    <div><p class="eyebrow">How to Use</p><h1>Your role.<br /><span>Your next move.</span></h1><p>Pick a task. Find a useful skill. Try one prompt.</p></div>
+    <div class="role-stamp"><Mark /><span>Same skills.<br />Your kind of work.</span></div>
+  </header>
+
+  <section aria-labelledby="choose-role">
+    <div class="role-heading"><h2 id="choose-role">What’s your role?</h2><span>01 / Choose a role</span></div>
+    <div class="role-cards" role="group" aria-label="Choose your role">
+      {roles.map((role, index) => <button type="button" class="role-card" style={{ '--role-color': `var(${role.color})` }} data-role-choice={role.id} aria-pressed={index === 0 ? 'true' : 'false'} aria-controls={`role-${role.id}`}><span class="role-icon" aria-hidden="true">{role.symbol}</span><span class="role-card-name">{role.name}</span><span class="role-card-description">{role.description}</span><span class="role-selected" aria-hidden="true">✓</span></button>)}
+    </div>
+  </section>
+
+  <noscript><p>Role and task selection needs JavaScript. You can also <a href="/skills/holycow-guide/">start with Guide</a>.</p></noscript>
+  {roles.map((role, roleIndex) => <section class="role-workspace" id={`role-${role.id}`} data-role-panel={role.id} hidden={roleIndex !== 0} aria-labelledby={`role-title-${role.id}`}>
+    <div class="role-heading"><h2 id={`role-title-${role.id}`}>{role.name}</h2><span>02 / Pick a task</span></div>
+    <p class="role-purpose">{role.intro}</p>
+    <div class="role-tasks" role="group" aria-label={`Tasks for ${role.name}`}>
+      {role.tasks.map((task, index) => <button type="button" data-task-choice={index} aria-pressed={index === 0 ? 'true' : 'false'} aria-controls={`task-${role.id}-${index}`}><span>{task.label}</span><span class="task-skill">{task.name} <span aria-hidden="true">↗</span></span></button>)}
+    </div>
+    <div class="role-agent-row"><span>Your agent</span><div class="agent-tabs" role="group" aria-label="Agent for the prompt"><button type="button" data-role-prefix="/" data-role-agent="claude" aria-pressed="true">Claude Code</button><button type="button" data-role-prefix="$" data-role-agent="codex" aria-pressed="false">Codex</button><button type="button" data-role-prefix="/" data-role-agent="cursor" aria-pressed="false">Cursor</button></div><span class="prompt-step">03 / Try a prompt</span></div>
+    {role.tasks.map((task, index) => <div id={`task-${role.id}-${index}`} data-task-panel={index} hidden={index !== 0}>
+      <div class="role-example">
+        <div class="role-prompt"><Command command={`/${task.skill} ${task.prompt}`} label="Paste in your agent chat" /></div>
+        <span class="role-arrow" aria-hidden="true">→</span>
+        <div class="role-outcome"><p class="outcome-label">What to expect</p><h3>{task.outcome}</h3><p>{task.detail}</p><a href={`/skills/${task.skill}/`}>Explore {task.name} <span aria-hidden="true">↗</span></a></div>
+      </div>
+    </div>)}
+    <p class="role-note">{role.note}</p>
+  </section>)}
+
+  <div class="role-guide-help"><span aria-hidden="true">✳</span><div><h2>Not sure where to start?</h2><p>Tell Guide what you’re working on. It helps you choose.</p></div><a href="/skills/holycow-guide/">Ask Guide <span aria-hidden="true">→</span></a></div>
+  <details class="role-extra"><summary>A little context goes a long way</summary><p>Share your goal, accepted requirements, relevant evidence, and allowed changes. <a href="/skills/holycow-init/">Init</a> can help discover repository conventions and available checks.</p><p>Actual execution depends on the browser, API, and test tools available to your agent. Ask it to distinguish observed results from checks it could not run.</p><p>These prompts are examples. Adjust them to your project and use the skills you need.</p></details>
+</article>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-role-guide]');
+  if (root) {
+    const roles = root.querySelectorAll<HTMLButtonElement>('[data-role-choice]');
+    const panels = root.querySelectorAll<HTMLElement>('[data-role-panel]');
+    roles.forEach(button => button.addEventListener('click', () => {
+      roles.forEach(item => item.setAttribute('aria-pressed', String(item === button)));
+      panels.forEach(panel => { panel.hidden = panel.dataset.rolePanel !== button.dataset.roleChoice; });
+    }));
+    panels.forEach(panel => {
+      const tasks = panel.querySelectorAll<HTMLButtonElement>('[data-task-choice]');
+      tasks.forEach(button => button.addEventListener('click', () => {
+        tasks.forEach(item => item.setAttribute('aria-pressed', String(item === button)));
+        panel.querySelectorAll<HTMLElement>('[data-task-panel]').forEach(example => { example.hidden = example.dataset.taskPanel !== button.dataset.taskChoice; });
+      }));
+    });
+    const agents = root.querySelectorAll<HTMLButtonElement>('[data-role-agent]');
+    agents.forEach(button => button.addEventListener('click', () => {
+      agents.forEach(item => item.setAttribute('aria-pressed', String(item.dataset.roleAgent === button.dataset.roleAgent)));
+      root.querySelectorAll<HTMLElement>('.role-prompt').forEach(prompt => {
+        const code = prompt.querySelector('code');
+        const copy = prompt.querySelector<HTMLButtonElement>('[data-copy]');
+        if (code && copy) {
+          const text = button.dataset.rolePrefix + code.textContent!.slice(1);
+          code.textContent = text;
+          copy.dataset.copy = text;
+        }
+      });
+    }));
+  }
+</script>
+
+<style>
+  .role-guide { min-width: 0; padding: 40px 0 60px; }
+  .role-intro { display: flex; justify-content: space-between; align-items: center; gap: 30px; margin-bottom: 34px; }
+  .role-intro .eyebrow { font-size: 10px; margin-bottom: 16px; }
+  .role-intro h1 { font-size: clamp(42px, 5.5vw, 64px); letter-spacing: -.06em; margin-bottom: 20px; }
+  .role-intro h1 span { background: linear-gradient(transparent 77%, var(--gradient-green) 77%); }
+  .role-intro > div > p:last-child { font-size: 17px; color: var(--ink-70); margin: 0; }
+  .role-stamp { width: 142px; height: 142px; flex-shrink: 0; border: 1px dashed var(--ink-20); border-radius: 50%; background: color-mix(in srgb, var(--gradient-peach) 30%, var(--card)); display: flex; flex-direction: column; justify-content: center; align-items: center; transform: rotate(8deg); }
+  .role-stamp :global(svg) { width: 58px; height: 58px; }
+  .role-stamp span { font-size: 10px; text-align: center; margin-top: 8px; line-height: 1.5; }
+  .role-heading { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; margin-bottom: 16px; }
+  .role-heading h2 { font-size: 23px; letter-spacing: -.035em; margin: 0; }
+  .role-heading > span, .prompt-step { font: 10px monospace; color: var(--ink-70); }
+  .role-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .role-card { display: grid; grid-template-columns: 30px minmax(0, 1fr); gap: 5px 12px; text-align: left; position: relative; border: 1px solid var(--border); border-radius: 14px; padding: 18px 25px 18px 16px; background: color-mix(in srgb, var(--role-color) 22%, var(--card)); color: var(--ink); }
+  .role-card:hover { border-color: var(--ink-50); }
+  .role-card[aria-pressed='true'] { border-color: var(--ink); background: color-mix(in srgb, var(--role-color) 42%, var(--card)); box-shadow: inset 0 0 0 1px var(--ink); }
+  .role-icon { display: grid; place-items: center; width: 30px; height: 30px; grid-row: 1 / 3; border: 1px solid var(--border); border-radius: 8px; background: var(--white-80); font-size: 20px; }
+  .role-card-name { font-weight: 600; font-size: 13px; line-height: 1.5; }
+  .role-card-description { font-size: 11px; color: var(--ink-70); line-height: 1.6; }
+  .role-selected { display: none; position: absolute; top: 9px; right: 10px; font-size: 11px; }
+  .role-card[aria-pressed='true'] .role-selected { display: block; }
+  .role-workspace { margin-top: 34px; padding-top: 27px; border-top: 1px solid var(--border); }
+  .role-purpose { font-size: 14px; color: var(--ink-70); margin: -5px 0 19px; }
+  .role-tasks { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-bottom: 24px; }
+  .role-tasks button { display: flex; flex-direction: column; gap: 6px; text-align: left; padding: 14px 16px; border: 1px solid var(--border); border-radius: 10px; background: var(--card); font-size: 13px; color: var(--ink); }
+  .role-tasks button[aria-pressed='true'] { border-color: var(--ink); background: var(--background-green); }
+  .task-skill { display: flex; justify-content: space-between; width: 100%; font: 10px/1.5 monospace; color: var(--ink-70); }
+  .role-agent-row { display: flex; align-items: center; flex-wrap: wrap; gap: 10px 14px; margin-bottom: 14px; }
+  .role-agent-row > span:first-child { font-size: 11px; color: var(--ink-70); }
+  .role-agent-row .agent-tabs button { padding: 5px 12px; font-size: 11px; }
+  .prompt-step { margin-left: auto; }
+  .role-example { display: grid; grid-template-columns: minmax(0, 1.6fr) 18px minmax(0, 1fr); gap: 14px; align-items: center; }
+  .role-prompt { min-width: 0; }
+  .role-prompt :global(.command) { background: var(--card); border-radius: 13px; }
+  .role-prompt :global(.command-bar) { background: color-mix(in srgb, var(--gradient-sky) 16%, var(--card)); font-size: 11px; padding: 10px 16px; }
+  .role-prompt :global(pre) { white-space: pre-wrap; overflow-wrap: anywhere; padding: 18px; font-size: 13px; line-height: 1.8; }
+  .role-arrow { font-size: 23px; color: var(--ink-50); }
+  .role-outcome { border: 1px solid var(--border); border-radius: 13px; padding: 21px; background: var(--background-green); }
+  .role-outcome .outcome-label { font: 9px/1.5 monospace; text-transform: uppercase; letter-spacing: 1px; color: var(--ink-70); margin-bottom: 12px; }
+  .role-outcome h3 { font-size: 21px; letter-spacing: -.035em; margin-bottom: 10px; }
+  .role-outcome > p:not(.outcome-label) { font-size: 12px; color: var(--ink-70); margin-bottom: 12px; }
+  .role-outcome a { font-size: 11px; text-decoration: none; }
+  .role-note { font-size: 11px; color: var(--ink-70); margin: 12px 0 0; }
+  .role-guide-help { display: flex; gap: 17px; align-items: center; border: 1px solid var(--border); border-radius: 14px; padding: 20px; background: color-mix(in srgb, var(--gradient-peach) 20%, var(--card)); margin-top: 30px; }
+  .role-guide-help > span { font-size: 30px; color: var(--ink); }
+  .role-guide-help h2 { font-size: 18px; letter-spacing: -.025em; margin-bottom: 6px; }
+  .role-guide-help p { font-size: 12px; color: var(--ink-70); margin: 0; }
+  .role-guide-help > a { white-space: nowrap; margin-left: auto; font-size: 12px; text-decoration: none; }
+  .role-extra { margin-top: 19px; font-size: 12px; color: var(--ink-70); }
+  .role-extra summary { cursor: pointer; color: var(--ink); }
+  .role-extra p { margin: 13px 0 0; }
+  @media (max-width: 680px) {
+    .role-guide { padding: 32px 0 45px; }
+    .role-intro { margin-bottom: 28px; }
+    .role-intro h1 { font-size: clamp(35px, 9vw, 48px); }
+    .role-intro > div > p:last-child { font-size: 15px; }
+    .role-stamp { display: none; }
+    .role-heading h2 { font-size: 21px; }
+    .role-heading > span { font-size: 9px; flex-shrink: 0; }
+    .role-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    .role-card { grid-template-columns: 1fr; padding: 14px; gap: 7px; }
+    .role-icon { grid-row: auto; }
+    .role-card-name { font-size: 12px; }
+    .role-card-description { font-size: 10px; }
+    .role-tasks { gap: 7px; }
+    .role-tasks button { font-size: 11px; padding: 11px; }
+    .role-example { grid-template-columns: 1fr; gap: 10px; }
+    .role-arrow { transform: rotate(90deg); justify-self: center; line-height: 1; }
+    .role-guide-help { flex-wrap: wrap; padding: 17px; }
+    .role-guide-help > span { display: none; }
+    .role-guide-help > a { margin-left: 0; }
+    .role-agent-row { gap: 10px; }
+    .prompt-step { display: none; }
+  }
+</style>

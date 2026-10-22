@@ -1,0 +1,11 @@
+---
+import Base from '../../layouts/Base.astro';
+import Sidebar from '../../components/Sidebar.astro';
+import HowToUse from '../../components/HowToUse.astro';
+---
+<Base title="How to Use" description="Find a useful HolyCow skill for your role and try a prompt." wide>
+  <div class="docs-shell roles-shell"><Sidebar /><HowToUse /></div>
+</Base>
+<style>
+  .roles-shell { grid-template-columns: 215px minmax(0, 1fr); max-width: 1360px; }
+</style>
