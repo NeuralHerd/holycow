@@ -7,6 +7,7 @@ export default defineConfig({
   site: 'https://holycow.neuralherd.dev',
   output: 'static',
   trailingSlash: 'always',
+  redirects: { '/docs': '/docs/getting-started/' },
   integrations: [sitemap()],
   markdown: {
     processor: unified({ remarkPlugins: [documentationLinks] }),

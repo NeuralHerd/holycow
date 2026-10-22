@@ -29,7 +29,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
       <div class="header-inner">
         <a class="brand" href="/" aria-label="HolyCow home"><Mark /><span>HolyCow<span class="brand-by">by NeuralHerd</span></span></a>
         <nav aria-label="Main navigation">
-          <a href="/#skills">Skills</a><a href="/#skill-documentation">Docs</a><a class="github-link" href="https://github.com/NeuralHerd/holycow">GitHub <span aria-hidden="true">↗</span></a>
+          <a href="/#skills">Skills</a><a href="/docs/">Docs</a><a class="github-link" href="https://github.com/NeuralHerd/holycow">GitHub <span aria-hidden="true">↗</span></a>
           <a class="button button-small" href="/docs/getting-started/#install">Get started <span aria-hidden="true">↗</span></a>
         </nav>
       </div>
@@ -37,8 +37,8 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <main id="main" class:list={[wide && 'wide-main']}><slot /></main>
     <footer class="site-footer">
       <div><a class="footer-brand" href="/">HolyCow<span aria-hidden="true"> ↗</span></a><p>Better questions. Verified code. Your workflow.</p></div>
-      <div class="footer-links"><a href="/#skill-documentation">Skill documentation</a><a href="/docs/attribution/">Credits</a><a href="https://github.com/NeuralHerd/holycow/blob/main/LICENSE">MIT license</a><a href="https://github.com/NeuralHerd/holycow">GitHub ↗</a></div>
-      <p class="footer-note">Made by <a href="https://github.com/NeuralHerd">NeuralHerd</a>. Open source, and open to better ideas.</p>
+      <div class="footer-links"><a href="/docs/">Docs</a><a href="https://github.com/NeuralHerd/holycow/blob/main/LICENSE">MIT license</a><a href="https://github.com/NeuralHerd/holycow">GitHub ↗</a></div>
+      <p class="footer-note">Made by Anil Gurindapalli and <a href="https://github.com/NeuralHerd">NeuralHerd</a>. Open source, and open to better ideas.</p>
     </footer>
     <span class="sr-only" id="copy-status" role="status" aria-live="polite"></span>
     <script>
