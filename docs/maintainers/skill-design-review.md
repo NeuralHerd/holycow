@@ -49,6 +49,6 @@ Herdr remains optional. Claude, Codex, and Cursor keep explicit invocation contr
 
 ## Evaluation still needed
 
-The new cases in [Init](../evals/holycow-init.md), [Plan](../evals/hc-plan.md), [Build](../evals/hc-build.md), and [Review](../evals/hc-review.md) describe expected behavior; they are not passing results.
+The new cases in [Init](../../evals/holycow-init.md), [Plan](../../evals/hc-plan.md), [Build](../../evals/hc-build.md), and [Review](../../evals/hc-review.md) describe expected behavior; they are not passing results.
 
 For live comparison, use equivalent fixtures and permissions in fresh sessions, keep expected results hidden from the executing agent, and record the skill revision, harness/model, actual outcomes, and observed context use. Include simple tasks to detect unnecessary process as well as failure cases. Repeat consequential cases before attributing a difference to the skill change. File validation and word counts cannot establish behavioral improvement or token savings.

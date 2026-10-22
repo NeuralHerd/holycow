@@ -186,11 +186,11 @@ Run its automated checks:
 PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s evals -p 'test_init_banner.py'
 ```
 
-The [evaluation directory](evals/) contains manual scenarios for all ten skills and invocation behavior. Run those in fresh harness sessions, record the version, inputs, actual actions, and results, and keep expected answers hidden from the executing agent. Passing renderer tests or parsing a skill file does not establish workflow quality. The [design review](docs/skill-design-review.md) records the current foundations and evaluation approach.
+The [evaluation directory](evals/) contains manual scenarios for all ten skills and invocation behavior. Run those in fresh harness sessions, record the version, inputs, actual actions, and results, and keep expected answers hidden from the executing agent. Passing renderer tests or parsing a skill file does not establish workflow quality.
 
 ## Documentation website
 
-The Astro website in [`website/`](website/) renders this README, skill instructions, supporting references, and public documentation directly from the repository. It is live at [holycow.neuralherd.dev](https://holycow.neuralherd.dev) on Cloudflare Workers Static Assets. See the [website setup and publishing guide](website/src/content/docs/hosting.md) for local preview, automatic publishing from GitHub, and custom-domain setup.
+The Astro website in [`website/`](website/) renders this README, skill instructions, supporting references, and public documentation directly from the repository. It is live at [holycow.neuralherd.dev](https://holycow.neuralherd.dev) on Cloudflare Workers Static Assets.
 
 ## Contribute
 
