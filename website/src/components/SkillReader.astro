@@ -1,0 +1,115 @@
+---
+import Command from './Command.astro';
+import { skillGuides } from '../data/skill-guides';
+import type { skills } from '../data/skills';
+
+interface Props { skill: (typeof skills)[number] }
+const { skill } = Astro.props;
+const guide = skillGuides[skill.name];
+if (!guide) throw new Error(`Missing reader guide for ${skill.name}`);
+---
+<div class="skill-reader" data-skill-reader>
+  <header class="skill-intro">
+    <p class="eyebrow">{skill.name} <span>· {skill.group}</span></p>
+    <h1>{skill.title}</h1>
+    <p class="skill-lede">{guide.intro}</p>
+  </header>
+
+  <section class="skill-flow" aria-labelledby="how-it-works">
+    <h2 id="how-it-works">How it works</h2>
+    <ol class="skill-diagram">
+      {guide.steps.map(([title, body], index) => <li><span class="flow-number">{String(index + 1).padStart(2, '0')}</span><strong>{title}</strong><p>{body}</p></li>)}
+    </ol>
+  </section>
+
+  <section class="skill-example-section" aria-labelledby="try-heading">
+    <div class="example-heading"><h2 id="try-heading">{guide.exampleTitle}</h2><a href="/docs/getting-started/#install">Install HolyCow ↗</a></div>
+    <div class="agent-tabs" role="group" aria-label="Choose your agent for this example" data-skill-agents hidden>
+      <button type="button" data-skill-prefix="/" aria-pressed="true">Claude Code</button><button type="button" data-skill-prefix="$" aria-pressed="false">Codex</button><button type="button" data-skill-prefix="/" aria-pressed="false">Cursor</button>
+    </div>
+    <div class="example-conversation">
+      <div class="example-question"><Command command={`/${skill.name} ${guide.prompt}`} label="You · send this in your agent chat" /></div>
+      <div class="example-connector" aria-hidden="true">↓</div>
+      <div class="example-answer">
+        <p class="answer-label"><span class="status-dot"></span> {skill.name} <span>Illustrative response</span></p>
+        <h3>{guide.response.title}</h3>
+        <p>{guide.response.body}</p>
+        {guide.response.points && <ol class="answer-points">{guide.response.points.map(point => <li>{point}</li>)}</ol>}
+        <p class="example-outcome"><span aria-hidden="true">↳</span> {guide.response.outcome}</p>
+      </div>
+    </div>
+    <p class="skill-next"><span>{guide.note}</span> <a href={`/skills/${guide.next.skill}/`}>{guide.next.label} →</a></p>
+  </section>
+
+  <details class="more-examples">
+    <summary>Two more examples</summary>
+    {guide.examples.map(example => <div class="small-example"><p class="small-example-label">{example.label}</p><p>“{example.prompt}”</p><div class="small-example-route"><span aria-hidden="true">↳</span>{example.skill && <a href={`/skills/${example.skill}/`}>{example.skill}</a>}<span>{example.result}</span></div></div>)}
+  </details>
+</div>
+
+<script>
+  const reader = document.querySelector<HTMLElement>('[data-skill-reader]');
+  if (reader) {
+    const controls = reader.querySelector<HTMLElement>('[data-skill-agents]');
+    if (controls) controls.hidden = false;
+    const buttons = reader.querySelectorAll<HTMLButtonElement>('[data-skill-prefix]');
+    buttons.forEach(button => button.addEventListener('click', () => {
+      buttons.forEach(item => item.setAttribute('aria-pressed', String(item === button)));
+      const code = reader.querySelector('pre code');
+      const copy = reader.querySelector<HTMLButtonElement>('[data-copy]');
+      if (code && copy) {
+        const prompt = button.dataset.skillPrefix + code.textContent!.slice(1);
+        code.textContent = prompt;
+        copy.dataset.copy = prompt;
+      }
+    }));
+  }
+</script>
+
+<style>
+  .skill-intro .eyebrow { text-transform: none; color: var(--accent-blue); font-size: 12px; margin-bottom: 20px; }
+  .skill-intro .eyebrow span { text-transform: uppercase; font-size: 9px; letter-spacing: 1px; color: var(--ink-70); }
+  .skill-intro h1 { font-size: clamp(2.4rem, 4vw, 3.6rem); margin-bottom: 18px; }
+  .skill-lede { font-size: 18px; line-height: 1.65; color: var(--ink-70); max-width: 620px; margin-bottom: 34px; }
+  .skill-reader h2 { font-size: 21px; letter-spacing: -.03em; margin: 0 0 19px; }
+  .skill-diagram { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 26px; list-style: none; margin: 0; padding: 0; }
+  .skill-diagram li { position: relative; padding: 18px 16px; border: 1px solid var(--border); background: var(--card); border-radius: 13px; }
+  .skill-diagram li:nth-child(2) { background: var(--background-green); }
+  .skill-diagram li:not(:last-child)::after { content: '→'; position: absolute; left: calc(100% + 5px); top: 50%; transform: translateY(-50%); font-size: 18px; color: var(--ink-50); }
+  .flow-number { display: block; font: 10px/1.5 monospace; color: var(--ink-70); margin-bottom: 17px; }
+  .skill-diagram strong { display: block; font-size: 13px; font-weight: 600; line-height: 1.4; color: var(--ink); margin-bottom: 8px; }
+  .skill-diagram p { font-size: 12px; line-height: 1.7; color: var(--ink-70); margin: 0; }
+  .skill-example-section { margin-top: 37px; }
+  .example-heading { display: flex; justify-content: space-between; align-items: baseline; gap: 20px; }
+  .example-heading h2 { margin-bottom: 0; }.example-heading > a { font-size: 11px; text-decoration: none; }
+  .skill-reader .agent-tabs { margin-block: 19px 14px; }
+  .example-question :global(.command) { background: var(--card); }
+  .example-question :global(.command-bar) { font-size: 11px; padding: 10px 16px; }
+  .example-question :global(.command pre) { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 13px; line-height: 1.8; padding: 18px; }
+  .example-connector { text-align: center; width: 42px; height: 27px; line-height: 27px; color: var(--ink-50); }
+  .example-answer { padding: 20px 23px; background: var(--background-green); border: 1px solid var(--border); border-radius: 13px; }
+  .answer-label { display: flex; align-items: center; gap: 8px; color: var(--ink-70); font: 9px/1.5 monospace; letter-spacing: 1px; margin-bottom: 14px; }
+  .answer-label > span:last-child { margin-left: auto; font-family: inherit; letter-spacing: 0; font-size: 10px; }
+  .example-answer h3 { font-size: 22px; margin-bottom: 9px; letter-spacing: -.025em; }
+  .example-answer > p:not(.answer-label) { font-size: 13px; line-height: 1.7; margin-bottom: 0; }
+  .answer-points { padding-left: 18px; margin: 12px 0; font-size: 13px; line-height: 1.7; }
+  .answer-points li + li { margin-top: 7px; }
+  .example-outcome { color: var(--ink-70); margin-top: 7px; }.example-outcome > span { margin-right: 4px; }
+  .skill-next { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 20px; font-size: 11px; margin: 14px 0 28px; }
+  .skill-next > span { color: var(--ink-70); }.skill-next a { text-decoration: none; }
+  .more-examples { border-top: 1px solid var(--border); padding-block: 18px; }
+  .more-examples summary { cursor: pointer; color: var(--ink); font-size: 13px; }
+  .small-example { margin-top: 22px; padding-left: 17px; border-left: 2px solid var(--border-strong); }
+  .small-example > p { font-size: 13px; margin-bottom: 8px; }
+  .small-example .small-example-label { text-transform: uppercase; font: 9px/1.5 monospace; letter-spacing: .8px; color: var(--ink-70); }
+  .small-example-route { display: flex; flex-wrap: wrap; align-items: center; gap: 9px; font-size: 12px; }
+  .small-example-route a { font-family: monospace; text-decoration: none; }.small-example-route > span { color: var(--ink-70); }
+  @media (max-width: 680px) {
+    .skill-lede { font-size: 16px; }.skill-diagram { gap: 24px; grid-template-columns: 1fr; }
+    .skill-diagram li { display: grid; grid-template-columns: 25px 1fr; column-gap: 12px; padding: 15px 17px; }
+    .flow-number { grid-row: 1 / 3; margin: 2px 0 0; }.skill-diagram strong { font-size: 14px; margin-bottom: 5px; }.skill-diagram p { grid-column: 2; }
+    .skill-diagram li:not(:last-child)::after { content: '↓'; top: auto; bottom: -25px; left: 50%; transform: translateX(-50%); }
+    .example-heading { gap: 10px; }.example-heading > a { font-size: 10px; }.example-answer { padding: 18px; }
+    .answer-label { font-size: 8px; }.answer-label > span:last-child { font-size: 9px; }
+  }
+</style>

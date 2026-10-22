@@ -3,7 +3,7 @@ import { getCollection, render } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import Sidebar from '../components/Sidebar.astro';
-import Command from '../components/Command.astro';
+import SkillReader from '../components/SkillReader.astro';
 import { skills } from '../data/skills';
 import { documentTitle, sourceUrl } from '../lib/documentation.mjs';
 
@@ -19,6 +19,7 @@ const title = skill?.name ?? (entry.id === 'docs/getting-started' ? 'Getting sta
 const description = skill?.description ?? `HolyCow documentation: ${title}. Open-source development skills for Claude Code, Codex, and Cursor.`;
 const toc = headings.filter(heading => heading.depth === 2 || heading.depth === 3);
 const source = sourceUrl(entry.filePath ?? 'README.md');
+const editSource = skill ? 'https://github.com/NeuralHerd/holycow/blob/main/website/src/data/skill-guides.ts' : source;
 ---
 <Base title={title} description={description} wide>
   <div class="docs-shell">
@@ -26,29 +27,43 @@ const source = sourceUrl(entry.filePath ?? 'README.md');
     <article class="doc-main">
       <div class="doc-breadcrumb"><a href="/">HolyCow</a><span>/</span><span>{skill ? skill.group : 'Documentation'}</span></div>
       {skill ? <>
-        <header class="skill-intro"><p class="eyebrow">{skill.name}</p><h1>{skill.title}</h1><p class="doc-lede">{skill.description}</p></header>
-        <div class="skill-explainer"><section><h2>When to use it</h2><p>{skill.when}</p></section><section><h2>What you get</h2><p>{skill.outcome}</p></section></div>
-        <section class="try-skill" aria-labelledby="try-heading"><h2 id="try-heading">Try it in your agent</h2><p>Invoke this in the agent chat after <a href="/docs/getting-started/#install">installing HolyCow</a>.</p>
-          <div class="agent-tabs" role="group" aria-label="Choose your agent"><button type="button" data-agent="slash" aria-pressed="true">Claude Code</button><button type="button" data-agent="dollar" aria-pressed="false">Codex</button><button type="button" data-agent="cursor" aria-pressed="false">Cursor</button></div>
-          <div data-prompt-slash><Command command={`/${skill.name} ${skill.prompt}`} label="Agent chat" /></div>
-          <div data-prompt-dollar hidden><Command command={`$${skill.name} ${skill.prompt}`} label="Codex chat" /></div>
-        </section>
-        {related.length > 0 && <section class="related-guidance"><h2>Supporting guidance</h2><p>The skill reads these references when the task needs them.</p><ul>{related.map(item => <li><a href={`/${item.id}/`}>{documentTitle(item)} <span aria-hidden="true">↗</span></a></li>)}</ul></section>}
-        <div class="instruction-heading"><p class="eyebrow">THE SKILL, IN FULL</p><h2>What your agent reads</h2><p>Built from the same instructions you install. <a href={source}>View source ↗</a></p></div>
-      </> : <header class="reference-header"><p class="eyebrow">{entry.id.startsWith('docs/evaluations/') ? 'Evaluation scenario' : 'Documentation'}</p><p class="source-note">Published from the repository · <a href={source}>View source ↗</a></p></header>}
-      <div class:list={['prose', skill && 'skill-source']}><Content /></div>
-      <div class="doc-feedback"><p>Found something that could be better?</p><a href="https://github.com/NeuralHerd/holycow/issues">Open an issue ↗</a><a href={source.replace('/blob/', '/edit/')}>Edit this page ↗</a></div>
+        <SkillReader skill={skill} />
+        <details class="skill-source-disclosure">
+          <summary id="skill-instructions"><span>Full agent instructions</span><span class="skill-source-hint">Optional · what your agent reads</span></summary>
+          <p class="skill-source-note">The rules behind the skill. You can use it without reading these. <a href={source}>View source ↗</a></p>
+          {related.length > 0 && <section class="related-guidance"><h2>Supporting guidance</h2><p>The skill reads these references when the task needs them.</p><ul>{related.map(item => <li><a href={`/${item.id}/`}>{documentTitle(item)} <span aria-hidden="true">↗</span></a></li>)}</ul></section>}
+          <div class="prose skill-source"><Content /></div>
+        </details>
+      </> : <>
+        <header class="reference-header"><p class="eyebrow">{entry.id.startsWith('docs/evaluations/') ? 'Evaluation scenario' : 'Documentation'}</p><p class="source-note">Published from the repository · <a href={source}>View source ↗</a></p></header>
+        <div class="prose"><Content /></div>
+      </>}
+      <div class="doc-feedback"><p>Found something that could be better?</p><a href="https://github.com/NeuralHerd/holycow/issues">Open an issue ↗</a><a href={editSource.replace('/blob/', '/edit/')}>Edit this page ↗</a></div>
     </article>
-    <aside class="page-toc" aria-label="On this page"><p class="sidebar-label">On this page</p>{skill && <a href="#try-heading">Try this skill</a>}{toc.map(heading => <a class:list={[heading.depth === 3 && 'toc-nested']} href={`#${heading.slug}`}>{heading.text}</a>)}</aside>
+    <aside class="page-toc" aria-label="On this page"><p class="sidebar-label">On this page</p>
+      {skill ? <><a href="#how-it-works">How it works</a><a href="#try-heading">Try an example</a><a href="#skill-instructions">Full instructions</a></> : toc.map(heading => <a class:list={[heading.depth === 3 && 'toc-nested']} href={`#${heading.slug}`}>{heading.text}</a>)}
+    </aside>
   </div>
 </Base>
 <script>
-  const agentButtons = document.querySelectorAll<HTMLButtonElement>('[data-agent]');
-  agentButtons.forEach(button => button.addEventListener('click', () => {
-    agentButtons.forEach(item => item.setAttribute('aria-pressed', String(item === button)));
-    const slash = document.querySelector<HTMLElement>('[data-prompt-slash]');
-    const dollar = document.querySelector<HTMLElement>('[data-prompt-dollar]');
-    if (slash) slash.hidden = button.dataset.agent === 'dollar';
-    if (dollar) dollar.hidden = button.dataset.agent !== 'dollar';
-  }));
+  function revealInstructions() {
+    let id;
+    try { id = decodeURIComponent(window.location.hash.slice(1)); } catch { return; }
+    const target = document.getElementById(id);
+    const disclosure = target?.closest<HTMLDetailsElement>('.skill-source-disclosure');
+    if (disclosure && !disclosure.open) {
+      disclosure.open = true;
+      target?.scrollIntoView();
+    }
+  }
+  revealInstructions();
+  window.addEventListener('hashchange', revealInstructions);
 </script>
+
+<style>
+  .skill-source-disclosure { padding-block: 18px; border-block: 1px solid var(--border); }
+  .skill-source-disclosure summary { cursor: pointer; color: var(--ink); font-size: 13px; }
+  .skill-source-hint { float: right; font-size: 11px; color: var(--ink-70); }
+  .skill-source-note { font-size: 12px; color: var(--ink-70); margin: 22px 0; }
+  @media (max-width: 680px) { .skill-source-hint { float: none; display: block; padding-left: 17px; margin-top: 5px; } }
+</style>
