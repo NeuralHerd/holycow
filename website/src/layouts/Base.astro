@@ -29,7 +29,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
       <div class="header-inner">
         <a class="brand" href="/" aria-label="HolyCow home"><Mark /><span>HolyCow<span class="brand-by">by NeuralHerd</span></span></a>
         <nav aria-label="Main navigation">
-          <a href="/#skills">Skill map</a><a href="/#skill-documentation">Skill documentation</a><a class="github-link" href="https://github.com/NeuralHerd/holycow">GitHub <span aria-hidden="true">↗</span></a>
+          <a href="/#skills">Skills</a><a href="/#skill-documentation">Docs</a><a class="github-link" href="https://github.com/NeuralHerd/holycow">GitHub <span aria-hidden="true">↗</span></a>
           <a class="button button-small" href="/docs/getting-started/#install">Get started <span aria-hidden="true">↗</span></a>
         </nav>
       </div>
@@ -60,9 +60,3 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     </script>
   </body>
 </html>
-
-<style>
-  @media (max-width: 680px) {
-    .header-inner nav { flex-direction: column; align-items: flex-end; gap: 4px; }
-  }
-</style>
