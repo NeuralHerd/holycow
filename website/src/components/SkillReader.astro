@@ -7,13 +7,14 @@ interface Props { skill: (typeof skills)[number] }
 const { skill } = Astro.props;
 const guide = skillGuides[skill.name];
 if (!guide) throw new Error(`Missing reader guide for ${skill.name}`);
+const introParts = guide.intro.split(/\b(Guide|Init|Compass|Refine|Lab|Plan|Build|Review|PR|Retro)\b/);
 ---
 <div class="skill-reader" data-skill-reader>
   <header class="skill-intro">
     <p class="eyebrow">{skill.name} <span>· {skill.group}</span></p>
     <span class="skill-symbol" aria-hidden="true">{skill.symbol}</span>
     <h1>{skill.title}</h1>
-    <p class="skill-lede">{guide.intro}</p>
+    <p class="skill-lede">{introParts.map((part, index) => index % 2 ? <strong class="skill-mention">{part}</strong> : part)}</p>
   </header>
 
   <section class="skill-flow" aria-labelledby="how-it-works">
@@ -74,6 +75,7 @@ if (!guide) throw new Error(`Missing reader guide for ${skill.name}`);
   .skill-intro .eyebrow span { text-transform: uppercase; font-size: 9px; letter-spacing: 1px; color: var(--ink-70); }
   .skill-intro h1 { font-size: clamp(2.4rem, 4vw, 3.6rem); margin-bottom: 18px; text-decoration: underline; text-decoration-color: var(--gradient-green); text-decoration-thickness: .13em; text-underline-offset: -.01em; text-decoration-skip-ink: none; }
   .skill-lede { font-size: 18px; line-height: 1.65; color: var(--ink-70); max-width: 620px; margin-bottom: 34px; }
+  .skill-mention { color: var(--ink); font-weight: 600; padding: .05em .3em; border-radius: .3em; background: linear-gradient(110deg, var(--gradient-peach), var(--gradient-green)); box-decoration-break: clone; -webkit-box-decoration-break: clone; }
   .skill-reader h2 { font-size: 21px; letter-spacing: -.03em; margin: 0 0 19px; }
   .skill-diagram { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 26px; list-style: none; margin: 0; padding: 0; }
   .skill-diagram li { position: relative; padding: 20px; border: 1px solid var(--border); background: color-mix(in srgb, var(--gradient-peach) 27%, var(--card)); border-radius: 16px; }
