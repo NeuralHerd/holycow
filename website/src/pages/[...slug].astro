@@ -5,6 +5,7 @@ import Base from '../layouts/Base.astro';
 import Sidebar from '../components/Sidebar.astro';
 import SkillReader from '../components/SkillReader.astro';
 import GettingStarted from '../components/GettingStarted.astro';
+import HerdrSetup from '../components/HerdrSetup.astro';
 import { skills } from '../data/skills';
 import { documentTitle, sourceUrl } from '../lib/documentation.mjs';
 
@@ -14,6 +15,9 @@ export async function getStaticPaths() {
 interface Props { entry: CollectionEntry<'documentation'> }
 const { entry } = Astro.props;
 const gettingStarted = entry.id === 'docs/getting-started';
+const herdrSetup = entry.id === 'docs/herdr';
+const routingPrompt = herdrSetup ? entry.body?.match(/```text\n(Enable HolyCow[\s\S]*?)\n```/)?.[1] : '';
+if (herdrSetup && !routingPrompt) throw new Error('Missing Herdr setup prompt');
 const skill = skills.find(skill => entry.id === `skills/${skill.name}`);
 const { Content, headings } = await render(entry);
 const related = skill ? (await getCollection('documentation')).filter(item => item.id.startsWith(`skills/${skill.name}/`)) : [];
@@ -36,7 +40,10 @@ const editSource = skill ? 'https://github.com/NeuralHerd/holycow/blob/main/webs
           {related.length > 0 && <section class="related-guidance"><h2>Supporting guidance</h2><p>The skill reads these references when the task needs them.</p><ul>{related.map(item => <li><a href={`/${item.id}/`}>{documentTitle(item)} <span aria-hidden="true">↗</span></a></li>)}</ul></section>}
           <div class="prose skill-source"><Content /></div>
         </details>
-      </> : <>
+      </> : herdrSetup ? <HerdrSetup routingPrompt={routingPrompt!}>
+        <header class="reference-header"><p class="eyebrow">Documentation</p><p class="source-note">Published from the repository · <a href={source}>View source ↗</a></p></header>
+        <div class="prose"><Content /></div>
+      </HerdrSetup> : <>
         <header class="reference-header"><p class="eyebrow">{entry.id.startsWith('docs/evaluations/') ? 'Evaluation scenario' : 'Documentation'}</p><p class="source-note">Published from the repository · <a href={source}>View source ↗</a></p></header>
         <div class="prose"><Content /></div>
       </>}
@@ -52,7 +59,7 @@ const editSource = skill ? 'https://github.com/NeuralHerd/holycow/blob/main/webs
     let id;
     try { id = decodeURIComponent(window.location.hash.slice(1)); } catch { return; }
     const target = document.getElementById(id);
-    const disclosure = target?.closest<HTMLDetailsElement>('.skill-source-disclosure');
+    const disclosure = target?.closest<HTMLDetailsElement>('.skill-source-disclosure, .herdr-reference');
     if (disclosure && !disclosure.open) {
       disclosure.open = true;
       target?.scrollIntoView();

@@ -1,0 +1,157 @@
+---
+import Command from './Command.astro';
+
+interface Props { routingPrompt: string }
+const { routingPrompt } = Astro.props;
+const setupPrompt = `Help me set up Herdr, herdr-projects and HolyCow for this project.
+Follow https://herdr.dev/docs/install/ and https://github.com/eliasstravik/herdr-projects/blob/main/docs/get-started.md.
+Check prerequisites and my installed agent CLIs. Keep my existing settings.
+Install HolyCow for the agents I use, then run herdr-projects doctor.
+Walk me through any sign-in or steps that need a terminal inside Herdr.`;
+const firstTaskPrompt = `I want to add team invitations to this project.
+Use HolyCow to help me decide who can invite people, which roles they can
+grant, and when invitations expire. Recommend the next useful skill.
+Wait for my decisions before planning or building.`;
+const roles = [
+  { agent: 'Cursor', model: 'Auto', effort: 'Automatic', jobs: 'Coordinator · Guide · Plan · PR', symbol: '↗' },
+  { agent: 'Codex', model: 'Astra', effort: 'Extra High', jobs: 'Compass · Refine · Retro · Lab · deeper Init', symbol: '◎' },
+  { agent: 'Claude Code', model: 'Opus 5.5', effort: 'Extra High', jobs: 'Build · routine Init', symbol: '↳' },
+  { agent: 'Codex', model: 'Sol', effort: 'High', jobs: 'Review', symbol: '✓' },
+];
+---
+<div class="herdr-setup">
+  <header class="herdr-intro">
+    <p class="eyebrow">Recommended setup · Herdr</p>
+    <h1>Your agents.<br /><span>One place.</span></h1>
+    <p class="herdr-lede">A workspace, a board, and a useful next step.</p>
+  </header>
+
+  <div class="herdr-pieces" role="group" aria-label="How the three tools fit together">
+    <div><span class="piece-symbol" aria-hidden="true">▥</span><p class="piece-label">The workspace</p><h2>Herdr</h2><p>Keep your agent terminals together.</p></div>
+    <div><span class="piece-symbol" aria-hidden="true">☷</span><p class="piece-label">The board</p><h2>herdr-projects</h2><p>Pick a task. See who’s working.</p></div>
+    <div><span class="piece-symbol" aria-hidden="true">✳</span><p class="piece-label">The method</p><h2>HolyCow</h2><p>Clarify, plan, build, and review.</p></div>
+  </div>
+  <p class="herdr-note">Best for several agents. One agent? HolyCow works on its own, too.</p>
+
+  <section class="herdr-section" aria-labelledby="herdr-start-heading">
+    <div class="herdr-heading"><h2 id="herdr-start-heading">Let your agent set it up.</h2><span>01 / Install</span></div>
+    <Command command={setupPrompt} label="Paste in your agent chat" />
+    <details class="herdr-details"><summary>Prefer terminal commands?</summary>
+      <p>macOS or Linux · Git · curl or wget · Node.js 22.20+. Install and sign in to your agent CLIs first.</p>
+      <Command command={'curl -fsSL https://herdr.dev/install.sh | sh\nherdr --version\ncd /path/to/your-project\nherdr'} label="Install Herdr 0.9.3+ · open your project" />
+      <Command command={'herdr plugin install eliasstravik/herdr-projects\nherdr plugin action invoke open --plugin herdr-projects'} label="Inside Herdr · add the board" />
+      <p>Accept the board shortcut. Add <code>export PATH="$HOME/.herdr-projects/data/bin:$PATH"</code> to your shell’s startup file and open a new shell.</p>
+      <Command command={"npx skills@latest add NeuralHerd/holycow -g -a claude-code codex cursor --skill '*'\nherdr-projects doctor"} label="Install HolyCow · check the setup" />
+      <p>Keep only the agents you use after <code>-a</code>. Open fresh agent sessions to load the skills.</p>
+    </details>
+  </section>
+
+  <section class="herdr-section" aria-labelledby="herdr-roles-heading">
+    <div class="herdr-heading"><h2 id="herdr-roles-heading">Give each agent a job.</h2><span>02 / Configure</span></div>
+    <p class="section-intro">Anil’s setup. A starting point you can make your own.</p>
+    <div class="herdr-roles">
+      {roles.map(role => <div class="herdr-role"><div class="role-top"><p>{role.agent}</p><span aria-hidden="true">{role.symbol}</span></div><h3>{role.model} <span>{role.effort}</span></h3><p class="role-jobs">{role.jobs}</p></div>)}
+    </div>
+    <p class="herdr-note">Auto lets Cursor choose. A skill doesn’t change the model in an existing chat.</p>
+    <details class="herdr-details"><summary>Copy the skill and model setup prompt</summary>
+      <p>Check that these models are available, then paste into your board’s Coordinator. This adds the assignments while preserving your access, approval, and review settings.</p>
+      <Command command={'herdr-projects models claude\nherdr-projects models codex\nherdr-projects models cursor'} label="Check available models" />
+      <Command command={routingPrompt} label="Paste in your Coordinator chat" />
+    </details>
+    <details class="herdr-details"><summary>Start a fresh Coordinator after changing defaults</summary>
+      <p>Save your handoff context first. Reopening Herdr can restore the old model; a fresh Coordinator uses your saved defaults.</p>
+      <Command command="herdr-projects coordinator new" label="Inside Herdr · start a fresh chat" />
+      <p>Existing task agents keep their model until a new run. Project Coordinators have their own fresh-session command in the full reference below.</p>
+    </details>
+  </section>
+
+  <section class="herdr-section" aria-labelledby="herdr-try-heading">
+    <div class="herdr-heading"><h2 id="herdr-try-heading">Describe the work.</h2><span>03 / Try it</span></div>
+    <p class="section-intro">Try this in your Coordinator after setup. Swap in your own idea.</p>
+    <Command command={firstTaskPrompt} label="Example · paste in your Coordinator chat" />
+    <div class="herdr-result"><span aria-hidden="true">↳</span><div><h3>A clear next step</h3><p>The Coordinator recommends a skill and helps clarify the decisions before work starts.</p></div></div>
+    <p class="herdr-note">Stay in an ordinary pane to use your original checkout. Board delegation creates a worktree.</p>
+  </section>
+
+  <section class="herdr-update" aria-labelledby="herdr-update-heading">
+    <div><h2 id="herdr-update-heading">Keep it fresh.</h2><p>Update the tools. Reload the guidance.</p></div>
+    <details class="herdr-details"><summary>Update commands</summary>
+      <p>For installer-managed Herdr; otherwise use your package manager.</p>
+      <Command command={'herdr update\nherdr-projects update'} label="Run in your terminal" />
+      <p>Update HolyCow with the same install command above. Ask ongoing agents to re-read changed guidance, or start a fresh session.</p>
+    </details>
+  </section>
+</div>
+
+<details class="herdr-reference">
+  <summary>Full setup reference <span>Optional · exact settings and shortcuts</span></summary>
+  <slot />
+</details>
+
+<style>
+  .herdr-reference { display: block; border-top: 1px solid var(--border); padding-top: 22px; }
+  .herdr-reference > summary { display: list-item; font-size: 13px; cursor: pointer; color: var(--ink); }
+  .herdr-reference > summary span { display: block; margin: 6px 0 0 17px; color: var(--ink-70); font-size: 11px; }
+  .herdr-intro .eyebrow { font-size: 10px; margin-bottom: 20px; }
+  .herdr-intro h1 { font-size: clamp(42px, 5vw, 64px); letter-spacing: -.06em; margin-bottom: 20px; }
+  .herdr-intro h1 span { background: linear-gradient(transparent 77%, var(--gradient-sky) 77%); }
+  .herdr-lede { font-size: 17px; color: var(--ink-70); margin-bottom: 30px; }
+  .herdr-pieces { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+  .herdr-pieces > div { position: relative; border: 1px solid var(--border); border-radius: 16px; padding: 20px 16px; background: color-mix(in srgb, var(--gradient-peach) 27%, var(--card)); }
+  .herdr-pieces > div:nth-child(2) { background: color-mix(in srgb, var(--gradient-sky) 27%, var(--card)); }
+  .herdr-pieces > div:nth-child(3) { background: var(--background-green); }
+  .herdr-pieces > div:not(:last-child)::after { content: '+'; position: absolute; left: calc(100% + 7px); top: 50%; transform: translateY(-50%); color: var(--ink-50); font-size: 16px; }
+  .piece-symbol { display: grid; place-items: center; width: 34px; height: 34px; border: 1px solid var(--border); border-radius: 10px; background: var(--white-80); margin-bottom: 18px; font-size: 22px; color: var(--ink); }
+  .herdr-pieces .piece-label { font: 9px/1.5 monospace; text-transform: uppercase; letter-spacing: .7px; margin-bottom: 7px; }
+  .herdr-pieces h2 { font-size: 17px; letter-spacing: -.03em; margin-bottom: 8px; }
+  .herdr-pieces p { font-size: 12px; line-height: 1.7; color: var(--ink-70); margin: 0; }
+  .herdr-note { font-size: 11px; line-height: 1.7; color: var(--ink-70); margin: 12px 0 0; }
+  .herdr-section { margin-top: 38px; }
+  .herdr-heading { display: flex; justify-content: space-between; align-items: baseline; gap: 15px; margin-bottom: 18px; }
+  .herdr-heading h2, .herdr-update h2 { font-size: 23px; letter-spacing: -.035em; margin: 0; }
+  .herdr-heading > span { flex-shrink: 0; font: 10px monospace; color: var(--ink-70); }
+  .section-intro { font-size: 13px; color: var(--ink-70); margin: -5px 0 18px; }
+  .herdr-setup :global(.command) { border-radius: 13px; background: var(--card); }
+  .herdr-setup :global(.command-bar) { background: color-mix(in srgb, var(--gradient-sky) 16%, var(--card)); font-size: 11px; padding: 10px 16px; }
+  .herdr-setup :global(.command pre) { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 12px; line-height: 1.8; padding: 18px; }
+  .herdr-details { margin-top: 12px; border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; background: var(--card); }
+  .herdr-details summary { font-size: 12px; cursor: pointer; color: var(--ink); }
+  .herdr-details > p { font-size: 12px; line-height: 1.7; color: var(--ink-70); margin: 16px 0; overflow-wrap: anywhere; }
+  .herdr-details :global(.command) + :global(.command) { margin-top: 14px; }
+  .herdr-roles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .herdr-role { padding: 18px; border: 1px solid var(--border); border-radius: 14px; background: color-mix(in srgb, var(--gradient-peach) 20%, var(--card)); }
+  .herdr-role:nth-child(2) { background: color-mix(in srgb, var(--gradient-sky) 20%, var(--card)); }
+  .herdr-role:nth-child(3) { background: color-mix(in srgb, var(--gradient-coral) 15%, var(--card)); }
+  .herdr-role:nth-child(4) { background: var(--background-green); }
+  .role-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .role-top p { font-size: 11px; margin: 0; color: var(--ink-70); }
+  .role-top > span { font-size: 21px; color: var(--ink); }
+  .herdr-role h3 { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; font-size: 22px; letter-spacing: -.035em; margin-bottom: 8px; }
+  .herdr-role h3 span { padding: 3px 7px; border: 1px solid var(--border); border-radius: 5px; background: var(--white-60); font: 9px/1.5 monospace; letter-spacing: 0; color: var(--ink-70); }
+  .role-jobs { font-size: 11px; line-height: 1.7; color: var(--ink-70); margin: 0; }
+  .herdr-result { display: flex; gap: 14px; padding: 18px 20px; border: 1px solid var(--border); border-radius: 13px; background: var(--background-green); margin-top: 12px; }
+  .herdr-result > span { font-size: 25px; color: var(--badge-success); }
+  .herdr-result h3 { font-size: 17px; margin-bottom: 6px; }
+  .herdr-result p { font-size: 12px; color: var(--ink-70); margin: 0; line-height: 1.7; }
+  .herdr-update { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); align-items: start; gap: 18px; margin: 34px 0; padding-top: 28px; border-top: 1px solid var(--border); }
+  .herdr-update > div p { font-size: 12px; color: var(--ink-70); margin: 8px 0 0; }
+  .herdr-update .herdr-details { margin-top: 0; }
+  @media (max-width: 680px) {
+    .herdr-intro h1 { font-size: clamp(35px, 9vw, 48px); }
+    .herdr-lede { font-size: 15px; }
+    .herdr-pieces { grid-template-columns: 1fr; gap: 20px; }
+    .herdr-pieces > div { display: grid; grid-template-columns: 38px minmax(0, 1fr); column-gap: 14px; padding: 16px; }
+    .piece-symbol { grid-row: 1 / 4; margin: 0; }
+    .herdr-pieces > div:not(:last-child)::after { left: 50%; top: auto; bottom: -22px; transform: translateX(-50%); }
+    .herdr-pieces h2 { margin-bottom: 4px; }
+    .herdr-pieces .piece-label { margin-bottom: 4px; }
+    .herdr-pieces p { grid-column: 2; }
+    .herdr-heading { align-items: flex-start; }
+    .herdr-heading h2 { font-size: 21px; }
+    .herdr-heading > span { font-size: 9px; padding-top: 6px; }
+    .herdr-role { padding: 14px; }
+    .herdr-role h3 { font-size: 20px; }
+    .herdr-update { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 380px) { .herdr-roles { grid-template-columns: 1fr; } }
+</style>
