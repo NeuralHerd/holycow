@@ -32,7 +32,7 @@ const setupPrompt = (action: string) => `${action} all HolyCow skills globally f
   </ol>
 
   <section class="first-use" aria-labelledby="first-use">
-    <div class="start-heading"><h2 id="first-use">What are you working on?</h2><a href="/#skills">Explore all ten skills ↗</a></div>
+    <div class="start-heading"><h2 id="first-use">What are you working on?</h2><a href="/#skill-documentation">Skill documentation ↗</a></div>
     <div class="start-scenarios" role="group" aria-label="Choose an example" data-start-controls hidden>
       {examples.map((example, index) => <button type="button" data-example={index} aria-pressed={index === 0 ? 'true' : 'false'}><span aria-hidden="true">{example.symbol}</span>{example.label}</button>)}
     </div>
@@ -107,7 +107,7 @@ const setupPrompt = (action: string) => `${action} all HolyCow skills globally f
 </script>
 
 <style>
-  .getting-started { max-width: 1040px; margin: auto; padding: 60px 40px 64px; }
+  .getting-started { width: 100%; min-width: 0; max-width: 1040px; margin: auto; padding: 40px 0 64px; }
   .start-intro { display: flex; justify-content: space-between; align-items: center; gap: 30px; margin-bottom: 34px; }
   .start-intro .eyebrow { margin-bottom: 16px; }
   .start-intro h1 { font-size: clamp(42px, 5.5vw, 64px); letter-spacing: -.06em; margin-bottom: 20px; }
@@ -159,7 +159,7 @@ const setupPrompt = (action: string) => `${action} all HolyCow skills globally f
   .setup-more { margin-top: 18px; font-size: 12px; }
   .setup-more p { margin: 12px 0 0; }
   @media (max-width: 680px) {
-    .getting-started { padding: 34px 24px 45px; }
+    .getting-started { padding: 34px 0 45px; }
     .start-intro { gap: 10px; margin-bottom: 28px; }
     .start-intro h1 { font-size: clamp(35px, 8vw, 48px); }
     .start-lede { font-size: 15px; }

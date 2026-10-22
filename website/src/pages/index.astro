@@ -34,7 +34,7 @@ import { installCommand } from '../data/skills';
   <section id="skills" class="catalogue container">
     <div class="section-heading"><div><p class="eyebrow">TEN SKILLS. YOUR WAY THROUGH.</p><h2>Find your next<br />good move.</h2></div><p>Start with what you need.<br />Take only the steps that help.</p></div>
     <SkillMap />
-    <details class="skill-catalogue"><summary>Browse all ten skills <span aria-hidden="true">↓</span></summary><SkillCards /></details>
+    <section class="skill-catalogue" id="skill-documentation" aria-labelledby="skill-docs-heading"><h2 id="skill-docs-heading">Skill documentation</h2><p>Choose a skill for examples, diagrams and instructions.</p><SkillCards /></section>
   </section>
 
   <section class="workflow-section container" id="recommended-setup">
@@ -57,6 +57,6 @@ import { installCommand } from '../data/skills';
 
 <style>
   .skill-catalogue { margin-block: 28px 36px; border-block: 1px solid var(--border); padding-block: 18px; }
-  .skill-catalogue > summary { cursor: pointer; font-size: 13px; color: var(--ink); }
-  .skill-catalogue > summary span { float: right; }
+  .skill-catalogue > h2 { font-size: 30px; margin: 12px 0; }
+  .skill-catalogue > p { font-size: 14px; color: var(--ink-70); }
 </style>

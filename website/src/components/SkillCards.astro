@@ -11,7 +11,7 @@ import { skills, groups } from '../data/skills';
   {skills.map((skill, i) => <a class="skill-card" href={`/skills/${skill.name}/`} data-skill-card data-group={skill.group} data-search={`${skill.name} ${skill.title} ${skill.description} ${skill.when}`.toLowerCase()}>
     <div class="card-top"><span class={`skill-symbol tone-${groups.indexOf(skill.group as typeof groups[number])}`} aria-hidden="true">{skill.symbol}</span><span class="card-number">{String(i + 1).padStart(2, '0')}</span></div>
     <p class="skill-name">{skill.name}</p><h3>{skill.title}</h3><p>{skill.description}</p>
-    <span class="card-bottom"><span>{skill.group}</span><span aria-hidden="true">↗</span></span>
+    <span class="card-bottom"><span>{skill.group}</span><span>Read documentation <span aria-hidden="true">↗</span></span></span>
   </a>)}
 </div>
 <p class="filter-status" data-filter-status role="status" aria-live="polite"></p>
@@ -40,3 +40,7 @@ import { skills, groups } from '../data/skills';
     filter();
   }));
 </script>
+
+<style>
+  .card-bottom > span:last-child { font-size: 11px; }
+</style>

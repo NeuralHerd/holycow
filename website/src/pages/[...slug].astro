@@ -24,7 +24,7 @@ const source = sourceUrl(entry.filePath ?? 'README.md');
 const editSource = skill ? 'https://github.com/NeuralHerd/holycow/blob/main/website/src/data/skill-guides.ts' : source;
 ---
 <Base title={title} description={description} wide>
-  {gettingStarted ? <GettingStarted /> : <div class="docs-shell">
+  {gettingStarted ? <div class="docs-shell quick-start-shell"><Sidebar /><GettingStarted /></div> : <div class="docs-shell">
     <Sidebar />
     <article class="doc-main">
       <div class="doc-breadcrumb"><a href="/">HolyCow</a><span>/</span><span>{skill ? skill.group : 'Documentation'}</span></div>
@@ -63,6 +63,7 @@ const editSource = skill ? 'https://github.com/NeuralHerd/holycow/blob/main/webs
 </script>
 
 <style>
+  .quick-start-shell { grid-template-columns: 215px minmax(0, 1fr); max-width: 1360px; }
   .skill-source-disclosure { padding-block: 18px; border-block: 1px solid var(--border); }
   .skill-source-disclosure summary { cursor: pointer; color: var(--ink); font-size: 13px; }
   .skill-source-hint { float: right; font-size: 11px; color: var(--ink-70); }
