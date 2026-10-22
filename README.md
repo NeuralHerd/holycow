@@ -89,7 +89,7 @@ These are chat invocations, not shell commands. Replace `holycow-guide` with any
 
 For coordinating several agents, we recommend **HolyCow + [Herdr](https://herdr.dev) + [herdr-projects](https://github.com/eliasstravik/herdr-projects)**. Herdr organizes the agent terminals; herdr-projects adds a task board, delegation, and review; HolyCow supplies the workflow guidance. Our role instructions select the useful skills automatically inside Herdr.
 
-The [setup guide](website/src/content/docs/herdr.md) includes installation, Anil's model choices, copyable configuration, and the Interaction Service example. HolyCow also works directly in your usual agent chat.
+The [setup guide](website/src/content/docs/herdr.md) includes installation, the model assignment for every skill, copyable configuration, fresh-session steps, and the Interaction Service example. HolyCow also works directly in your usual agent chat.
 
 ## Choose a skill
 
