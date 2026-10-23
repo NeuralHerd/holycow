@@ -1,0 +1,120 @@
+---
+import Mark from './Mark.astro';
+---
+<section class="why-skills container" id="why-skills" aria-labelledby="why-skills-title">
+  <header class="why-heading">
+    <div><p class="eyebrow">WHY SKILLS?</p><h2 id="why-skills-title">Your task says what.<br /><span>A skill helps with how.</span></h2></div>
+    <p>Reusable instructions.<br /> Less explaining from scratch.</p>
+  </header>
+
+  <figure class="why-diagram">
+    <div class="why-flow">
+      <div class="why-card why-task">
+        <span class="why-icon" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><path d="M6 6h20v16H14l-8 5V6Z" /><path d="M11 12h10m-10 5h6" /></svg></span>
+        <p class="why-label">You bring the goal</p>
+        <h3>Your task</h3>
+        <p class="why-request">“Fix duplicate<br /> invitations.”</p>
+      </div>
+
+      <span class="why-join why-plus" aria-hidden="true">+</span>
+
+      <div class="why-card why-skill">
+        <span class="why-icon why-cow"><Mark /></span>
+        <p class="why-label">The skill adds a method</p>
+        <h3>Build <code>hc-build</code></h3>
+        <ol class="why-method"><li>Read the context</li><li>Make a focused fix</li><li>Check the result</li></ol>
+      </div>
+
+      <span class="why-join why-arrow" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><path d="M4 16h23m-8-8 8 8-8 8" /></svg></span>
+
+      <div class="why-card why-agent">
+        <span class="why-icon" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><rect x="4" y="6" width="24" height="20" rx="4" /><path d="m9 12 4 4-4 4m8 0h6" /></svg></span>
+        <p class="why-label">Your agent does the work</p>
+        <h3>In your agent</h3>
+        <div class="why-engine"><span><b>Model</b><small>Reasons</small></span><span aria-hidden="true">+</span><span><b>Tools</b><small>Act & check</small></span></div>
+        <p class="why-agents">Claude Code · Codex · Cursor</p>
+      </div>
+
+      <span class="why-join why-arrow" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><path d="M4 16h23m-8-8 8 8-8 8" /></svg></span>
+
+      <div class="why-card why-result">
+        <span class="why-icon" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><path d="M8 4h12l5 5v19H8V4Zm11 0v6h6M12 16l2 2 4-4m-6 10h9" /></svg></span>
+        <p class="why-label">Ask for the evidence</p>
+        <h3>Work you can check</h3>
+        <ul class="why-evidence"><li>What changed</li><li>What was tested</li><li>What’s still open</li></ul>
+      </div>
+    </div>
+    <figcaption><span>One example. A reusable approach for your next task, too.</span><a href="/docs/how-to-use/">Find your starting point <span aria-hidden="true">↗</span></a></figcaption>
+  </figure>
+</section>
+
+<style>
+  .why-skills { padding: 40px 0 46px; margin-bottom: 36px; border-top: 1px solid var(--border); }
+  .why-heading { display: flex; justify-content: space-between; align-items: flex-end; gap: 28px; margin-bottom: 30px; }
+  .why-heading .eyebrow { margin-bottom: 14px; }
+  .why-heading h2 { font-size: clamp(29px, 3.1vw, 42px); margin: 0; letter-spacing: -.045em; line-height: 1.16; }
+  .why-heading h2 span { background: linear-gradient(transparent 76%, var(--gradient-peach) 76%); }
+  .why-heading > p { color: var(--ink-70); font-size: 14px; margin: 0 0 3px; }
+  .why-diagram { margin: 0; }
+  .why-flow { display: grid; grid-template-columns: 1fr 26px 1.12fr 26px 1.2fr 26px 1.08fr; gap: 10px; align-items: stretch; }
+  .why-card { min-width: 0; border: 1px solid var(--border); border-radius: 16px; padding: 22px 20px; background: var(--card); color: var(--ink); }
+  .why-task { background: color-mix(in srgb, var(--gradient-pink) 7%, var(--card)); }
+  .why-skill { background: linear-gradient(145deg, color-mix(in srgb, var(--gradient-peach) 50%, var(--card)), color-mix(in srgb, var(--gradient-green) 25%, var(--card))); box-shadow: 4px 4px 0 var(--background), 5px 5px 0 var(--border); }
+  .why-agent { background: color-mix(in srgb, var(--gradient-sky) 19%, var(--card)); }
+  .why-result { background: color-mix(in srgb, var(--gradient-green) 26%, var(--card)); }
+  .why-icon { display: grid; place-items: center; width: 42px; height: 42px; margin-bottom: 22px; border: 1px solid var(--border); border-radius: 12px; background: var(--white-80); }
+  .why-icon svg { width: 29px; height: 29px; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+  .why-cow :global(svg) { width: 34px; height: 34px; }
+  .why-label { font-size: 10px; color: var(--ink-70); margin-bottom: 9px; }
+  .why-card h3 { font-size: 20px; line-height: 1.2; letter-spacing: -.025em; margin-bottom: 14px; }
+  .why-card h3 code { display: block; font-size: 10px; font-weight: 400; color: var(--ink-70); letter-spacing: 0; margin-top: 5px; }
+  .why-request { font-size: 17px; line-height: 1.55; margin: 0; }
+  .why-method, .why-evidence { list-style: none; padding: 0; margin: 0; display: grid; gap: 7px; font-size: 12px; }
+  .why-method { counter-reset: method; }
+  .why-method li { display: flex; gap: 7px; align-items: baseline; }
+  .why-method li::before { counter-increment: method; content: counter(method, decimal-leading-zero); color: var(--ink-50); font: 9px monospace; }
+  .why-evidence li { display: flex; align-items: center; gap: 8px; }
+  .why-evidence li::before { content: ''; width: 10px; height: 10px; border: 1px solid var(--ink-50); border-radius: 2px; flex-shrink: 0; }
+  .why-engine { display: flex; align-items: center; gap: 8px; margin-top: 20px; }
+  .why-engine > span:not(:nth-child(2)) { flex: 1; background: var(--white-80); border: 1px solid var(--border); border-radius: 9px; padding: 10px 4px; text-align: center; }
+  .why-engine b { display: block; font-size: 12px; font-weight: 600; }
+  .why-engine small { display: block; font-size: 9px; color: var(--ink-70); margin-top: 3px; white-space: nowrap; }
+  .why-agents { margin: 12px 0 0; font-size: 9px; color: var(--ink-70); text-align: center; }
+  .why-join { align-self: center; justify-self: center; color: var(--ink-50); }
+  .why-plus { font-size: 28px; font-weight: 300; }
+  .why-arrow svg { display: block; width: 28px; height: 28px; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+  .why-diagram figcaption { display: flex; justify-content: space-between; gap: 20px; margin-top: 23px; font-size: 12px; color: var(--ink-70); }
+  .why-diagram figcaption a { color: var(--accent-blue); text-decoration: none; white-space: nowrap; }
+  @media (max-width: 1100px) and (min-width: 901px) {
+    .why-flow { gap: 6px; grid-template-columns: 1fr 20px 1.12fr 20px 1.2fr 20px 1.08fr; }
+    .why-card { padding: 18px 13px; }
+    .why-card h3 { font-size: 18px; }
+    .why-method, .why-evidence { font-size: 11px; }
+    .why-agents { font-size: 8px; }
+  }
+  @media (max-width: 900px) {
+    .why-heading { display: block; }
+    .why-heading > p { margin-top: 19px; }
+    .why-heading > p br { display: none; }
+    .why-flow { grid-template-columns: 1fr; gap: 12px; }
+    .why-card { position: relative; padding: 22px 22px 22px 85px; }
+    .why-icon { position: absolute; top: 22px; left: 21px; margin: 0; }
+    .why-label { margin-bottom: 5px; }
+    .why-card h3 { margin-bottom: 10px; }
+    .why-card h3 code { display: inline; margin-left: 8px; }
+    .why-request { font-size: 15px; }
+    .why-request br { display: none; }
+    .why-engine { max-width: 240px; margin-top: 14px; }
+    .why-agents { text-align: left; }
+    .why-plus { line-height: 1; }
+    .why-arrow { transform: rotate(90deg); }
+    .why-diagram figcaption { flex-direction: column; gap: 10px; }
+  }
+  @media (max-width: 380px) {
+    .why-card { padding: 18px 15px 18px 65px; }
+    .why-icon { top: 18px; left: 14px; width: 34px; height: 34px; border-radius: 9px; }
+    .why-card h3 { font-size: 18px; }
+    .why-engine { gap: 5px; }
+    .why-agents { font-size: 8px; }
+  }
+</style>

@@ -4,6 +4,7 @@ import Mark from '../components/Mark.astro';
 import Command from '../components/Command.astro';
 import SkillCards from '../components/SkillCards.astro';
 import SkillMap from '../components/SkillMap.astro';
+import WhySkills from '../components/WhySkills.astro';
 import { installCommand } from '../data/skills';
 ---
 <Base title="Better questions. Better software." description="Ten open-source skills for Claude Code, Codex, and Cursor. Challenge ideas, explore uncertainty, plan useful work, build, review, and learn.">
@@ -25,6 +26,8 @@ import { installCommand } from '../data/skills';
       <p class="art-caption">A toolkit, not a mandatory sequence.</p>
     </div>
   </section>
+
+  <WhySkills />
 
   <section class="install-strip container" aria-label="Install HolyCow">
     <div><p class="eyebrow">YOUR AGENT. A BETTER WORKFLOW.</p><p class="agent-list">Claude Code <span>·</span> Codex <span>·</span> Cursor</p></div>
