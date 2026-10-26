@@ -4,20 +4,20 @@ Read this for delegated review, a board-managed handoff, or review corrections. 
 
 ## One owner and proportional coverage
 
-Use the user's chosen coordinator, including Herdr within its supported environment, or native agent tools. The existing board or coordinator owns the review-and-correction cycle; otherwise Build owns authorized corrections. Review returns findings without starting its own fix-and-review loop.
+The existing board or coordinator owns the cycle; otherwise Build owns authorized corrections. Use the user's chosen coordination tool within its supported environment. Review returns findings without starting another fix-and-review loop.
 
-Start with one independent reviewer for substantial work. When assigned as the board's reviewer, perform the review directly instead of spawning a replacement group. Only the coordinator assigns additional authorized specialists for a distinct risk, such as authorization, concurrency, or migration recovery, or an explicit request. Split coverage without dropping requirements, correctness, or applicable standards. Reviewers must not recursively delegate.
+An assigned reviewer performs the review directly. Only the coordinator adds authorized specialists for distinct risks or an explicit request, preserving requirements, correctness, and standards coverage. Reviewers do not recursively delegate.
 
 ## Fresh context and compact handoffs
 
-Start independent reviewers without inherited conversation. Supply the same baseline and target state, accepted contract, applicable instructions, source pointers, assigned responsibility, permitted actions, and stopping boundary. Omit the author's persuasive narrative and other reviewers' conclusions while preserving factual constraints. Reviewers may inspect consequential dependencies beyond the initial pointers.
+Start independent reviewers without inherited conversation. Supply one assignment with the same baseline and target, accepted contract, project instructions, known source and applicable guidance paths, responsibility, permitted actions, and stopping boundary. Preserve factual constraints, omit persuasive conclusions, and allow inspection of consequential dependencies.
 
-Assign read-only work and request concise findings with evidence and coverage limits. Reviewers do not edit shared files or publish comments. The existing coordinator validates and consolidates findings; no additional aggregation agent is needed by default. Keep the result in the existing handoff or report rather than requiring a new artifact for every reviewer.
+Assign read-only work; reviewers neither edit shared files nor publish comments. Dispatch once, use a bounded completion wait, and inspect compact status on timeout before acting. Do not resend possibly delivered work or repeatedly read transcripts. Retrieve logs for failures, missing evidence, or requested measurements. The existing coordinator validates and consolidates completed findings once, with evidence and coverage limits, in the existing handoff or report; no extra aggregation agent or per-reviewer artifact is needed by default.
 
 ## One correction cycle by default
 
 Follow the existing user or coordinator policy. Without one, default to an initial review, one batch of authorized corrections, and one focused recheck. A worker restart, replacement reviewer, or fallback must not reset that boundary. Changing runtime limits requires user authorization; prose guidance is not a hard token cap.
 
-Keep stable finding identities and dispositions: open, fixed with evidence, or rejected with a reason. Pass that record, cycle position, correction diff, and check results into the recheck. Recheck affected findings and consequential dependencies; reuse unchanged evidence. Broaden coverage when additional changes or unresolved risk justify it, including regressions introduced by fixes. Do not reopen settled choices without new evidence or search for optional improvements to fill another round.
+Carry stable finding identities and dispositions (open, fixed with evidence, or rejected with a reason), cycle position, correction diff, and check evidence into the recheck. Bind check evidence to its command, outcome, reviewed state, and relevant environment. Reuse it only while those dependencies remain valid; a prior pass or completion summary alone is insufficient. Inspect the actual correction and affected callers, rerun invalidated checks, and broaden for new changes or unresolved risks. Do not reopen settled choices without new evidence or search for optional improvements to fill another round.
 
 Apply the project's blocking threshold without inflating severity to force a fix. With no threshold, distinguish required behavior and safety defects from optional suggestions. At the boundary, return unresolved material findings and coverage gaps for a decision. Never treat exhausted time, tokens, or rounds as approval, silently accept a blocker, or weaken a required check to finish.

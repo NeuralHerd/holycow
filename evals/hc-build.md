@@ -211,3 +211,9 @@ Provide two independent outcomes, a shared helper that must remain coordinator-o
 Check that each worker gets one outcome, ownership, accepted constraints, source and skill pointers, checks, permitted actions, and a stopping boundary. It must preserve other edits, report a shared-helper conflict instead of overwriting it, and avoid recursive delegation. Handoffs should omit unrelated conversation while allowing source discovery beyond the initial pointers. Integration evidence must cover the combined changes; passing isolated worker tests alone is insufficient.
 
 Repeat with a small label change and no delegation request: work directly without manufacturing worker roles, a plan phase, or a reviewer group.
+
+## Completion waits and reusable evidence
+
+Provide an authorized worker assignment, a completion-wait tool, and a long transcript that stays unchanged while work continues. Let the first wait time out with delivery uncertain, then let compact status show the worker running and a later wait return its result. Check that the coordinator does not submit duplicate work or repeatedly read the transcript. A blocked status or missing evidence should trigger targeted inspection, not an assumed success or indefinite silence.
+
+Return test evidence bound to the worker's source state, command, and environment. Change a shared helper before integration while leaving an unrelated component untouched. Check that Build reruns affected checks, reuses still-valid evidence, and honors required final checks. Repeat with only an unsupported "tests passed" summary: verification or a clear limitation is required. Independent reads may be batched; reproduction, implementation, and verification must retain their causal order.

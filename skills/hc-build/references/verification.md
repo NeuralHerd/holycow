@@ -26,7 +26,7 @@ Use targeted tests and relevant type or static checks during implementation. Bef
 
 For UI behavior, exercise the affected flow when browser tools are available, including relevant keyboard/focus behavior and loading or failure states. Inspect console or network evidence when the claim depends on it; a screenshot alone cannot establish that an action worked. If browser tools are unavailable, report the limitation and provide specific manual steps. For multi-repository contracts or migrations, verify the compatibility assumptions and relevant consumer behavior, not merely each package in isolation.
 
-Keep the result of every required check clear: passed, failed, or not run, with the reason and practical impact. Do not call an unobserved check passing or a partial suite complete.
+For each required check, retain its command, outcome, tested revision or local state, and relevant environment in the existing handoff. Report failed, skipped, or unavailable checks with their impact. A success summary without that evidence does not establish a pass; a partial suite is not complete.
 
 If an unrelated failure predates the task, identify the evidence establishing that. Without that evidence, describe the failure as unresolved rather than blaming the baseline. Do not reset the user's work to investigate.
 
@@ -34,6 +34,6 @@ Do not obtain a green result by skipping tests, weakening assertions, lowering b
 
 ## After fixes and review
 
-Rerun the checks invalidated by a correction. Prior results remain useful for unaffected work; changes to shared behavior may require broader revalidation.
+Reuse recorded results when the tested code, dependencies, check configuration, and relevant environment remain valid. Rerun checks invalidated by a correction or combined worker changes; shared behavior may require broader revalidation. Honor required final checks even when earlier focused results are reusable. Missing evidence calls for verification or an explicit limitation, not an assumed pass.
 
 Keep implementation complete, review complete, CI complete, and delivery complete separate. A blocked check can justify a draft handoff with clear limitations when requested, but cannot justify claiming the feature is verified.

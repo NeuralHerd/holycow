@@ -13,7 +13,7 @@ In a repository, use the HolyCow context linked by its instructions, or `docs/ag
 
 ## Load the applicable guidance
 
-Whether invoked by name or read directly, load the applicable references before the steps below. Resolve their paths from this skill's directory. Reuse complete, unchanged guidance already read in this session; retrieve needed sections omitted by truncated tool output.
+Whether invoked by name or read directly, load the applicable references before the steps below. Resolve paths from this skill's directory and batch independent reads with known task evidence. Reuse complete, unchanged guidance; retrieve needed sections omitted by truncated output.
 
 | When to read | Required guidance |
 | --- | --- |
@@ -35,7 +35,7 @@ Implement the selected work or explicitly requested batch; do not consume an ent
 
 Check the current checkout, branch where applicable, and existing changes. Follow the user's repository workflow; do not create another checkout as an automatic prerequisite. Preserve unrelated edits and distinguish them from this task's changes.
 
-Read relevant instructions, domain terms, decisions, immediate callers, exports, shared utilities, and existing tests before changing an interface. Inspect actual source after using navigation tools. For new work, use the established stack and conventions rather than introducing speculative structure.
+Read relevant instructions, domain terms, decisions, immediate callers, exports, shared utilities, and existing tests before changing an interface. Batch known source and test reads with independent checkout checks; use scoped discovery for missing information instead of repeatedly listing known paths. Inspect actual source after using navigation tools. For new work, use the established stack and conventions.
 
 Load technology-specific skills only where the affected work needs them or project instructions require them. Verify uncertain API or platform behavior against authoritative documentation. Prototype code is evidence for intent, not automatically production-ready implementation.
 
@@ -70,9 +70,9 @@ For changes across repositories, honor interface compatibility and migration ord
 
 Work directly unless delegation is requested or otherwise authorized by the user's workflow. Delegate only a bounded outcome that benefits from separate work; a small change needs no worker group. Use the chosen coordinator, including Herdr when available, within its execution constraints.
 
-Give each worker the outcome and acceptance criteria, owned files or responsibilities, relevant source and skill references, current checkout state, dependencies, permitted actions, and stopping boundary. Carry accepted constraints and applicable project instructions without copying the whole conversation. Workers may inspect consequential dependencies beyond the supplied pointers. When sharing a checkout, tell workers to preserve others' changes and return shared-file conflicts to the coordinator. Further delegation needs explicit assignment.
+Give each worker one assignment containing the outcome, acceptance criteria, ownership, source and applicable skill-reference paths already known, checkout state, dependencies, permitted actions, and stopping boundary. Carry accepted constraints and project instructions without copying the conversation or preloading unrelated guidance to prepare the handoff. Workers may follow consequential dependencies. In shared checkouts, preserve others' edits and return ownership conflicts to the coordinator. Further delegation needs explicit assignment.
 
-Ask for a concise result with changed files, checks and outcomes, and unresolved limits. Reconcile returned work and verify affected integration boundaries before claiming completion. Reuse evidence for unchanged code; rerun checks invalidated by combined changes.
+Dispatch once and use the coordinator's completion wait while doing independent work. On timeout, inspect compact status before acting; do not resubmit a possibly delivered assignment or repeatedly scrape logs. Read logs for failures, missing evidence, or requested measurements. Consolidate completed results once: changed files, check evidence, and unresolved limits. Verify affected integration boundaries and rerun checks invalidated by combined changes.
 
 ## Review and correct
 

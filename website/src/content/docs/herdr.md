@@ -147,19 +147,19 @@ Also honor explicitly assigned hc-retro, hc-lab, hc-pr and holycow-init.
 Reviewer: use hc-review for code and hc-plan for plans. Preserve the
 board's verdict format and review-only role.
 
-The board owns the review-and-correction cycle. Workers retain self-checks
-but do not launch another independent review before the board's review.
-The assigned reviewer performs the review directly and does not recruit
-more reviewers. Only the Coordinator assigns an authorized specialist
-for a distinct risk or a fresh readiness reader when no plan reviewer
-already covers it. Keep small, settled work direct.
+The board supplies independent review and owns correction rounds. Workers
+self-check; assigned reviewers review directly without recruiting others.
+Only the Coordinator assigns an authorized specialist for a distinct risk
+or a readiness reader when no plan reviewer already covers it.
 
-Give each authorized worker one outcome, explicit ownership, accepted
-constraints, source pointers, check evidence and a stopping boundary.
-Fresh reviewers receive the contract, project rules and exact target,
-without the author's conversation or conclusions. Return concise findings
-and coverage limits. On correction rounds, carry finding identities and
-recheck the fixes and affected dependencies; retain unresolved blockers.
+Send one bounded assignment with ownership, accepted constraints, exact
+target, known source and applicable guidance paths, and check evidence.
+Fresh reviewers omit the author's conversation and conclusions. Batch
+independent reads; discover missing information selectively. Dispatch once,
+wait for completion, and inspect compact status on timeout before acting.
+Do not repeatedly scrape transcripts or resend possibly delivered work.
+Read logs for failures, missing evidence, or requested measurements.
+Consolidate results once, preserving finding identities and blockers.
 
 Skip routing for greetings, simple facts, status, and board administration.
 Do not start agents, add tasks, create worktrees, or publish work merely
@@ -208,7 +208,7 @@ For a new review policy, start with one automatic correction cycle followed by a
 
 Use an agreed task budget through `limit.tokens` and, when useful, `limit.time`. Token enforcement depends on harness support and is checked at turn boundaries, so a turn can exceed the limit. Verify effective settings and counter support rather than promising a hard cap from instructions. Keep required checks, blocking severity, and merge approval intact. Remaining blockers or missing critical evidence require a decision; a spent budget is not a passing verdict. See the board's [settings and limit semantics](https://github.com/eliasstravik/herdr-projects/blob/main/docs/settings.md).
 
-Measure total task usage, including reviewers and corrections, alongside defects caught and remaining verification. Shorter prompts alone do not demonstrate savings. See [Retro](../../../../skills/hc-retro/SKILL.md) for evidence-based comparisons.
+Include Coordinator activity in task usage. Collect measurements at completion or a named checkpoint, recording cache conditions and model/tool turns alongside defects caught and verification. A shorter worker prompt does not remove the harness's startup instructions or tool descriptions. Use narrower worker tool sets only where the harness supports them and the change is authorized; preserve required capabilities, project rules, and model assignments. See [Retro](../../../../skills/hc-retro/SKILL.md) for comparisons that distinguish token volume from spending.
 
 ## Apply the changes to a fresh session
 
