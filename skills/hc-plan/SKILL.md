@@ -11,6 +11,8 @@ Turn accepted understanding into work another session can implement and verify. 
 
 In a repository, use the HolyCow context linked by its instructions, or `docs/agents/holycow.md` when present. Read only relevant sections and reuse context already loaded. Continue without it; recorded capabilities may need rechecking in this session.
 
+For a review-only assignment, inspect the supplied plan using the readiness guidance below and return findings and coverage limits. Do not rewrite the plan, publish tickets, or launch another reviewer.
+
 ## Gather the settled context
 
 Use the conversation, provided plan, existing issue, Compass map, or Lab outcome. Read referenced source material and relevant updates, not just titles. For an existing system, inspect the affected responsibilities, interfaces, project instructions, glossary, decisions, and test conventions. Reuse context already gathered.
@@ -33,6 +35,8 @@ Capture only what an implementer needs:
 
 Describe responsibilities and interfaces rather than prescribing an unverified file-by-file implementation. Verified code pointers may help navigation. Include a small accepted schema, type, or state-transition snippet when it expresses a decision more precisely than prose; link its source and preserve its limitations.
 
+Make the brief usable without the originating conversation: include consequential decisions and link canonical evidence. Keep one source of truth; omit discarded alternatives and raw transcripts unless they explain an active constraint. Readers may follow relevant dependencies beyond the initial pointers.
+
 ## Plan by verifiable outcomes
 
 When tickets are requested, read [ticket design and storage](references/tickets.md).
@@ -53,6 +57,14 @@ Dependencies express genuine prerequisites, not a preferred work order. Check fo
 
 Check that every in-scope acceptance criterion is covered and that no ticket adds unaccepted behavior. Mark tickets with unresolved decisions or unmet prerequisites as blocked or draft. A closed decision record or excluded ticket is not automatically a delivered prerequisite.
 
+## Check implementation readiness
+
+A small, settled change needs a direct readiness check. For substantial work with consequential design uncertainty, use one fresh, read-only reviewer when delegation is authorized and available. An existing independent plan reviewer satisfies this role; do not launch a duplicate or let reviewers recruit others.
+
+Give that reviewer the brief, accepted decisions, applicable project rules, and relevant source pointers without the drafting conversation or author's conclusions. Ask which missing contracts, failure behavior, prerequisites, or verification criteria would force an implementer to invent consequential decisions. Routine implementation choices and missing file-by-file recipes are not blockers. If fresh context is unavailable, check directly and disclose that it was not independent.
+
+Validate findings against source evidence and accepted scope. Correct supported omissions within the planning authorization; leave unresolved product choices explicit. Use one pass and at most one focused recheck after corrections unless an existing user or coordinator policy specifies otherwise. Remaining material gaps stay blocked, not implicitly accepted.
+
 ## Save and hand off
 
 Use the destination and write authorization in the user's request. Reuse the configured tracker or project planning location; local Markdown is available when no tracker is configured or the user chooses it. A draft-only request stays draft.
@@ -61,6 +73,6 @@ Verify created records and dependency links. On retry, reconcile existing record
 
 Return the brief and ticket links, the ready work, and the blockers. Readiness requires settled behavior, usable acceptance criteria, available evidence, and satisfied prerequisites. Keep Compass decision records distinct from delivery tickets and preserve parent status unless the user asked to change it.
 
-This skill prepares implementation; it does not launch agents, change product code, or infer that ticket creation authorizes execution.
+This skill prepares implementation; an authorized readiness review does not authorize implementation agents, product-code changes, or execution of prepared tickets.
 
 For a separately requested implementation, hand off the ready work to `hc-build` when installed. If it is unavailable, disclose that before proceeding directly within the user's implementation request.

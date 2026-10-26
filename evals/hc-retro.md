@@ -79,3 +79,11 @@ Provide a successful bounded session with proportionate checks and no demonstrat
 Check that the agent can report no actionable improvement without treating the missing hook as an automatic failure.
 
 Repeat with a prior recommendation and later evidence showing it was ineffective. Check that the agent revises the earlier lesson rather than declaring success or appending a duplicate rule.
+
+## Total task cost and quality comparison
+
+Provide comparable task records with skill revisions, models, permissions, required checks, and provider usage. One run has a short parent conversation but expensive nested reviewers and a fallback. Another uses fewer total tokens but misses a defect discovered by a later regression test. Include cached input in one provider report and missing reviewer usage in another.
+
+Check that Retro counts planning, workers, reviews, corrections, and fallbacks where measurable; distinguishes cached input, output, cost, and elapsed time; and identifies missing usage without estimating it as zero. It must connect repeated review to observed causes and refuse to call a cheaper but defective or incompletely verified run an improvement. A change of model or task scope must qualify the comparison. Recommendations should target demonstrated duplication while preserving checks and accepted behavior.
+
+For live comparison of the new guidance, include a small settled change, a substantial feature, and a risky retry or migration fix under comparable conditions. Record the actual outcomes and later defects as well as total usage. These scenarios and instruction word counts are not benchmark results.

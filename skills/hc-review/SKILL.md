@@ -47,13 +47,13 @@ Where affected, check resource or tenant isolation, retry and interruption behav
 
 Inspect changes to tests, check configuration, budgets, and suppressions. A removed assertion or relaxed gate needs an accepted behavior or policy reason; a green result after weakening the check does not establish the original requirement.
 
-## Use independent review when authorized
+## Coordinate independent review and corrections
 
-For substantial work, when delegation is permitted and tools are available, use separate reviewers for behavior and correctness, and for project standards. Use the user's chosen coordinator, including Herdr within its supported environment, or native agent tools. A small change can be reviewed directly.
+Keep small, clear changes direct while preserving required project reviews. For substantial work with authorized delegation, start with one independent reviewer covering requirements, correctness, and standards. Add specialists only for distinct consequential risks or an explicit request. An existing board reviewer counts; do not recursively delegate.
 
-Give reviewers the same baseline and target state, accepted contract, relevant source references, and distinct responsibilities. Assign read-only work, ask for concrete evidence and coverage limits, and omit the implementer's persuasive narrative and other reviewers' conclusions. Preserve factual context needed to judge the change. Neither reviewer publishes comments or changes shared files.
+Before delegated review, board-managed handoffs, or review corrections, read [review coordination](references/coordination.md). Reuse complete, unchanged guidance already loaded; disclose an unavailable reference and the resulting limits. Simple direct reviews need no coordination workflow.
 
-Without authorized delegation, perform the perspectives directly. Disclose failed or unavailable reviewer coverage and complete it directly when feasible. Do not describe an implementer's self-review as independent review, or multiple reviewers' agreement as proof.
+Without authorized delegation or fresh-context support, perform the perspectives directly and describe the limitation. Complete failed reviewer coverage directly when feasible. Do not describe self-review as independent review, or reviewer agreement as proof.
 
 ## Validate candidate findings
 

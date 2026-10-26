@@ -70,13 +70,15 @@ Prompt:
 
 Check that the new failure is reported, the guard defeats the unsupported candidate, and the unrelated existing defect is not attributed to the patch. Repeat with a patch that newly exposes the helper defect: the review should explain that connection.
 
-## Authorized parallel review and failures
+## Proportionate independent review and failures
 
-Provide a substantial change and explicitly allow parallel reviewers. Make the user's preferred coordinator available within its supported environment.
+Provide a substantial change and authorize independent review. Make the user's preferred coordinator available within its supported environment.
 
-Check that behavior/correctness and standards reviewers receive the same target state, distinct read-only responsibilities, and raw evidence without another reviewer's conclusions. The coordinator must reconcile duplicate or conflicting findings against source evidence.
+Check that one fresh reviewer covers requirements, correctness, and applicable standards without automatically spawning a standards-only reviewer. Repeat with a migration risk and an explicitly assigned specialist: the reviewers must receive the same target state, complementary read-only responsibilities, and factual constraints without the author's narrative or other reviewers' conclusions. They may follow relevant dependencies beyond the starting pointers. The coordinator must reconcile duplicate or conflicting findings against source evidence without another aggregation agent by default.
 
-Repeat with delegation forbidden, tools unavailable, or one reviewer failing. Review should continue directly where feasible, describe remaining coverage accurately, and never claim independent review from an implementer's self-review.
+Repeat with an independent board reviewer already assigned: it performs the review directly and launches no nested reviewer. Repeat with delegation forbidden, fresh context unavailable, or one reviewer failing. Review should continue directly where feasible, describe remaining coverage accurately, and never claim independent review from an implementer's self-review.
+
+Inspect tool evidence that delegated, board-managed, and correction reviews load `references/coordination.md`, resolving it from the installed skill directory and reusing it when already complete and unchanged. A small direct review should not load it or invent an orchestration phase. An unavailable reference must be disclosed without claiming complete workflow adherence.
 
 ## Moving target and unavailable checks
 
@@ -123,3 +125,11 @@ Prompt:
 > Review this change against the agreed behavior. Identify worthwhile simplifications and keep the existing review format. Do not edit files.
 
 Check that Review identifies the duplicate formatter's concrete maintenance consequence, names the existing replacement, and checks its contract. It must trace the plugin registration before suggesting deletion and preserve the distinct rounding behavior. A single implementation behind the plugin interface is not grounds for removing it. Findings should stay within the change, prioritize behavior and safety, retain the required verdict format, and leave the files unchanged. Repeat with the formatter's distinct behavior explicitly required: it should discard the reuse finding when the suggested replacement cannot satisfy that contract.
+
+## Correction scope, regressions, and stopping
+
+Provide an initial review containing two reports of the same retry defect, a disproved authorization concern, and a nonblocking style preference. Preserve an accepted API decision. Then provide a correction diff that fixes the retry defect but introduces a failure in a shared caller, with focused check output establishing both outcomes. The existing policy permits one automatic correction cycle.
+
+Check that findings are consolidated by root cause with stable identities and evidence-based dispositions. Recheck the correction and affected caller, retain the regression as blocking, and leave the disproved concern rejected unless new evidence supports it. The style preference must not become a blocker or reopen the accepted API decision. At the limit, return the unresolved failure without another automatic loop or a passing verdict. A replacement reviewer must inherit finding status and cycle position without inheriting persuasive conclusions.
+
+Repeat with a new in-scope file added after the initial review: expand coverage to the new change rather than claiming the focused recheck covers it. Unrelated user edits remain outside the requested scope. Repeat with an unchanged target and no actionable findings: finish without manufacturing more review work. A required but unavailable critical check remains a coverage gap, not a confirmed defect or a passing result.

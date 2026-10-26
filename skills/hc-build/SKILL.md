@@ -68,15 +68,21 @@ Keep changes within scope. Necessary preparatory changes should have a clear con
 
 For changes across repositories, honor interface compatibility and migration order, and verify the producer/consumer behavior at the relevant integration boundary. Do not substitute a mock result for a required real integration check.
 
-Work directly unless delegation is requested or otherwise authorized by the user's workflow. When delegating, give each worker clear ownership and use the chosen coordinator, including Herdr when available, within its execution constraints. Reconcile returned work and shared-file conflicts before claiming completion.
+Work directly unless delegation is requested or otherwise authorized by the user's workflow. Delegate only a bounded outcome that benefits from separate work; a small change needs no worker group. Use the chosen coordinator, including Herdr when available, within its execution constraints.
+
+Give each worker the outcome and acceptance criteria, owned files or responsibilities, relevant source and skill references, current checkout state, dependencies, permitted actions, and stopping boundary. Carry accepted constraints and applicable project instructions without copying the whole conversation. Workers may inspect consequential dependencies beyond the supplied pointers. When sharing a checkout, tell workers to preserve others' changes and return shared-file conflicts to the coordinator. Further delegation needs explicit assignment.
+
+Ask for a concise result with changed files, checks and outcomes, and unresolved limits. Reconcile returned work and verify affected integration boundaries before claiming completion. Reuse evidence for unchanged code; rerun checks invalidated by combined changes.
 
 ## Review and correct
 
 Review the actual task changes, including staged, unstaged, and new files; do not rely on a commit-only diff that omits the work. Compare them with acceptance criteria, relevant repository standards, and the behavior of affected callers.
 
-Read and follow the installed [hc-review instructions](../hc-review/SKILL.md), including its required supporting guidance, for this workflow. Self-review follows the same scope-selection guidance as a separate review. If unavailable, disclose that and perform a direct review; do not describe self-review as independent review. Independent reviewer agents follow the user's delegation rules.
+Read and follow the installed [hc-review instructions](../hc-review/SKILL.md), including its required supporting guidance, for this workflow. Self-review follows the same scope-selection guidance as a separate review. If unavailable, disclose that and perform a direct review; do not describe self-review as independent review.
 
-Address substantiated findings within scope, investigate uncertain claims, and rerun checks affected by fixes. Do not change accepted behavior solely to satisfy a review suggestion. Keep unresolved material findings visible.
+Identify who owns the review-and-correction cycle: the existing board or coordinator, otherwise Build. Keep self-checks, but when that workflow already supplies independent review, hand off to it without launching another reviewer group. Follow Review's proportional coverage and correction boundary; workers and reviewers do not start their own retry loops. Honor existing review policy and do not silently change board settings.
+
+Address substantiated blocking findings together within scope, investigate uncertain claims, and rerun checks affected by fixes. Apply the project's severity threshold; without one, distinguish required behavior and safety defects from optional suggestions. Do not change accepted behavior solely to satisfy a review suggestion. Pass the finding status, correction diff, and check results to the focused recheck. At the correction boundary, return unresolved blockers and the decision needed without claiming completion or starting another cycle.
 
 ## Verify and hand off
 

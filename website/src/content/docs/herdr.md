@@ -147,6 +147,20 @@ Also honor explicitly assigned hc-retro, hc-lab, hc-pr and holycow-init.
 Reviewer: use hc-review for code and hc-plan for plans. Preserve the
 board's verdict format and review-only role.
 
+The board owns the review-and-correction cycle. Workers retain self-checks
+but do not launch another independent review before the board's review.
+The assigned reviewer performs the review directly and does not recruit
+more reviewers. Only the Coordinator assigns an authorized specialist
+for a distinct risk or a fresh readiness reader when no plan reviewer
+already covers it. Keep small, settled work direct.
+
+Give each authorized worker one outcome, explicit ownership, accepted
+constraints, source pointers, check evidence and a stopping boundary.
+Fresh reviewers receive the contract, project rules and exact target,
+without the author's conversation or conclusions. Return concise findings
+and coverage limits. On correction rounds, carry finding identities and
+recheck the fixes and affected dependencies; retain unresolved blockers.
+
 Skip routing for greetings, simple facts, status, and board administration.
 Do not start agents, add tasks, create worktrees, or publish work merely
 because a skill suggests it. Follow my scope and repository instructions.
@@ -185,6 +199,16 @@ Use a discovered, available pane ID and carry the skill/context in the prompt. F
 `worker.fallback none` removes the configured fallback chain. The board can still retry a rejected model on that harness's default model. Report that mismatch instead of treating it as the requested assignment. See [model refusal behavior](https://github.com/eliasstravik/herdr-projects/blob/main/docs/models.md#a-model-refused-while-the-agent-works).
 
 </details>
+
+## Bound review cost
+
+HolyCow defaults to one independent reviewer for substantial work, with additional specialists only for distinct risks or an explicit request. An existing board plan review also counts as Plan's readiness review. Fresh context still includes accepted decisions and project instructions. Use a fresh agent session where supported; reopening a pane or resuming a chat does not establish isolation. A small task does not need a new board task, worktree, or reviewer group for each check.
+
+For a new review policy, start with one automatic correction cycle followed by a focused recheck. Inspect `herdr-projects show <id> --json` before changing task settings. Existing user and board policy remains authoritative; installing skills does not change it. If approved, `herdr-projects set review.rounds 1 --task <id>` limits automatic send-backs **per reason**, not the total number of reviews. Check worker fallback behavior too: a fallback can continue after rounds are exhausted.
+
+Use an agreed task budget through `limit.tokens` and, when useful, `limit.time`. Token enforcement depends on harness support and is checked at turn boundaries, so a turn can exceed the limit. Verify effective settings and counter support rather than promising a hard cap from instructions. Keep required checks, blocking severity, and merge approval intact. Remaining blockers or missing critical evidence require a decision; a spent budget is not a passing verdict. See the board's [settings and limit semantics](https://github.com/eliasstravik/herdr-projects/blob/main/docs/settings.md).
+
+Measure total task usage, including reviewers and corrections, alongside defects caught and remaining verification. Shorter prompts alone do not demonstrate savings. See [Retro](../../../../skills/hc-retro/SKILL.md) for evidence-based comparisons.
 
 ## Apply the changes to a fresh session
 

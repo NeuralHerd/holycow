@@ -7,6 +7,7 @@ HolyCow builds on work shared by:
 - [Addy Osmani](https://github.com/addyosmani/agent-skills)
 - [Dex Horthy / HumanLayer](https://github.com/humanlayer/skills)
 - [Dietrich Gebert / Ponytail](https://github.com/DietrichGebert/ponytail)
+- [Google's Elephant-Goldfish Model](https://github.com/google/elephant-goldfish-model), introduced by Dave Rensin: design inspiration for fresh-context readiness checks, focused reviewers, and compact handoffs. HolyCow's guidance is independently written; no EGM skill or agent files are bundled.
 
 Our recommended workflow also uses [Herdr](https://herdr.dev) and [herdr-projects](https://github.com/eliasstravik/herdr-projects).
 

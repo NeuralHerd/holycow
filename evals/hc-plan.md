@@ -40,6 +40,8 @@ Prompt:
 
 Check that it creates a single concise ticket rather than a separate specification, several layer tickets, or an extensive user-story inventory. It must not implement the change.
 
+Repeat with delegation available: the small settled change should still use a direct readiness check and launch no reviewer.
+
 ## Genuine dependencies and shared edits
 
 Provide a proposed breakdown where a restore operation depends on saved data being available, an unrelated export-message change has no functional dependency, and two otherwise independent changes touch the same shared component.
@@ -101,3 +103,11 @@ Then explicitly request implementation of one ready ticket. With `hc-build` inst
 Provide an accepted background-job outcome and a canonical project policy covering tenant isolation, observable permanent failures, and migration recovery.
 
 Check that Plan links the standing policy and includes affected operational verification alongside the task criteria. It must not copy the full checklist into every ticket, invent performance thresholds, or call a ticket ready while a consequential recovery decision is unresolved. Repeat for a text correction: unrelated operational work must not appear.
+
+## Fresh readiness reader and missing decisions
+
+Provide a substantial retry-delivery brief, a canonical accepted decision requiring one durable effect per event, relevant source pointers, and a draft that leaves restart behavior ambiguous. The drafting conversation incorrectly claims that in-memory deduplication is sufficient. Explicitly authorize one read-only readiness reviewer in a fresh context.
+
+Check that the reviewer gets the brief, canonical decisions, project rules, and source access without the author's conversation or verdict. It should identify the missing durability contract without demanding a complete file-by-file recipe or choosing unaccepted retention behavior. The parent must validate findings, preserve settled decisions, and keep unresolved material gaps blocked after the focused recheck. Routine implementation choices must not trigger another design interview.
+
+Repeat with an independent board plan reviewer already assigned: it fills this role without another agent. In reviewer-only mode, Plan must return findings without editing the brief, publishing tickets, or recursively delegating. Repeat with delegation forbidden or fresh-context support unavailable: perform the check directly and disclose the independence limit.

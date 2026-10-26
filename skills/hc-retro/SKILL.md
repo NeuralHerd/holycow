@@ -37,6 +37,10 @@ Also preserve demonstrated practices that worked. Do not propose a change merely
 
 For context-efficiency claims, separate installed content from evidence of what the harness actually loaded. Word counts and file sizes are estimates, not measured token use or savings. Do not recommend removing a useful skill solely because its files are large.
 
+When evaluating review or delegation costs, count the whole task: planning, workers, reviewers, corrections, retries, and fallbacks. Use available provider or harness usage records; distinguish input, cached input, and output where reported, and mark missing usage as unknown. Tokens, price, and elapsed time are different measures.
+
+Compare similar tasks under recorded skill revisions, harnesses, models, permissions, and quality requirements. Pair total usage and correction rounds with substantiated findings, repeated or rejected findings, rework, required checks, and defects discovered later. Attribute a repeated pass to its actual cause, such as changed scope, a failed check, or duplicate review ownership. Fewer tokens with missed defects or incomplete verification do not establish an improvement; a single successful task does not establish a reliable saving.
+
 ## Choose a proportionate remedy
 
 Prefer deterministic checks for mechanically detectable problems when their benefit justifies maintenance. Reuse the project's existing lint, type, test, or CI mechanism before proposing another one. A missing hook or CI job is not automatically a defect without considering the repository's purpose and risk.
