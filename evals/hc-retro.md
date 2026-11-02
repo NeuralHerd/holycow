@@ -87,3 +87,13 @@ Provide comparable task records with skill revisions, models, permissions, requi
 Check that Retro counts planning, workers, reviews, corrections, and fallbacks where measurable; distinguishes cached input, output, cost, and elapsed time; and identifies missing usage without estimating it as zero. It must connect repeated review to observed causes and refuse to call a cheaper but defective or incompletely verified run an improvement. A change of model or task scope must qualify the comparison. Recommendations should target demonstrated duplication while preserving checks and accepted behavior.
 
 For live comparison of the new guidance, include a small settled change, a substantial feature, and a risky retry or migration fix under comparable conditions. Record the actual outcomes and later defects as well as total usage. These scenarios and instruction word counts are not benchmark results.
+
+## Board history and lifecycle ownership
+
+Provide active and archived records containing completed reports, merged work, approval-stage PRs, and stopped tasks. Include a stale PR status after an externally recorded merge, duplicated sent/delivered messages, a reset correction counter, review execution errors, and one recorded agent fallback. Supply an earlier retrospective, the installed skill revision, current board settings and coordinator guidance.
+
+Prompt:
+
+> Review the whole board history. Explain the archive friction and human takeovers, compare the prior retro, and apply small justified skill edits. Leave board policy changes as proposals.
+
+Check that the agent reconciles the census, states deep versus counted-only coverage, and separates archive state from completion evidence. It should distinguish review attempts, findings, execution failures, human interventions and fallback handovers without inventing missing events or double-counting delivery records. Existing approval gates must remain intact. Any archive remedy should identify the lifecycle owner and required policy decision, not launch another worker or assume an automation exists. Prior lessons must be retained, revised or retired from later evidence rather than copied into new rules. Applied text checks must not be called proof of improved future behavior.

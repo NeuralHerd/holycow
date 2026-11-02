@@ -161,6 +161,11 @@ without the author's conversation or conclusions. Return concise findings
 and coverage limits. On correction rounds, carry finding identities and
 recheck the fixes and affected dependencies; retain unresolved blockers.
 
+At handoff, name the next owner, current revision or report, checks,
+unresolved findings and remaining permissions. Distinguish ready for
+review, approved, merged, deployed and archived. The Coordinator owns
+board closeout under my existing authorization and completion policy.
+
 Skip routing for greetings, simple facts, status, and board administration.
 Do not start agents, add tasks, create worktrees, or publish work merely
 because a skill suggests it. Follow my scope and repository instructions.
@@ -209,6 +214,16 @@ For a new review policy, start with one automatic correction cycle followed by a
 Use an agreed task budget through `limit.tokens` and, when useful, `limit.time`. Token enforcement depends on harness support and is checked at turn boundaries, so a turn can exceed the limit. Verify effective settings and counter support rather than promising a hard cap from instructions. Keep required checks, blocking severity, and merge approval intact. Remaining blockers or missing critical evidence require a decision; a spent budget is not a passing verdict. See the board's [settings and limit semantics](https://github.com/eliasstravik/herdr-projects/blob/main/docs/settings.md).
 
 Measure total task usage, including reviewers and corrections, alongside defects caught and remaining verification. Shorter prompts alone do not demonstrate savings. See [Retro](../../../../skills/hc-retro/SKILL.md) for evidence-based comparisons.
+
+## Finish and retire board work
+
+Workers hand back the requested evidence at their assigned boundary; the board or Coordinator handles the remaining lifecycle. Reconcile the task record, review target, PR or report, and requested deployment checks before calling it done. A human merge outside the board can leave stale status; verify the result before requesting another merge or restarting a worker merely to repeat its closing note.
+
+Archiving hides work; it does not establish completion. Apply the owner's existing archive policy after its completion conditions are verified. If no policy is authorized, propose the choice once through the Coordinator. Keep cancelled or unfinished work distinguishable from completed work, even when the owner explicitly archives it. Archive permission does not grant merge permission, waive review, or complete an outstanding deployment.
+
+Automatic retirement belongs in the board's lifecycle handling. Treat a done-only archive policy as a proposal until the owner chooses it and the installed board supports it. Herdr-projects event automations start agent tasks; they are not a built-in auto-archive switch. Avoid adding a worker task per completion merely to hide another task, or copying an archive reminder into every HolyCow skill.
+
+Before an authorized launch, check the prerequisites that can prevent the assigned phase from running: supported planning isolation, usable reviewer access, and any shared browser or fixed-port ownership. Report-only tasks that forbid repository writes also forbid tool-created repository caches. Route a launch or access failure to its owner with the exact failed prerequisite; preserve the selected approval and review gates instead of silently bypassing them.
 
 ## Apply the changes to a fresh session
 

@@ -37,6 +37,8 @@ Start from the current stage. Clear work can go directly to Build; reviewing an 
 
 For a longer flow, show only the steps justified by the task and stop at the requested boundary. Do not prescribe every skill, an automatic new session, context clearing, or delegation.
 
+For an authorized handoff, name the next owner and the evidence they need: accepted scope, current revision or artifact, checks and unresolved findings, remaining prerequisites or permissions, and the stopping boundary. Distinguish work ready for review from approved, merged, deployed, or archived work. Board administration belongs to the existing coordinator or board workflow; it does not require another development skill or authorize workers to close other tasks.
+
 If the useful skill is missing, disclose that and offer a direct approach or installation guidance as appropriate. Do not silently install it or pretend it ran. If no skill fits, say so rather than forcing the task into the catalogue.
 
 For toolkit additions, compare the missing capability with existing skills and references first. Recommend a separate skill only when it has a distinct, reusable responsibility; otherwise propose a focused extension or evaluation of the existing behavior.
