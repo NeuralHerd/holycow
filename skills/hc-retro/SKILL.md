@@ -17,6 +17,8 @@ Use the requested session or sessions; default to the current conversation. Read
 
 State material coverage limits. A summary can locate evidence but cannot establish that an action ran or a result passed. If earlier records are unavailable, analyze the visible portion without inventing the missing sequence.
 
+For a board-wide retrospective, reconcile active and archived records and state which cohorts were counted versus examined deeply. Treat archive state, task completion, review, and delivery as separate facts; reconcile conflicting status fields with dated evidence rather than counting archived work as successful. Count recorded review attempts and execution errors separately from findings and correction cycles. Identify gaps or reset counters, and deduplicate message delivery records before measuring interventions. Human approvals, access unblocks, and stop/resume decisions are distinct from agent handovers; neither a final agent field nor a message count establishes how often the human took over.
+
 For each candidate, connect the intended outcome, what actually happened, and the practical consequence. Distinguish observation from a possible cause. Verify claims of repetition; one consequential failure can justify action, but one occurrence is not a recurring pattern.
 
 Changing requirements, deliberate experiments, legitimate permission boundaries, and unavailable services are not automatically agent failures. Identify what could realistically have improved the result with the information available then.
@@ -48,6 +50,8 @@ Prefer deterministic checks for mechanically detectable problems when their bene
 Use concise guidance for genuine judgment calls. Correct a stale pointer or conflicting instruction at its source; avoid duplicating policy across steering files and skills. Keep frequently loaded instructions small and link conditional detail where the harness can discover it.
 
 Place each remedy at the narrowest useful scope: implementation or test, project guidance, reusable skill, or user-wide setup. Keep private domain rules and session evidence in the project's approved private location. Public skill improvements need a reusable lesson and sanitized examples, not copied internal logs, identifiers, or machine-specific paths.
+
+For lifecycle friction, identify who owns the next transition and whether it needs a decision, an existing authorization, or a deterministic action. Prefer fixing that ownership or transition over adding worker reminders. Separate proposed automation from supported board capabilities and preserve distinct outcomes for completed, cancelled, and blocked work.
 
 Do not weaken a required check, permission boundary, or review step merely to reduce friction. Recommend a concrete improvement and explain its cost or trade-off. Rank candidates by demonstrated impact, likely recurrence, and implementation cost; separate urgent defects from optional workflow experiments.
 
