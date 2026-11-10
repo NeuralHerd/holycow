@@ -6,6 +6,7 @@ import Sidebar from '../components/Sidebar.astro';
 import SkillReader from '../components/SkillReader.astro';
 import GettingStarted from '../components/GettingStarted.astro';
 import HerdrSetup from '../components/HerdrSetup.astro';
+import BossGoat from '../components/BossGoat.astro';
 import { skills } from '../data/skills';
 import { documentTitle, sourceUrl } from '../lib/documentation.mjs';
 
@@ -16,16 +17,25 @@ interface Props { entry: CollectionEntry<'documentation'> }
 const { entry } = Astro.props;
 const gettingStarted = entry.id === 'docs/getting-started';
 const herdrSetup = entry.id === 'docs/herdr';
-const routingPrompt = herdrSetup ? entry.body?.match(/```text\n(Enable HolyCow[\s\S]*?)\n```/)?.[1] : '';
-if (herdrSetup && !routingPrompt) throw new Error('Missing Herdr setup prompt');
+const bossGoat = entry.id === 'docs/bossgoat';
 const skill = skills.find(skill => entry.id === `skills/${skill.name}`);
 const { Content, headings } = await render(entry);
 const related = skill ? (await getCollection('documentation')).filter(item => item.id.startsWith(`skills/${skill.name}/`)) : [];
 const title = skill?.name ?? (entry.id === 'docs/getting-started' ? 'Getting started' : documentTitle(entry));
 const description = gettingStarted ? 'Install HolyCow, pick a skill, and try your first prompt. A visual quick start for Claude Code, Codex, and Cursor.' : skill?.description ?? `HolyCow documentation: ${title}. Open-source development skills for Claude Code, Codex, and Cursor.`;
-const toc = headings.filter(heading => heading.depth === 2 || heading.depth === 3);
+const toc = bossGoat ? [
+  { depth: 2, slug: 'how-it-works', text: 'How it works' },
+  { depth: 2, slug: 'features', text: 'What can it do?' },
+  { depth: 2, slug: 'get-started', text: 'Get started' },
+] : herdrSetup ? [
+  { depth: 2, slug: 'setup-overview', text: 'The setup' },
+  { depth: 2, slug: 'herdr-start-heading', text: 'Install' },
+  { depth: 2, slug: 'herdr-roles-heading', text: 'Configure HolyCow' },
+  { depth: 2, slug: 'herdr-try-heading', text: 'Try it' },
+  { depth: 2, slug: 'setup-reference', text: 'Full reference' },
+] : headings.filter(heading => heading.depth === 2 || heading.depth === 3);
 const source = sourceUrl(entry.filePath ?? 'README.md');
-const editSource = skill ? 'https://github.com/NeuralHerd/holycow/blob/main/website/src/data/skill-guides.ts' : source;
+const editSource = skill ? 'https://github.com/NeuralHerd/holycow/blob/main/website/src/data/skill-guides.ts' : bossGoat ? 'https://github.com/NeuralHerd/holycow/blob/main/website/src/components/BossGoat.astro' : source;
 ---
 <Base title={title} description={description} wide>
   {gettingStarted ? <div class="docs-shell quick-start-shell"><Sidebar /><GettingStarted /></div> : <div class="docs-shell">
@@ -40,7 +50,7 @@ const editSource = skill ? 'https://github.com/NeuralHerd/holycow/blob/main/webs
           {related.length > 0 && <section class="related-guidance"><h2>Supporting guidance</h2><p>The skill reads these references when the task needs them.</p><ul>{related.map(item => <li><a href={`/${item.id}/`}>{documentTitle(item)} <span aria-hidden="true">↗</span></a></li>)}</ul></section>}
           <div class="prose skill-source"><Content /></div>
         </details>
-      </> : herdrSetup ? <HerdrSetup routingPrompt={routingPrompt!}>
+      </> : bossGoat ? <BossGoat /> : herdrSetup ? <HerdrSetup>
         <header class="reference-header"><p class="eyebrow">Documentation</p><p class="source-note">Published from the repository · <a href={source}>View source ↗</a></p></header>
         <div class="prose"><Content /></div>
       </HerdrSetup> : <>

@@ -1,102 +1,101 @@
 ---
 import Command from './Command.astro';
 
-interface Props { routingPrompt: string }
-const { routingPrompt } = Astro.props;
-const setupPrompt = `Help me set up the Herdr app, Shepherdr 3.x and HolyCow for this project.
-Follow https://herdr.dev and https://github.com/eliasstravik/shepherdr/blob/main/docs/install.md.
+const setupPrompt = `Help me set up Herdr, BossGoat and HolyCow for this project.
+Follow https://herdr.dev and https://github.com/NeuralHerd/BossGoat/blob/main/docs/install.md.
 Check prerequisites, existing installations and my installed agent CLIs.
-If I have an older setup, read docs/upgrading.md before changing it;
-preserve its data and custom instructions. Inspect the install dry run.
+For an existing layout, follow BossGoat's migration instructions and
+preserve its data, preferences and custom instructions. Inspect the dry run.
+Install HolyCow for the agents I use on each machine that will run tasks.
 Keep my model, access, review, merge and worktree settings. Honor this
 repository's checkout policy; do not start tasks to test the installation.
-Install HolyCow for the agents I use, then run shepherdr doctor.
-Walk me through sign-in and selecting the Shepherdr layout in Herdr.`;
+Run shepherdr doctor, select the BossGoat layout, then show me its HolyCow
+settings for skill assignment and per-skill agents and models.`;
 const firstTaskPrompt = `I want to add team invitations to this project.
 Use HolyCow to help me decide who can invite people, which roles they can
-grant, and when invitations expire. Recommend the next useful skill.
-Wait for my decisions before planning or building.`;
+grant, and when invitations expire. Follow this repository's checkout policy.
+Keep this in discovery until I accept the decisions. Do not begin
+implementation or change my model, review, or merge settings.`;
 const roles = [
-  { agent: 'Assistant', model: 'Guide the work', effort: 'Your chosen agent', jobs: 'Guide · Plan · bounded handoffs', symbol: '↗' },
-  { agent: 'Worker', model: 'Do the task', effort: 'Your chosen agent', jobs: 'Assigned skill · evidence · configured review', symbol: '↳' },
-  { agent: 'Reviewer', model: 'Check the result', effort: 'Your chosen agent', jobs: 'Review code or plans · report findings', symbol: '✓' },
+  { agent: 'Guide', model: 'Assistant', effort: 'Role default', jobs: 'Choose the next useful step.', symbol: '↗' },
+  { agent: 'Build and other skills', model: 'Workers', effort: 'Role default', jobs: 'Do the assigned work.', symbol: '↳' },
+  { agent: 'Review', model: 'Reviewer', effort: 'Read only', jobs: 'Check the change and its evidence.', symbol: '✓' },
 ];
 ---
 <div class="herdr-setup">
-  <header class="herdr-intro">
-    <p class="eyebrow">Herdr + Shepherdr setup</p>
-    <h1>Your agents.<br /><span>One place.</span></h1>
-    <p class="herdr-lede">A workspace, an Assistant, and a useful next step.</p>
-    <p class="herdr-note">Using our recommended setup? <a href="/docs/bossgoat/">Follow the BossGoat guide →</a> This page covers upstream Shepherdr.</p>
+  <header class="herdr-intro" id="setup-overview">
+    <p class="eyebrow">HOLYCOW + HERDR + BOSSGOAT</p>
+    <h1>Recommended<br /><span>Setup</span></h1>
+    <p class="herdr-lede">Three tools. One way to keep the work moving.</p>
   </header>
 
-  <div class="herdr-pieces" role="group" aria-label="How the three tools fit together">
-    <div><span class="piece-symbol" aria-hidden="true">▥</span><p class="piece-label">The workspace</p><h2>Herdr</h2><p>Keep your agent terminals together.</p></div>
-    <div><span class="piece-symbol" aria-hidden="true">☷</span><p class="piece-label">The tasks</p><h2>Shepherdr</h2><p>Talk to your Assistant. Follow the work.</p></div>
+  <div class="herdr-pieces" role="group" aria-label="Herdr runs the sessions, BossGoat coordinates the work, HolyCow guides each task">
+    <div><span class="piece-symbol" aria-hidden="true">▥</span><p class="piece-label">The workspace</p><h2>Herdr</h2><p>Run your agents. Keep their sessions together.</p></div>
+    <div><span class="piece-symbol" aria-hidden="true">☷</span><p class="piece-label">The coordination</p><h2>BossGoat</h2><p>Tell your Assistant. Follow tasks and decisions.</p></div>
     <div><span class="piece-symbol" aria-hidden="true">✳</span><p class="piece-label">The method</p><h2>HolyCow</h2><p>Clarify, plan, build, and review.</p></div>
   </div>
-  <p class="herdr-note">Best for several agents. One agent? HolyCow works on its own, too.</p>
+  <p class="herdr-note">New to BossGoat? <a href="/docs/bossgoat/">See what it can do →</a> HolyCow also works on its own in your usual agent chat.</p>
 
   <section class="herdr-section" aria-labelledby="herdr-start-heading">
     <div class="herdr-heading"><h2 id="herdr-start-heading">Let your agent set it up.</h2><span>01 / Install</span></div>
     <Command command={setupPrompt} label="Paste in your agent chat" />
     <details class="herdr-details"><summary>Prefer terminal commands?</summary>
-      <p>macOS or Linux · Python 3.8+ · Git · Node.js 22.20+. Install and sign in to Claude Code or Codex first. Shepherdr’s installer adds Bun if needed.</p>
+      <p>macOS or Linux · Python 3.8+ · Git · Node.js 22.20+. Install and sign in to Claude Code, Codex, or Cursor first. The BossGoat installer adds Bun if needed.</p>
       <Command command={'curl -fsSL https://releases.herdr.dev/app/install.sh | sh\nherdr-app --version\nhc --version'} label="Install Herdr app 0.1.12+ · core 0.1.17+" />
-      <p>Open the Herdr app once. Keep the Shepherdr checkout for future updates.</p>
-      <Command command={'git clone https://github.com/eliasstravik/shepherdr\ncd shepherdr\n./install.sh --dry-run'} label="Preview the Shepherdr installation" />
-      <p>Review the proposed changes before applying them. For an older installation, read the migration section in the full reference first.</p>
-      <Command command={'./install.sh\nshepherdr doctor'} label="Install Shepherdr · check the setup" />
-      <p>Select the Shepherdr layout with <kbd>Ctrl+Shift+L</kbd> and create a space for your project folder.</p>
-      <Command command={"npx skills@latest add NeuralHerd/holycow -g -a claude-code codex --skill '*'"} label="Install HolyCow" />
-      <p>Keep only the agents you use after <code>-a</code>; add <code>cursor</code> for standalone Cursor use. Open fresh agent sessions to load the skills.</p>
+      <p>Open Herdr once. If you already use the upstream layout, follow <a href="#move-an-existing-installation">the migration reference</a> before installing. Keep the BossGoat checkout for updates.</p>
+      <Command command={'git clone https://github.com/NeuralHerd/BossGoat\ncd BossGoat\n./install.sh --dry-run'} label="Preview the BossGoat installation" />
+      <p>Review the proposed changes before applying them. Some helper commands retain their upstream names.</p>
+      <Command command={'./install.sh\nshepherdr doctor'} label="Install BossGoat · check the setup" />
+      <p>Select <strong>BossGoat</strong> with <kbd>Ctrl+Shift+L</kbd> and create a space for your project folder.</p>
+      <Command command={"npx skills@latest add NeuralHerd/holycow -g -a claude-code codex cursor --skill '*'"} label="Install HolyCow" />
+      <p>Keep only the agents you use after <code>-a</code>. Install on each machine that runs tasks, then open fresh agent sessions.</p>
     </details>
   </section>
 
   <section class="herdr-section" aria-labelledby="herdr-roles-heading">
-    <div class="herdr-heading"><h2 id="herdr-roles-heading">Give each agent a job.</h2><span>02 / Configure</span></div>
-    <p class="section-intro">Choose agents in Shepherdr settings → Agents. Keep the models and effort levels you already use.</p>
+    <div class="herdr-heading"><h2 id="herdr-roles-heading">Choose an agent for each skill.</h2><span>02 / Configure</span></div>
+    <p class="section-intro">Open BossGoat settings → HolyCow. Set the agent and model for each skill, Everywhere or for this project. Without a skill override, these role defaults apply.</p>
     <div class="herdr-roles">
       {roles.map(role => <div class="herdr-role"><div class="role-top"><p>{role.agent}</p><span aria-hidden="true">{role.symbol}</span></div><h3>{role.model} <span>{role.effort}</span></h3><p class="role-jobs">{role.jobs}</p></div>)}
     </div>
-    <p class="herdr-note">A skill doesn’t change the model in an existing chat. Settings can apply Everywhere or to one space.</p>
-    <details class="herdr-details"><summary>Copy the HolyCow role setup prompt</summary>
-      <p>Paste into a coding-agent chat to merge guidance into the installed role instructions. Preserve existing settings and task commands.</p>
+    <p class="herdr-note">BossGoat requires a HolyCow skill for each software task. Your Assistant selects it; missing skills stop the launch with installation guidance.</p>
+    <details class="herdr-details"><summary>Check task settings and where work happens</summary>
+      <p>Review Worktrees, Review, Must fix, Proof, and Merge in BossGoat settings → Tasks. Git tasks use worktrees by default. For work in the original checkout, set Worktrees for this space to match your repository's policy before starting.</p>
       <Command command={'herdr-task config --json'} label="Inspect settings from your project folder" />
-      <Command command={routingPrompt} label="Paste in your coding-agent chat" />
+      <p>Review uses <code>hc-review</code> within the existing review process when enabled. Read <code>herdr-task show &lt;task-id&gt;</code> for the task's actual settings.</p>
     </details>
-    <details class="herdr-details"><summary>Check guidance after changing defaults</summary>
-      <p>Save a compact handoff and start a fresh agent session after editing role instructions. Verify its model and guidance. Closing the Herdr window does not restart agents.</p>
-      <p>Check an existing task’s Settings block with <code>herdr-task show &lt;task-id&gt;</code>; changed defaults do not rewrite its running brief.</p>
+    <details class="herdr-details"><summary>When do model choices take effect?</summary>
+      <p>Changed skill settings apply to new launches. Running sessions and already-queued commands keep their choices. Guide's model picker controls delegated Guide tasks, not the current Assistant.</p>
+      <p>Replace conflicting hard-coded model choices in custom role instructions with the HolyCow settings, while preserving task and review rules. <a href="#configure-holycow">Read the configuration reference →</a></p>
     </details>
   </section>
 
   <section class="herdr-section" aria-labelledby="herdr-try-heading">
     <div class="herdr-heading"><h2 id="herdr-try-heading">Describe the work.</h2><span>03 / Try it</span></div>
-    <p class="section-intro">Try this with your Assistant after setup. Swap in your own idea.</p>
+    <p class="section-intro">Start with your project's Assistant. Swap in your own idea.</p>
     <Command command={firstTaskPrompt} label="Example · paste in your Assistant chat" />
-    <div class="herdr-result"><span aria-hidden="true">↳</span><div><h3>A clear next step</h3><p>The Assistant recommends a skill and helps clarify decisions before work starts.</p></div></div>
-    <p class="herdr-note">Tasks use worktrees by default. For the original checkout, verify Tasks → Worktrees and your repository’s policy before starting work.</p>
+    <div class="herdr-result"><span aria-hidden="true">↳</span><div><h3>A useful next step</h3><p>The Assistant selects HolyCow guidance to help clarify the decisions. Your task settings decide how the work runs.</p></div></div>
   </section>
 
   <section class="herdr-update" aria-labelledby="herdr-update-heading">
     <div><h2 id="herdr-update-heading">Keep it fresh.</h2><p>Update the tools. Reload the guidance.</p></div>
     <details class="herdr-details"><summary>Update commands</summary>
-      <p>For an existing Shepherdr 3.x installation, run from its installation checkout. Older versions need the migration guide first.</p>
-      <Command command={'git pull --ff-only\nshepherdr update\nshepherdr doctor'} label="Update Shepherdr 3.x" />
-      <p>Update HolyCow with the same install command above. Ask ongoing agents to re-read changed guidance, or start a fresh session.</p>
+      <p>Run from the BossGoat checkout used for installation.</p>
+      <Command command={'git pull --ff-only\nshepherdr update\nshepherdr doctor'} label="Update BossGoat" />
+      <p>Update HolyCow with the install command above. Ask ongoing agents to re-read changed guidance, or start a fresh session.</p>
     </details>
   </section>
 </div>
 
 <details class="herdr-reference">
-  <summary>Full setup reference <span>Optional · settings, review, and migration</span></summary>
+  <summary id="setup-reference">Full setup reference <span>Installation, settings, and migration details</span></summary>
   <slot />
 </details>
 
 <style>
   .herdr-reference { display: block; border-top: 1px solid var(--border); padding-top: 22px; }
   .herdr-reference > summary { display: list-item; font-size: 13px; cursor: pointer; color: var(--ink); }
+  .herdr-reference :global(.prose > h1:first-child) { display: none; }
   .herdr-reference > summary span { display: block; margin: 6px 0 0 17px; color: var(--ink-70); font-size: 11px; }
   .herdr-intro .eyebrow { font-size: 10px; margin-bottom: 20px; }
   .herdr-intro h1 { font-size: clamp(42px, 5vw, 64px); letter-spacing: -.06em; margin-bottom: 20px; }
@@ -124,7 +123,7 @@ const roles = [
   .herdr-details summary { font-size: 12px; cursor: pointer; color: var(--ink); }
   .herdr-details > p { font-size: 12px; line-height: 1.7; color: var(--ink-70); margin: 16px 0; overflow-wrap: anywhere; }
   .herdr-details :global(.command) + :global(.command) { margin-top: 14px; }
-  .herdr-roles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .herdr-roles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
   .herdr-role { padding: 18px; border: 1px solid var(--border); border-radius: 14px; background: color-mix(in srgb, var(--gradient-peach) 20%, var(--card)); }
   .herdr-role:nth-child(2) { background: color-mix(in srgb, var(--gradient-sky) 20%, var(--card)); }
   .herdr-role:nth-child(3) { background: color-mix(in srgb, var(--gradient-coral) 15%, var(--card)); }
@@ -155,9 +154,9 @@ const roles = [
     .herdr-heading { align-items: flex-start; }
     .herdr-heading h2 { font-size: 21px; }
     .herdr-heading > span { font-size: 9px; padding-top: 6px; }
+    .herdr-roles { grid-template-columns: 1fr; }
     .herdr-role { padding: 14px; }
     .herdr-role h3 { font-size: 20px; }
     .herdr-update { grid-template-columns: 1fr; }
   }
-  @media (max-width: 380px) { .herdr-roles { grid-template-columns: 1fr; } }
 </style>
