@@ -89,7 +89,7 @@ These are chat invocations, not shell commands. Replace `holycow-guide` with any
 
 For coordinating several agents, we recommend **HolyCow + [Herdr](https://herdr.dev) + [BossGoat](https://github.com/NeuralHerd/BossGoat)**. Herdr provides the app and agent terminals; BossGoat adds an Assistant, tasks, review, and acceptance; HolyCow supplies the workflow guidance. BossGoat is NeuralHerd's fork of [Shepherdr](https://github.com/eliasstravik/shepherdr), with Cursor support and built-in HolyCow skill assignment and per-skill model settings.
 
-The [BossGoat setup guide](website/src/content/docs/bossgoat.md) covers installation, HolyCow settings, checkout choices, and migration from Shepherdr. The [Herdr + Shepherdr guide](website/src/content/docs/herdr.md) remains available for upstream Shepherdr users. HolyCow also works directly in your usual agent chat.
+Meet [BossGoat](website/src/content/docs/bossgoat.md) to see what it does, then follow the [Recommended Setup](website/src/content/docs/herdr.md) for installation, HolyCow settings, checkout choices, and updates. HolyCow also works directly in your usual agent chat.
 
 ## Choose a skill
 
@@ -140,7 +140,7 @@ In standalone agent chats, HolyCow is configured for **explicit invocation**. An
 - **Claude Code and Cursor:** `disable-model-invocation: true` in each `SKILL.md`. See [Claude Code skills](https://code.claude.com/docs/en/skills) and [Cursor skills](https://cursor.com/docs/skills).
 - **Codex:** `policy.allow_implicit_invocation: false` in each `agents/openai.yaml`. See [OpenAI's skill documentation](https://learn.chatgpt.com/docs/build-skills).
 
-Inside BossGoat, the Assistant selects a HolyCow skill for each software task, and BossGoat requires its installed instructions before launch. This integration has its own [skill and model settings](website/src/content/docs/bossgoat.md#configure-holycow); installing HolyCow alone does not enable it in other chats.
+Inside BossGoat, the Assistant selects a HolyCow skill for each software task, and BossGoat requires its installed instructions before launch. This integration has its own [skill and model settings](website/src/content/docs/herdr.md#configure-holycow); installing HolyCow alone does not enable it in other chats.
 
 Full skill instructions load when selected, and supporting references are read as needed. A selected workflow may read relevant companion guidance within its scope and the harness's permissions. Discovery metadata can still consume context depending on the harness, and loaded instructions may remain in the conversation. HolyCow makes no zero-token or measured token-saving claim.
 

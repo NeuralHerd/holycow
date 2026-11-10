@@ -1,0 +1,158 @@
+---
+const agents = ['Claude Code', 'Codex', 'Cursor'];
+---
+<div class="bossgoat">
+  <header class="boss-intro">
+    <p class="eyebrow">YOUR AGENTS. ONE CLEAR VIEW.</p>
+    <h1><span>BossGoat</span></h1>
+    <p class="boss-lede">Give the work direction.<br />See it move.</p>
+    <p class="boss-description">An Assistant for every project. Your coding agents, tasks, and decisions together in Herdr.</p>
+  </header>
+
+  <figure class="boss-diagram" id="how-it-works" aria-labelledby="boss-flow-title">
+    <div class="diagram-heading"><span class="status-dot" aria-hidden="true"></span><h2 id="boss-flow-title">From your idea to work you can follow</h2></div>
+    <div class="request-node"><span class="node-label">YOU SET THE DIRECTION</span><p>“Let’s add team invitations.”</p></div>
+    <div class="flow-connector" aria-hidden="true">↓</div>
+    <div class="assistant-node"><span class="assistant-icon" aria-hidden="true">↗</span><div><span class="node-label">BOSSGOAT</span><h3>Your project’s Assistant</h3><p>Turns the work into tasks. Keeps you in the loop.</p></div></div>
+    <div class="task-branches" aria-hidden="true"><span></span><span></span><span></span></div>
+    <div class="agent-nodes">
+      {agents.map(agent => <div class="agent-node"><span class="node-label">A TASK, WITH ITS OWN AGENT</span><h3>{agent}</h3><p>Your chosen model<br />+ HolyCow guidance</p></div>)}
+    </div>
+    <div class="return-node"><span aria-hidden="true">↳</span><p><strong>Back to you</strong><span>Progress. Questions. Evidence you can inspect.</span></p></div>
+    <figcaption>An illustrated workflow. You choose the agents, models, and task settings.</figcaption>
+  </figure>
+
+  <div class="tool-roles" aria-label="How the tools fit together">
+    <p><strong>Herdr</strong><span>Runs the sessions.</span></p>
+    <p><strong>BossGoat</strong><span>Coordinates the work.</span></p>
+    <p><strong>HolyCow</strong><span>Guides each task.</span></p>
+  </div>
+
+  <section class="boss-features" aria-labelledby="features">
+    <div class="boss-heading"><p class="eyebrow">LESS CHASING. MORE DECIDING.</p><h2 id="features">What can it do?</h2></div>
+    <div class="feature-grid">
+      <article class="feature">
+        <div class="feature-visual task-states" aria-label="Task states: needs you, working, ready">
+          <div><span class="state-dot needs-you" aria-hidden="true"></span><strong>Needs you</strong><span>A decision to make</span></div>
+          <div><span class="state-dot working" aria-hidden="true"></span><strong>Working</strong><span>Agents on the task</span></div>
+          <div><span class="state-dot ready" aria-hidden="true"></span><strong>Ready</strong><span>Evidence to inspect</span></div>
+        </div>
+        <p class="feature-number">01 / FOLLOW THE WORK</p><h3>Know what needs you.</h3>
+        <p>See tasks by their state. Answer questions where the work happens, and open the chat, terminal, or diff when you need a closer look.</p>
+      </article>
+      <article class="feature">
+        <div class="feature-visual skill-choices" aria-label="Example skill assignments, configurable by you">
+          <div><span>Plan</span><span aria-hidden="true">→</span><strong>Cursor</strong></div>
+          <div><span>Build</span><span aria-hidden="true">→</span><strong>Claude Code</strong></div>
+          <div><span>Review</span><span aria-hidden="true">→</span><strong>Codex</strong></div>
+          <small>Example choices. Make them yours.</small>
+        </div>
+        <p class="feature-number">02 / CHOOSE YOUR AGENTS</p><h3>The right agent for each skill.</h3>
+        <p>Choose a model for each HolyCow skill. The Assistant selects the skill that fits the task, using your defaults or that project’s choices.</p>
+      </article>
+      <article class="feature">
+        <div class="feature-visual review-flow" aria-label="With review enabled: build, review, then inspect the result">
+          <div><span>↳</span><strong>Build</strong></div><b aria-hidden="true">→</b><div><span>✓</span><strong>Review</strong></div><b aria-hidden="true">→</b><div><span>◎</span><strong>Your call</strong></div>
+          <small>Review when enabled. Evidence before acceptance.</small>
+        </div>
+        <p class="feature-number">03 / CHECK THE RESULT</p><h3>See the proof before accepting.</h3>
+        <p>Enable a fresh review, inspect the change and its evidence, and choose your merge settings. Keep the decisions that matter in your hands.</p>
+      </article>
+      <article class="feature">
+        <div class="feature-visual machine-flow" aria-label="Your computer and a remote machine connected to one view">
+          <div><span aria-hidden="true">⌘</span><strong>Your computer</strong></div><div><span aria-hidden="true">▤</span><strong>Remote machine</strong></div>
+          <p><span aria-hidden="true">↘ &nbsp; ↙</span><strong>One view of your projects</strong></p>
+        </div>
+        <p class="feature-number">04 / KEEP PROJECTS TOGETHER</p><h3>Across your machines.</h3>
+        <p>Give each project an Assistant. Agents keep running in herdr-core when the window closes. The optional web app brings your workspace to a browser.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="boss-start" aria-labelledby="get-started">
+    <div><p class="eyebrow">START WITH ONE PROJECT</p><h2 id="get-started">Put it to work.</h2><p>Install the tools. Choose your agents.<br />Tell your Assistant what you want to do.</p></div>
+    <a class="button" href="/docs/herdr/">Recommended Setup <span aria-hidden="true">↗</span></a>
+  </section>
+  <p class="boss-credit">BossGoat is NeuralHerd’s fork of <a href="https://github.com/eliasstravik/shepherdr">Shepherdr</a> by Elias Stråvik. <a href="https://github.com/NeuralHerd/BossGoat">Explore BossGoat on GitHub ↗</a></p>
+</div>
+
+<style>
+  .bossgoat h1, .bossgoat h2, .bossgoat h3 { color: var(--ink); }
+  .boss-intro .eyebrow { margin-bottom: 16px; }
+  .boss-intro h1 { font-size: clamp(48px, 6vw, 76px); letter-spacing: -.06em; margin-bottom: 24px; }
+  .boss-intro h1 span { background: linear-gradient(transparent 79%, var(--gradient-peach) 79%); }
+  .boss-lede { font-size: clamp(25px, 3vw, 34px); line-height: 1.2; letter-spacing: -.035em; color: var(--ink); margin-bottom: 16px; }
+  .boss-description { font-size: 16px; color: var(--ink-70); max-width: 480px; margin-bottom: 30px; }
+  .boss-diagram { margin: 0; border: 1px solid var(--border); border-radius: 20px; padding: 24px; background: radial-gradient(ellipse at top right, color-mix(in srgb, var(--gradient-sky) 25%, transparent), transparent 65%), var(--card); }
+  .diagram-heading { display: flex; align-items: center; gap: 9px; margin-bottom: 24px; }
+  .diagram-heading h2 { font: 10px/1.5 monospace; text-transform: uppercase; letter-spacing: .7px; margin: 0; }
+  .node-label { display: block; font: 8px/1.5 monospace; letter-spacing: .6px; color: var(--ink-70); }
+  .request-node { width: fit-content; margin: auto; padding: 14px 24px; text-align: center; background: var(--background); border: 1px solid var(--border); border-radius: 12px; }
+  .request-node p { font-size: 16px; color: var(--ink); margin: 6px 0 0; }
+  .flow-connector { text-align: center; font-size: 22px; line-height: 1.5; color: var(--ink-50); }
+  .assistant-node { display: flex; align-items: center; justify-content: center; gap: 15px; max-width: 400px; margin: auto; padding: 19px; background: color-mix(in srgb, var(--gradient-peach) 34%, var(--card)); border: 1px solid var(--border); border-radius: 14px; }
+  .assistant-icon { display: grid; place-items: center; width: 42px; height: 42px; flex-shrink: 0; border-radius: 12px; border: 1px solid var(--border); background: var(--white-80); color: var(--ink); font-size: 28px; }
+  .assistant-node h3 { font-size: 20px; letter-spacing: -.03em; margin: 5px 0 7px; }
+  .assistant-node p { font-size: 11px; color: var(--ink-70); margin: 0; }
+  .task-branches { display: grid; grid-template-columns: repeat(3, 1fr); height: 36px; position: relative; }
+  .task-branches::before { content: ''; position: absolute; left: 50%; top: 0; height: 18px; border-left: 1px solid var(--ink-20); }
+  .task-branches::after { content: ''; position: absolute; left: 16.666%; right: 16.666%; top: 18px; border-top: 1px solid var(--ink-20); }
+  .task-branches span { height: 18px; justify-self: center; align-self: end; border-left: 1px solid var(--ink-20); }
+  .agent-nodes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .agent-node { border: 1px solid var(--border); border-radius: 12px; padding: 16px 12px; background: color-mix(in srgb, var(--gradient-sky) 20%, var(--card)); }
+  .agent-node:nth-child(2) { background: color-mix(in srgb, var(--gradient-green) 25%, var(--card)); }
+  .agent-node:nth-child(3) { background: color-mix(in srgb, var(--gradient-pink) 9%, var(--card)); }
+  .agent-node h3 { font-size: 17px; letter-spacing: -.025em; margin: 8px 0 10px; }
+  .agent-node p { font-size: 11px; color: var(--ink-70); margin: 0; }
+  .return-node { display: flex; align-items: center; gap: 13px; margin-top: 16px; padding: 13px 17px; border: 1px solid var(--border); border-radius: 12px; background: var(--background); }
+  .return-node > span { font-size: 25px; color: var(--accent-blue); }
+  .return-node p { margin: 0; font-size: 11px; }
+  .return-node strong { color: var(--ink); display: block; font-size: 12px; }
+  .return-node p span { color: var(--ink-70); }
+  .boss-diagram figcaption { font-size: 10px; color: var(--ink-70); margin-top: 16px; }
+  .tool-roles { display: grid; grid-template-columns: repeat(3, 1fr); padding: 23px 0; border-bottom: 1px solid var(--border); gap: 18px; }
+  .tool-roles p { margin: 0; font-size: 11px; color: var(--ink-70); }
+  .tool-roles strong { display: block; color: var(--ink); font-size: 13px; margin-bottom: 3px; }
+  .boss-features { margin: 48px 0; }
+  .boss-heading .eyebrow { margin-bottom: 13px; }
+  .boss-heading h2 { font-size: 34px; margin-bottom: 27px; }
+  .feature-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px 22px; }
+  .feature { min-width: 0; }
+  .feature-visual { min-height: 174px; border: 1px solid var(--border); border-radius: 14px; padding: 18px; margin-bottom: 21px; background: var(--card); }
+  .feature-number { font: 9px/1.5 monospace; color: var(--ink-70); letter-spacing: .6px; margin-bottom: 11px; }
+  .feature h3 { font-size: 22px; letter-spacing: -.035em; line-height: 1.2; margin-bottom: 12px; }
+  .feature > p:last-child { font-size: 13px; color: var(--ink-70); line-height: 1.75; margin: 0; }
+  .task-states { display: grid; align-content: center; gap: 12px; background: color-mix(in srgb, var(--gradient-peach) 12%, var(--card)); }
+  .task-states > div { display: grid; grid-template-columns: 7px minmax(0, 1fr) auto; gap: 8px; align-items: center; font-size: 10px; }
+  .task-states strong { color: var(--ink); font-weight: 600; }
+  .task-states div > span:last-child { color: var(--ink-70); font-size: 9px; }
+  .state-dot { width: 7px; height: 7px; border-radius: 50%; }
+  .needs-you { background: var(--accent-coral); }.working { background: var(--accent-blue); }.ready { background: var(--accent-green); }
+  .skill-choices { display: grid; gap: 8px; background: color-mix(in srgb, var(--gradient-sky) 16%, var(--card)); }
+  .skill-choices > div { display: grid; grid-template-columns: 1fr 20px 1.3fr; align-items: center; gap: 9px; font-size: 11px; }
+  .skill-choices strong { background: var(--white-80); border: 1px solid var(--border); border-radius: 6px; padding: 4px 8px; font-weight: 500; color: var(--ink); }
+  .feature-visual small { display: block; font-size: 9px; color: var(--ink-70); }
+  .review-flow { display: grid; grid-template-columns: 1fr 12px 1fr 12px 1fr; gap: 6px; align-items: center; background: color-mix(in srgb, var(--gradient-green) 20%, var(--card)); }
+  .review-flow > div { text-align: center; color: var(--ink); }
+  .review-flow div span { display: grid; place-items: center; width: 38px; height: 38px; margin: 0 auto 10px; border: 1px solid var(--border); border-radius: 10px; background: var(--white-80); font-size: 23px; }
+  .review-flow strong { font-size: 11px; font-weight: 500; }.review-flow > b { font-weight: 400; color: var(--ink-50); }
+  .review-flow small { grid-column: 1 / -1; text-align: center; }
+  .machine-flow { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; background: color-mix(in srgb, var(--gradient-pink) 7%, var(--card)); }
+  .machine-flow > div { padding: 9px 4px; text-align: center; border: 1px solid var(--border); border-radius: 9px; background: var(--white-80); }
+  .machine-flow div span { display: block; font-size: 22px; color: var(--ink); line-height: 1; margin-bottom: 8px; }
+  .machine-flow strong { font-size: 10px; font-weight: 500; color: var(--ink); }
+  .machine-flow p { grid-column: 1 / -1; text-align: center; margin: 0; }.machine-flow p span { display: block; font-size: 17px; color: var(--ink-50); }
+  .boss-start { display: flex; align-items: center; justify-content: space-between; gap: 22px; padding: 28px; border: 1px solid var(--border); border-radius: 18px; background: linear-gradient(120deg, var(--background-green), color-mix(in srgb, var(--gradient-sky) 20%, var(--card))); }
+  .boss-start .eyebrow { font-size: 9px; margin-bottom: 14px; }.boss-start h2 { font-size: 32px; margin-bottom: 15px; }.boss-start p:last-child { font-size: 12px; color: var(--ink-70); margin: 0; }.boss-start .button { flex-shrink: 0; gap: 14px; font-size: 12px; }
+  .boss-credit { font-size: 11px; color: var(--ink-70); line-height: 1.8; margin: 20px 0 0; }
+  @media (max-width: 680px) {
+    .boss-description { font-size: 15px; }.boss-diagram { padding: 18px 14px; }.diagram-heading { align-items: flex-start; }.diagram-heading .status-dot { margin-top: 4px; }.diagram-heading h2 { font-size: 9px; }
+    .assistant-node { padding: 15px 12px; gap: 12px; }.assistant-node h3 { font-size: 18px; }.assistant-icon { width: 34px; height: 34px; }
+    .task-branches { display: none; }.agent-nodes { grid-template-columns: 1fr; gap: 8px; margin: 16px 0 0 17px; padding-left: 17px; border-left: 1px solid var(--ink-20); }
+    .agent-node { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 4px 12px; padding: 12px; }.agent-node::before { content: ''; position: absolute; top: 50%; left: -18px; width: 17px; border-top: 1px solid var(--ink-20); }
+    .agent-node .node-label { grid-column: 1 / -1; font-size: 7px; }.agent-node h3 { margin: 4px 0; font-size: 15px; align-self: center; }.agent-node p { font-size: 10px; }
+    .tool-roles { gap: 12px; }.tool-roles p { font-size: 10px; }.tool-roles strong { font-size: 12px; }
+    .feature-grid { grid-template-columns: 1fr; gap: 30px; }.feature-visual { min-height: 166px; }.task-states > div { font-size: 12px; }.task-states div > span:last-child { font-size: 11px; }.feature h3 { font-size: 24px; }
+    .boss-start { display: block; padding: 24px; }.boss-start .button { margin-top: 23px; }.boss-features { margin-block: 36px; }
+  }
+</style>
