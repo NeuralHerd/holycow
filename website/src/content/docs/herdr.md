@@ -1,51 +1,165 @@
-# Recommended setup: HolyCow + Herdr
+# Herdr and Shepherdr setup
 
-**For coordinating several coding agents, we recommend HolyCow with Herdr and herdr-projects.** This is the setup Anil uses. You can still use HolyCow directly in Claude Code, Codex, or Cursor.
+**Our recommended setup is now [HolyCow + Herdr + BossGoat](bossgoat.md).** BossGoat is NeuralHerd's fork of Shepherdr, with built-in HolyCow skill assignment and per-skill model settings. This guide covers upstream Shepherdr and its optional role instructions. HolyCow also works directly in Claude Code, Codex, or Cursor.
+
+This guide follows **Shepherdr 3.1.12**, with upstream documentation checked on **6 November 2026**. It replaces our older herdr-projects setup. These are documentation checks, not a completed live integration evaluation.
 
 ## What each part does
 
-[Herdr](https://herdr.dev) keeps agent terminals organized into workspaces, tabs, and panes, with visible working, idle, and blocked states. It helps when you are juggling several sessions and need to find the one waiting for you.
+[Herdr](https://herdr.dev) is the app where you see spaces, chats, and terminals. Its agents run in **herdr-core**, so closing the window does not stop their work. The original Herdr TUI is a separate application with its own server.
 
-[herdr-projects](https://github.com/eliasstravik/herdr-projects) adds a work board and a Coordinator. Track tasks, delegate when ready, and follow checks, review, and approval in one place. Delegated tasks run in their own Herdr spaces and Git worktrees.
+[Shepherdr](https://github.com/eliasstravik/shepherdr) adds an Assistant for each space, tasks, review, and acceptance. It is a layout and set of add-ons for the Herdr app. The Assistant coordinates through `herdr-task`; workers perform the assigned work.
 
-**HolyCow provides the working method:** clarify decisions, plan, build, and review. Our role instructions tell agents which guidance to read, so you can describe the work without naming a skill every time.
+**HolyCow provides the working method:** clarify decisions, plan, build, and review. The role instructions below tell agents which guidance to read. Installing skills alone does not enable automatic selection.
 
 ## Install
 
-This walkthrough is for **macOS or Linux**. The board requires Herdr **0.9.3+**, Git, and curl or wget. Install and sign in to the agent CLIs you want to use first. HolyCow's installer also needs Node.js 22.20+. See the [Herdr installation docs](https://herdr.dev/docs/install/) and [board quick start](https://github.com/eliasstravik/herdr-projects/blob/main/docs/get-started.md).
+This walkthrough is for **macOS or Linux**. Shepherdr 3.1.12 requires the Herdr app **0.1.12+**, herdr-core **0.1.17+**, Python **3.8+**, Git, and a signed-in Claude Code or Codex CLI. Its installer installs Bun if missing. HolyCow's Skills CLI also needs Node.js **22.20+**. See the [Herdr website](https://herdr.dev) and [Shepherdr installation guide](https://github.com/eliasstravik/shepherdr/blob/main/docs/install.md).
 
-Install Herdr using its official installer, then open it from your project directory:
-
-```sh
-curl -fsSL https://herdr.dev/install.sh | sh
-herdr --version
-cd /path/to/your-project
-herdr
-```
-
-In a terminal pane **inside Herdr**, install and open the board:
+Install the Herdr app using its current installer:
 
 ```sh
-herdr plugin install eliasstravik/herdr-projects
-herdr plugin action invoke open --plugin herdr-projects
+curl -fsSL https://releases.herdr.dev/app/install.sh | sh
+herdr-app --version
+hc --version
 ```
 
-Accept the board shortcut offered on its first screen. For the commands below, add `export PATH="$HOME/.herdr-projects/data/bin:$PATH"` to your shell's startup file and open a new shell. Then install HolyCow for your agents:
+Open the Herdr app once so it creates its configuration. Clone Shepherdr into a location you will keep for updates, then inspect the installation before applying it:
 
 ```sh
-npx skills@latest add NeuralHerd/holycow -g -a claude-code codex cursor --skill '*'
-herdr-projects doctor
+git clone https://github.com/eliasstravik/shepherdr
+cd shepherdr
+./install.sh --dry-run
 ```
 
-Keep only the agents you use after `-a`. Reopen their sessions after installation. The [board installation guide](https://github.com/eliasstravik/herdr-projects/blob/main/docs/install.md) covers prerequisites and troubleshooting.
+After reviewing the proposed changes:
+
+```sh
+./install.sh
+shepherdr doctor
+```
+
+The installer adds the layout, helpers, role instructions, and question-card hooks. It backs up replaced files and preserves edited files, placing a new version beside them as `.new`. Inspect those differences rather than overwriting custom instructions. Helpers are linked in `~/.local/bin`; make sure it is on your `PATH`.
+
+In Herdr, **Ctrl+Shift+L** selects the Shepherdr layout. Create a space for your project folder, then install HolyCow for the agents you use:
+
+```sh
+npx skills@latest add NeuralHerd/holycow -g -a claude-code codex --skill '*'
+```
+
+Keep only your agents after `-a`; add `cursor` if you also use HolyCow in Cursor. Open fresh agent sessions after installation. An install on this machine does not establish that HolyCow is available on another machine; verify the selected skill and references there too.
+
+For a web-only setup, follow [Shepherdr's web instructions](https://github.com/eliasstravik/shepherdr/blob/main/docs/web.md). It has different prerequisites, including Tailscale, and uses `./install.sh --web`.
+
+## Configure roles and task settings
+
+Open **Shepherdr settings → Agents** to choose the Assistant, worker, reviewer, and backup agent. Keep existing choices unless you intend to change them. Select the CLI, model, and effort supported by your installed environment; loading a skill never changes the model in an existing chat.
+
+Settings apply **Everywhere** or to a particular **space**. A space's setting overrides the Everywhere default. Role instructions are shared Everywhere; repository-specific rules belong in that repository's `AGENTS.md` or `CLAUDE.md`. See the [settings reference](https://github.com/eliasstravik/shepherdr/blob/main/docs/settings.md).
+
+Under **Tasks**, inspect **Review**, **Must fix**, **Proof**, **Merge**, and **Worktrees** before starting work. From the project's folder, inspect the effective configuration with:
+
+```sh
+herdr-task config --json
+```
+
+Each task receives its own Settings block. Inspect an existing task with `herdr-task show <task-id>`; do not assume a settings change rewrites an already-running task's brief. Preserve approval, review, and access settings when adding HolyCow guidance.
+
+### Original checkout or worktree
+
+Git tasks use worktrees by default. Shepherdr also supports working in the original folder with **Tasks → Worktrees** disabled, or an explicitly requested `--here` task. Verify the effective configuration and task's actual folder before editing. Shared-checkout tasks that touch the same files must run sequentially.
+
+Follow the user's repository policy. If it prohibits new worktrees, do not start a default worktree task or change the setting silently. Use an authorized original-folder workflow or continue directly in an ordinary agent session. The [Assistant instructions](https://github.com/eliasstravik/shepherdr/blob/main/templates/assistant.md) explain task creation and ownership.
+
+## Make HolyCow the default inside Shepherdr
+
+Shepherdr installs role instructions at `~/.config/herdr-core/templates/assistant.md`, `worker.md`, and `reviewer.md`. Merge the following guidance into the relevant roles while preserving their existing task protocol. Do not replace the files with this prompt.
+
+<details>
+<summary>Copy the setup prompt into a coding-agent chat</summary>
+
+```text
+Enable HolyCow guidance only for software work coordinated through Shepherdr.
+Read the installed Shepherdr role instructions and current configuration.
+Merge the role-specific guidance below into
+~/.config/herdr-core/templates/assistant.md, worker.md, and reviewer.md.
+Preserve their existing instructions and frontmatter, my model choices,
+access permissions, review, merge, proof, worktree and Autopilot settings.
+
+All roles: read the selected installed SKILL.md and its required references
+before that work. Resolve references relative to the skill directory.
+Retrieve needed sections if output was truncated; reuse unchanged guidance
+already read. Disclose missing guidance. Verify availability on the machine
+doing the work. Keep installed HolyCow skill files unchanged.
+
+Assistant: use holycow-guide to select the smallest useful route. Use
+hc-plan when preparing accepted work for delivery. Keep your coordination
+role; do not implement code yourself. Preserve accepted decisions and the
+user's current stage instead of restarting discovery. Use the configured
+agents; do not silently replace a requested model or effort.
+
+Worker: follow the assigned scope and stopping boundary. Use hc-build for
+implementation or debugging, hc-plan for planning, and hc-compass or
+hc-refine for discovery. Honor explicitly assigned holycow-init, hc-lab,
+hc-retro and hc-pr work without adding an implementation phase.
+
+When the task's Settings block enables review, use Shepherdr's existing
+worker-led review protocol with the configured reviewer, model, effort,
+Must fix threshold and Review rounds. That reviewer supplies HolyCow's
+independent review: do not launch a second review group. Record reviews
+against the actual reviewed commit using the task's supplied commands.
+Keep required proof and verification evidence. Do not call ready with
+blocking findings or an unreviewed final commit when review is required.
+
+Reviewer: use hc-review for code and hc-plan for plans. Preserve
+Shepherdr's blocker/major/minor findings format and read-only role.
+Read the brief and actual change, report evidence and coverage limits,
+and do not recruit other reviewers.
+
+Send bounded handoffs with ownership, accepted constraints, repository and
+target state, known source and guidance paths, check evidence, and the
+stopping boundary. Fresh reviewers receive the contract and evidence,
+without the author's conversation or persuasive conclusions. Dispatch
+once; use completion waits and compact status before retrying anything.
+
+Skip routing for greetings, simple facts, status, and task administration.
+Follow my authorization and repository instructions. Do not add tasks,
+start agents, create worktrees, publish or accept work merely because a
+skill suggests it. A ready task is not proof of acceptance or deployment.
+Show the changed instruction sections and any unresolved conflicts.
+```
+
+</details>
+
+This is role guidance, not a built-in per-skill model router. Ordinary sessions still need the selected skill and accepted context in their prompt. After editing role instructions, start a fresh session with a compact handoff and verify its guidance and model; closing the Herdr window does not restart agents.
+
+## Review and completion
+
+Current Shepherdr has the **worker arrange the configured review**; `herdr-task` does not start a separate board reviewer. The worker records each review against its reviewed commit. HolyCow's self-checks remain useful, but must not create a duplicate independent-review loop. Follow the installed [worker](https://github.com/eliasstravik/shepherdr/blob/main/templates/worker.md) and [reviewer](https://github.com/eliasstravik/shepherdr/blob/main/templates/reviewer.md) instructions.
+
+Use the task's actual **Review rounds** and **Must fix** settings. The old board's per-reason retry semantics and `limit.tokens` / `limit.time` commands are not configuration instructions for Shepherdr 3.x. If rounds are exhausted with blockers or the final commit unreviewed, report the decision needed rather than resetting the cycle or claiming success.
+
+The worker's supplied `herdr-task ready` command can push a worktree branch and open a PR; subsequent merging follows the task's Merge setting. These are delivery actions, not a harmless status update. Match them to the user's authorization, and keep ready, accepted, merged, and deployed distinct. Preserve required proof artifacts and disclose unverified behavior.
+
+Measure Assistant, worker, reviewer, correction, and retry usage together when available. Do not promise a hard token cap from prose instructions. See [Retro](../../../../skills/hc-retro/SKILL.md) for evidence-based comparisons.
+
+## Finish and retire tasks
+
+Workers hand back evidence at their assigned boundary; the Assistant coordinates the remaining lifecycle under the user's authorization. At handoff, name the next owner, current revision or report, checks, unresolved findings, and remaining permissions. Reconcile the task record, review target, PR or report, and requested deployment checks before calling the work done. A human merge outside the task workflow can leave stale status; verify the result before requesting another merge or restarting a worker merely to repeat its closing note.
+
+Archiving hides work; it does not establish completion. Apply the owner's existing archive policy after its completion conditions are verified. If no policy is authorized, propose the choice once through the Assistant. Keep cancelled or unfinished work distinguishable from completed work. Archive permission does not grant merge permission, waive review, or complete an outstanding deployment.
+
+Keep retirement in the task lifecycle, using controls supported by the installed version. Avoid adding a worker task per completion merely to hide another task, or copying an archive reminder into every HolyCow skill.
+
+Before an authorized launch, check prerequisites that can prevent the assigned phase from running: supported planning isolation, usable reviewer access, and any shared browser or fixed-port ownership. Report-only tasks that forbid repository writes also forbid tool-created repository caches. Route a launch or access failure to its owner with the exact failed prerequisite; preserve the selected approval and review gates.
 
 ## Anil's setup
 
-As of **22 October 2026**, this is the assignment for each job. These are personal choices, not required models.
+The **22 October 2026** model choices below describe the previous setup, not verified Shepherdr 3.x defaults. They remain a reference for standalone HolyCow sessions. The former Cursor Auto Coordinator and background watcher are not automatically migrated to current Shepherdr roles. Choose supported agents in Settings rather than copying old board commands or substituting a model silently.
 
-| Skill or role | Harness | Model | Effort |
+| Skill or former role | Harness | Model | Effort |
 | --- | --- | --- | --- |
-| Coordinator and `holycow-guide` | Cursor | Auto | Automatic |
+| Former Coordinator and `holycow-guide` | Cursor | Auto | Automatic |
 | `hc-plan` | Cursor | Auto | Automatic |
 | `hc-compass`, `hc-refine`, `hc-retro` | Codex | GPT-6 Astra | Extra High |
 | `holycow-init`: routine setup | Claude Code | Opus 5.5 | Extra High |
@@ -55,220 +169,37 @@ As of **22 October 2026**, this is the assignment for each job. These are person
 | `hc-lab`: default | Codex | GPT-6 Astra | Extra High |
 | `hc-lab`: explicitly chosen alternative | Claude Code | Opus 5.5 | Extra High |
 | `hc-pr` | Cursor | Auto | Automatic |
-| Background watcher | Claude Code | Haiku 5.5 | Default |
+| Former background watcher | Claude Code | Haiku 5.5 | Default |
 
-**Cursor Auto does not pin Grok 4.7.** Cursor chooses the underlying model. Extra High is written as `xhigh` in Codex and Claude settings.
-
-Init uses Astra when the authorized work needs substantial investigation, conflicting conventions resolved, or cross-project context. Routine setup and refreshing known project guidance stay on Claude. Lab uses Astra unless you choose its Opus alternative.
-
-**A skill does not switch the model in an existing chat.** The Coordinator uses this table when handing work to a suitable agent. Moving from discovery to planning, for example, means a handoff from Astra to Cursor with the accepted decisions.
-
-Check what your installed agents accept before copying model choices:
-
-```sh
-herdr-projects models claude
-herdr-projects models codex
-herdr-projects models cursor
-```
-
-Use a listed model, or leave off the model suffix to use the agent's default. Model availability depends on your installation and account. See [models and effort](https://github.com/eliasstravik/herdr-projects/blob/main/docs/models.md).
-
-### Copy the role choices
-
-Run only the choices you want. These set personal defaults for board tasks; repo and task overrides can take precedence.
-
-```sh
-herdr-projects set coordinator.agent cursor/auto
-herdr-projects set coordinator.effort default
-herdr-projects set plan.agent cursor/auto
-herdr-projects set plan.approve you
-herdr-projects set worker.agent claude/claude-opus-5-5
-herdr-projects set worker.effort xhigh
-herdr-projects set worker.fallback none
-herdr-projects set reviewer.agent codex/gpt-6.1-sol
-herdr-projects set reviewer.effort high
-herdr-projects set reviewer.fallback none
-herdr-projects set board.open popup
-herdr-projects show
-```
-
-Anil's personal default asks for plan approval. Interaction Service overrides `plan.approve` to `none`; its discovery workflow uses a separate ordinary pane, as described below. The commands above leave access permissions unchanged. See the [settings reference](https://github.com/eliasstravik/herdr-projects/blob/main/docs/settings.md).
-
-## Make HolyCow the default inside Herdr
-
-Installation alone does **not** enable automatic selection. We opt in through `coordinator.instructions`, `worker.instructions`, and `reviewer.instructions`. The settings above choose role defaults; the instructions below add the skill assignments. Ordinary panes need explicit model arguments and the same guidance in their handoff.
-
-<details>
-<summary>Copy the setup prompt into your board's Coordinator chat</summary>
-
-```text
-Enable HolyCow guidance only for software work coordinated through Herdr.
-Merge this into coordinator.instructions, worker.instructions, and
-reviewer.instructions, preserving my access, approval and review settings:
-
-Read the selected installed SKILL.md and its required references before
-that work. Resolve references relative to the skill directory. Retrieve
-needed sections if output was truncated; reuse unchanged guidance already
-read. Say which guidance you use and disclose missing files.
-
-Coordinator: use holycow-guide to select the smallest useful route, then
-use this fixed assignment at each authorized handoff:
-- Coordinator, holycow-guide, hc-plan, hc-pr: cursor/auto, effort default.
-- hc-compass, hc-refine, hc-retro: codex/gpt-6-astra, effort xhigh.
-- holycow-init: claude/claude-opus-5-5, effort xhigh for routine setup;
-  codex/gpt-6-astra, effort xhigh for deeper investigation already in scope.
-- hc-build: claude/claude-opus-5-5, effort xhigh.
-- hc-review: codex/gpt-6.1-sol, effort high.
-- hc-lab: codex/gpt-6-astra, effort xhigh; use claude/claude-opus-5-5,
-  effort xhigh only when I explicitly choose that alternative.
-
-For a board task, explicitly set worker.agent, worker.effort and
-worker.fallback none from the assignment. Verify with show <id> --json.
-The optional plan-before-build phase uses plan.agent cursor/auto.
-A standalone hc-plan task also needs worker.agent cursor/auto and
-worker.effort default. Do not enable a build phase for a planning-only task.
-Keep the independent board reviewer on codex/gpt-6.1-sol, effort high,
-including plan reviews, which use hc-plan guidance.
-
-For ordinary panes, pass the corresponding native model/effort arguments;
-board defaults do not reach them. Reuse a session only when its harness,
-model and effort match. Include the skill, repository, accepted context,
-current stage, model assignment and stopping boundary in each handoff.
-Verify the recorded launch. Report a model mismatch before domain work.
-Loading a skill never changes the current chat's model.
-
-Set research.only only for reports with no repository changes. Selecting
-Astra does not make a task read-only: maps, decisions, setup and experiments
-can need authorized writes.
-
-Worker: follow the handoff; use hc-plan for planning, hc-build for
-implementation or debugging, and hc-compass or hc-refine for research.
-Also honor explicitly assigned hc-retro, hc-lab, hc-pr and holycow-init.
-Reviewer: use hc-review for code and hc-plan for plans. Preserve the
-board's verdict format and review-only role.
-
-The board owns the review-and-correction cycle. Workers retain self-checks
-but do not launch another independent review before the board's review.
-The assigned reviewer performs the review directly and does not recruit
-more reviewers. Only the Coordinator assigns an authorized specialist
-for a distinct risk or a fresh readiness reader when no plan reviewer
-already covers it. Keep small, settled work direct.
-
-Give each authorized worker one outcome, explicit ownership, accepted
-constraints, source pointers, check evidence and a stopping boundary.
-Fresh reviewers receive the contract, project rules and exact target,
-without the author's conversation or conclusions. Return concise findings
-and coverage limits. On correction rounds, carry finding identities and
-recheck the fixes and affected dependencies; retain unresolved blockers.
-
-At handoff, name the next owner, current revision or report, checks,
-unresolved findings and remaining permissions. Distinguish ready for
-review, approved, merged, deployed and archived. The Coordinator owns
-board closeout under my existing authorization and completion policy.
-
-Skip routing for greetings, simple facts, status, and board administration.
-Do not start agents, add tasks, create worktrees, or publish work merely
-because a skill suggests it. Follow my scope and repository instructions.
-Keep installed skill files unchanged. Show me the saved settings.
-```
-
-</details>
-
-This is Coordinator guidance, not a built-in per-skill router. Check the selected model at handoff and confirm that the receiving agent reads the skill and its references.
-
-<details>
-<summary>Exact task settings and ordinary-pane arguments</summary>
-
-For an existing planning task, save its assignment before its next authorized start. This does not start the task:
-
-```sh
-herdr-projects set worker.agent cursor/auto --task <id>
-herdr-projects set worker.effort default --task <id>
-herdr-projects set worker.fallback none --task <id>
-herdr-projects show <id>
-```
-
-For an Astra task, use `codex/gpt-6-astra` and `xhigh` instead. Keep its output boundary and approval settings separate from its model assignment.
-
-In an ordinary Herdr pane, pass these native arguments after `--` in an authorized `herdr agent start` command:
-
-| Assignment | `--kind` | Native arguments |
-| --- | --- | --- |
-| Cursor Auto | `cursor` | `--model auto` |
-| Astra Extra High | `codex` | `-m gpt-6-astra -c 'model_reasoning_effort="xhigh"'` |
-| Sol High | `codex` | `-m gpt-6.1-sol -c 'model_reasoning_effort="high"'` |
-| Opus Extra High | `claude` | `--model claude-opus-5-5 --effort xhigh` |
-
-Use a discovered, available pane ID and carry the skill/context in the prompt. Follow the installed Herdr skill; these settings do not authorize another agent or worktree.
-
-`worker.fallback none` removes the configured fallback chain. The board can still retry a rejected model on that harness's default model. Report that mismatch instead of treating it as the requested assignment. See [model refusal behavior](https://github.com/eliasstravik/herdr-projects/blob/main/docs/models.md#a-model-refused-while-the-agent-works).
-
-</details>
-
-## Bound review cost
-
-HolyCow defaults to one independent reviewer for substantial work, with additional specialists only for distinct risks or an explicit request. An existing board plan review also counts as Plan's readiness review. Fresh context still includes accepted decisions and project instructions. Use a fresh agent session where supported; reopening a pane or resuming a chat does not establish isolation. A small task does not need a new board task, worktree, or reviewer group for each check.
-
-For a new review policy, start with one automatic correction cycle followed by a focused recheck. Inspect `herdr-projects show <id> --json` before changing task settings. Existing user and board policy remains authoritative; installing skills does not change it. If approved, `herdr-projects set review.rounds 1 --task <id>` limits automatic send-backs **per reason**, not the total number of reviews. Check worker fallback behavior too: a fallback can continue after rounds are exhausted.
-
-Use an agreed task budget through `limit.tokens` and, when useful, `limit.time`. Token enforcement depends on harness support and is checked at turn boundaries, so a turn can exceed the limit. Verify effective settings and counter support rather than promising a hard cap from instructions. Keep required checks, blocking severity, and merge approval intact. Remaining blockers or missing critical evidence require a decision; a spent budget is not a passing verdict. See the board's [settings and limit semantics](https://github.com/eliasstravik/herdr-projects/blob/main/docs/settings.md).
-
-Measure total task usage, including reviewers and corrections, alongside defects caught and remaining verification. Shorter prompts alone do not demonstrate savings. See [Retro](../../../../skills/hc-retro/SKILL.md) for evidence-based comparisons.
-
-## Finish and retire board work
-
-Workers hand back the requested evidence at their assigned boundary; the board or Coordinator handles the remaining lifecycle. Reconcile the task record, review target, PR or report, and requested deployment checks before calling it done. A human merge outside the board can leave stale status; verify the result before requesting another merge or restarting a worker merely to repeat its closing note.
-
-Archiving hides work; it does not establish completion. Apply the owner's existing archive policy after its completion conditions are verified. If no policy is authorized, propose the choice once through the Coordinator. Keep cancelled or unfinished work distinguishable from completed work, even when the owner explicitly archives it. Archive permission does not grant merge permission, waive review, or complete an outstanding deployment.
-
-Automatic retirement belongs in the board's lifecycle handling. Treat a done-only archive policy as a proposal until the owner chooses it and the installed board supports it. Herdr-projects event automations start agent tasks; they are not a built-in auto-archive switch. Avoid adding a worker task per completion merely to hide another task, or copying an archive reminder into every HolyCow skill.
-
-Before an authorized launch, check the prerequisites that can prevent the assigned phase from running: supported planning isolation, usable reviewer access, and any shared browser or fixed-port ownership. Report-only tasks that forbid repository writes also forbid tool-created repository caches. Route a launch or access failure to its owner with the exact failed prerequisite; preserve the selected approval and review gates instead of silently bypassing them.
-
-## Apply the changes to a fresh session
-
-**Closing and reopening Herdr can restore the old agent and model.** After saving the settings, start a fresh Coordinator from a terminal inside Herdr:
-
-```sh
-herdr-projects coordinator new
-```
-
-This replaces the Coordinator chat using the saved defaults. Save any handoff context you need first. `coordinator restart` resumes the old conversation and its saved model; use `new` to adopt the new assignment. A project Coordinator is separate: use `herdr-projects coordinator --project <repo> new` for it.
-
-Anil also has **Ctrl+B, then Shift+Y** bound to a fresh Coordinator. **Ctrl+B, then Y** opens the existing one. Existing task agents keep their current model until a new run; check task overrides before resuming work.
-
-<details>
-<summary>Optional Herdr shortcut for a fresh Coordinator</summary>
-
-Add an unused shortcut to `~/.config/herdr/config.toml`:
-
-```toml
-[[keys.command]]
-key = "prefix+shift+y"
-type = "shell"
-command = 'exec "$HOME/.herdr-projects/data/bin/herdr-projects" coordinator new'
-description = "Start a fresh Coordinator with current defaults"
-```
-
-Use your configured prefix if it differs from Ctrl+B. Reload Herdr's configuration from inside Herdr with `herdr server reload-config` to register the shortcut in an already-running server.
-
-</details>
+Model availability depends on the installed CLI and account. Cursor Auto chooses its underlying model. A model preference does not authorize delegation, repository writes, or a different checkout.
 
 ## Example: Interaction Service
 
-Anil's workflow starts with `holycow-init`, which records repository context in `docs/agents/holycow.md`. The Coordinator hands discovery to an ordinary Codex pane in the original checkout. Compass keeps the open questions and accepted decisions in `.hc/compass/interaction-service/map.md`; Refine presents recommendations, alternatives, and trade-offs.
-
-A prompt after the defaults are configured:
+For discovery in an existing agent session, reuse `docs/agents/holycow.md` and `.hc/compass/interaction-service/map.md`. Keep accepted decisions and the current question rather than restarting setup.
 
 ```text
-Continue discovery for Interaction Service in our existing research pane.
+Continue discovery for Interaction Service in this original checkout.
 Reuse docs/agents/holycow.md and the current Compass map. Resolve the next
 open decision with recommended options and trade-offs. Stay in discovery;
-do not create a board task or start implementation.
+do not create a task, launch another agent, or start implementation.
 ```
 
-The Coordinator routes the work; the research agent applies Compass and Refine. When accepted decisions are ready for delivery, Plan prepares the work, Build implements it, and Review checks it. **Board delegation creates a worktree**, so request it only when that is the workflow you want. For work in the original checkout, continue in an ordinary Herdr pane.
+Run this in the discovery agent's chat. For an authorized Shepherdr handoff, give the Assistant the same scope and the chosen checkout mode. When decisions are ready for delivery, Plan prepares the work, Build implements it, and Review checks it.
+
+## Upgrading from the old setup
+
+Herdr TUI / herdr-projects and current Herdr app / Shepherdr are different setups. Do not translate old `herdr-projects` commands by changing only the executable name.
+
+Shepherdr's [upgrade guide](https://github.com/eliasstravik/shepherdr/blob/main/docs/upgrading.md) says 2.0 and 2.1 data does not carry into 3.x. Those versions remain on their own branches; do not pull `main` into a 2.x installation. Preserve old tasks and custom instructions, install the current setup separately, and reconcile what you need before retiring the old one.
 
 ## Keep it current
 
-Use `herdr update` for Herdr's installer-managed version, or your package manager for its installation. Update the board with `herdr-projects update` and follow [HolyCow's update instructions](../../../../README.md#update). Ask ongoing agents to re-read changed guidance, or start a fresh session with the accepted context.
+For an existing **3.x** installation, run from the Shepherdr checkout used to install it:
+
+```sh
+git pull --ff-only
+shepherdr update
+shepherdr doctor
+```
+
+Review preserved custom files and any `.new` copies after updates. Update the Herdr app through its current distribution instructions and follow [HolyCow's update instructions](../../../../README.md#update). Re-read changed guidance or start a fresh session with accepted context; an app restart alone does not refresh an agent's model or instructions.
