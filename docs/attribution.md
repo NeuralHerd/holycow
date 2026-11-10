@@ -9,6 +9,6 @@ HolyCow builds on work shared by:
 - [Dietrich Gebert / Ponytail](https://github.com/DietrichGebert/ponytail)
 - [Google's Elephant-Goldfish Model](https://github.com/google/elephant-goldfish-model), introduced by Dave Rensin: design inspiration for fresh-context readiness checks, focused reviewers, and compact handoffs. HolyCow's guidance is independently written; no EGM skill or agent files are bundled.
 
-Our recommended workflow also uses [Herdr](https://herdr.dev) and [herdr-projects](https://github.com/eliasstravik/herdr-projects).
+Our recommended workflow also uses [Herdr](https://herdr.dev) and [BossGoat](https://github.com/NeuralHerd/BossGoat), NeuralHerd's fork of [Shepherdr](https://github.com/eliasstravik/shepherdr) by Elias Stråvik.
 
 HolyCow is [MIT licensed](../LICENSE). Each skill's `LICENSE` retains the applicable upstream copyright and license notices.
