@@ -89,7 +89,7 @@ These are chat invocations, not shell commands. Replace `holycow-guide` with any
 
 For coordinating several agents, we recommend **HolyCow + [Herdr](https://herdr.dev) + [BossGoat](https://github.com/NeuralHerd/BossGoat)**. Herdr provides the app and agent terminals; BossGoat adds an Assistant, tasks, review, and acceptance; HolyCow supplies the workflow guidance. BossGoat is NeuralHerd's fork of [Shepherdr](https://github.com/eliasstravik/shepherdr), with Cursor support and built-in HolyCow skill assignment and per-skill model settings.
 
-Meet [BossGoat](website/src/content/docs/bossgoat.md) to see what it does, then follow the [Recommended Setup](website/src/content/docs/herdr.md) for installation, HolyCow settings, checkout choices, and updates. HolyCow also works directly in your usual agent chat.
+Meet [BossGoat](website/src/content/docs/bossgoat.md) to see what it does, then follow the [Recommended Setup](website/src/content/docs/herdr.md) for installation, HolyCow settings, checkout choices, and updates. BossGoat uses the `bossgoat` command; `shepherdr` remains a compatibility alias. HolyCow also works directly in your usual agent chat.
 
 ## Choose a skill
 

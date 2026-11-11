@@ -2,7 +2,7 @@
 
 Use **Herdr + BossGoat + HolyCow** to keep agent sessions, tasks, and workflow guidance together. Meet [BossGoat](bossgoat.md) for a visual overview of what it can do.
 
-This reference covers BossGoat **3.1.30** as documented on **10 November 2026**. Its helper commands retain their upstream names for compatibility.
+This reference covers the BossGoat **3.1.30** checkout as documented on **11 November 2026**. Use the `bossgoat` command; `shepherdr` remains a compatibility alias.
 
 ## Install
 
@@ -30,7 +30,7 @@ Review the proposed changes, then install and check:
 
 ```sh
 ./install.sh
-shepherdr doctor
+bossgoat doctor
 ```
 
 Make sure `~/.local/bin` is on your `PATH`. In Herdr, press **Ctrl+Shift+L** and select **BossGoat**. Create a space for your project folder with **Ctrl+Shift+N**.
@@ -103,12 +103,12 @@ For a clear implementation task, describe the intended behavior and how to verif
 
 ## Move an existing installation
 
-BossGoat retains the upstream command names and data paths. Treat this as a migration of the existing setup. Clone BossGoat and inspect its install dry run first. To preserve an existing `shepherdr` layout's pane sizes and preferences, run the following with Herdr open and your terminal in the BossGoat checkout:
+BossGoat retains the `shepherdr` command as a compatibility alias and keeps existing data paths. Treat this as a migration of the existing setup. Clone BossGoat and inspect its install dry run first. To preserve an existing `shepherdr` layout's pane sizes and preferences, run the following with Herdr open and your terminal in the BossGoat checkout:
 
 ```sh
 herdr-app do layout.clone '{"name":"shepherdr","as":"BossGoat"}'
 ./install.sh --adopt --keys keep
-shepherdr doctor
+bossgoat doctor
 ```
 
 Skip the clone command if the **BossGoat** layout already exists. `--adopt` backs up and takes over conflicting installation files; `--keys keep` keeps existing shortcuts. Tasks, chats, and agent settings retain their storage paths. Inspect preserved custom instructions, `.new` files, and reported backups after installation. Select **BossGoat** with **Ctrl+Shift+L**. See the [layout migration instructions](https://github.com/NeuralHerd/BossGoat/blob/main/docs/install.md#upgrading-an-existing-shepherdr-layout).
@@ -121,8 +121,10 @@ From the BossGoat checkout used for installation:
 
 ```sh
 git pull --ff-only
-shepherdr update
-shepherdr doctor
+bossgoat update
+bossgoat doctor
 ```
+
+If `bossgoat` is not on your PATH yet, pull the latest code and run `./install.sh --keys keep` once (`./install.sh --web` for a web-only installation), then run `bossgoat doctor`. Keep `~/.local/bin` on your `PATH`. Both command names use the same installation and data.
 
 Review any custom files kept beside new versions or moved to backups. Update HolyCow separately using the [HolyCow update instructions](../../../../README.md#update). After changing installed guidance, start a fresh session or ask the active agent to re-read it; closing the Herdr window does not restart agents.
