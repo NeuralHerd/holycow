@@ -9,7 +9,7 @@ preserve its data, preferences and custom instructions. Inspect the dry run.
 Install HolyCow for the agents I use on each machine that will run tasks.
 Keep my model, access, review, merge and worktree settings. Honor this
 repository's checkout policy; do not start tasks to test the installation.
-Run shepherdr doctor, select the BossGoat layout, then show me its HolyCow
+Run bossgoat doctor, select the BossGoat layout, then show me its HolyCow
 settings for skill assignment and per-skill agents and models.`;
 const firstTaskPrompt = `I want to add team invitations to this project.
 Use HolyCow to help me decide who can invite people, which roles they can
@@ -44,8 +44,8 @@ const roles = [
       <Command command={'curl -fsSL https://releases.herdr.dev/app/install.sh | sh\nherdr-app --version\nhc --version'} label="Install Herdr app 0.1.12+ · core 0.1.17+" />
       <p>Open Herdr once. If you already use the upstream layout, follow <a href="#move-an-existing-installation">the migration reference</a> before installing. Keep the BossGoat checkout for updates.</p>
       <Command command={'git clone https://github.com/NeuralHerd/BossGoat\ncd BossGoat\n./install.sh --dry-run'} label="Preview the BossGoat installation" />
-      <p>Review the proposed changes before applying them. Some helper commands retain their upstream names.</p>
-      <Command command={'./install.sh\nshepherdr doctor'} label="Install BossGoat · check the setup" />
+      <p>Review the proposed changes before applying them. The installer adds the <code>bossgoat</code> command; <code>shepherdr</code> remains a compatibility alias.</p>
+      <Command command={'./install.sh\nbossgoat doctor'} label="Install BossGoat · check the setup" />
       <p>Select <strong>BossGoat</strong> with <kbd>Ctrl+Shift+L</kbd> and create a space for your project folder.</p>
       <Command command={"npx skills@latest add NeuralHerd/holycow -g -a claude-code codex cursor --skill '*'"} label="Install HolyCow" />
       <p>Keep only the agents you use after <code>-a</code>. Install on each machine that runs tasks, then open fresh agent sessions.</p>
@@ -81,7 +81,8 @@ const roles = [
     <div><h2 id="herdr-update-heading">Keep it fresh.</h2><p>Update the tools. Reload the guidance.</p></div>
     <details class="herdr-details"><summary>Update commands</summary>
       <p>Run from the BossGoat checkout used for installation.</p>
-      <Command command={'git pull --ff-only\nshepherdr update\nshepherdr doctor'} label="Update BossGoat" />
+      <Command command={'git pull --ff-only\nbossgoat update\nbossgoat doctor'} label="Update BossGoat" />
+      <p>If <code>bossgoat</code> is not on your PATH yet, pull the latest code and run <code>./install.sh --keys keep</code> once, then run <code>bossgoat doctor</code>. For a web-only installation, use <code>./install.sh --web</code>.</p>
       <p>Update HolyCow with the install command above. Ask ongoing agents to re-read changed guidance, or start a fresh session.</p>
     </details>
   </section>
