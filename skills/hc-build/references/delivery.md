@@ -22,6 +22,10 @@ Run relevant inexpensive checks before slow integration or warehouse checks when
 
 Stabilize the candidate before expensive qualification, without freezing other teams' work or postponing correctness fixes. Reuse evidence only where its inputs and required validity still match. Changed code, configuration, dependencies or data may invalidate different checks. One final source-validation pass per stable candidate is a useful efficiency target, never a maximum number of allowed runs.
 
+After a passing expensive qualification, retain the actual artifacts and native run identity. Test subsequent changes against that qualified candidate and refresh production parity and freshness before activation. Separate source validity from data validity: a small source change need not invalidate every earlier test, while unchanged code does not prove today's production data matches. Check dependencies, configuration, tools and environment as well as code. Broaden validation when those dependencies or prior evidence cannot be established.
+
+For dbt, prefer native state selection and deferral, preserving required test coverage and coherent inputs. Keep the original manifest/results and check the applied relations before deferring to them; logical equality does not establish that a parent exists in production. A reconstructed manifest is comparison evidence, not an original run artifact. An exact-final-commit CI requirement is repository policy, not a universal dbt requirement to rebuild the whole graph. Implement evidence reuse through the project's reviewed CI path; never relabel an old run or bypass an existing guard. Do not restart useful in-flight qualification solely to add process improvements.
+
 Keep required, optional, skipped, failed and unavailable checks distinguishable. A successful workflow does not imply that every step ran. Cancel superseded disposable CI only when interruption and cleanup are safe; do not apply that policy to production mutations. Native concurrency is scoped by its platform and configuration, not automatically a cross-repository release lock.
 
 ## Promote and recover through existing mechanisms
@@ -51,3 +55,6 @@ These sources inform the guidance; they are not additional mandatory workflows o
 - [Anthropic: long-running agents](https://www.anthropic.com/research/effective-harnesses-for-long-running-agents) — incremental progress and explicit resumption evidence from an engineering case study.
 - [OpenAI: skill evaluations](https://developers.openai.com/blog/eval-skills) — assess actual actions and artifacts, including negative cases.
 - [Google Cloud: deployment federation](https://docs.cloud.google.com/iam/docs/workload-identity-federation-with-deployment-pipelines) — unattended access using short-lived workload credentials.
+
+- [dbt: state and deferral](https://docs.getdbt.com/reference/node-selection/defer) — native scoped execution with separate comparison and applied state.
+- [dbt: state limitations](https://docs.getdbt.com/reference/node-selection/state-comparison-caveats) — seeds, variables, macros and mixed-environment tests need explicit coverage.
