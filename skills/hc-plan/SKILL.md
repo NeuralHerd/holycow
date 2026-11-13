@@ -43,6 +43,8 @@ When tickets are requested, read [ticket design and storage](references/tickets.
 
 Prefer narrow end-to-end increments through the layers actually affected. Each ticket should deliver behavior or evidence that can be demonstrated independently and fit a focused implementation session. Do not split mechanically into database, backend, and frontend tickets, or force a UI into backend-only work.
 
+Where feasible, make increments independently releasable as well as testable. Splitting development into small tickets but regrouping every ticket for one release preserves the long feedback loop. Keep genuine compatibility dependencies explicit; do not invent independence or reopen an already accepted release solely to change its batch size.
+
 Put observable acceptance criteria on every ticket and link the brief and relevant decisions. Keep one canonical brief rather than copying it into every issue.
 
 Infrastructure prerequisites, justified preparatory refactors, and migrations may be separate when independently verifiable and necessary. Explain what they enable. For broad compatibility changes, use an expand-migrate-contract sequence instead of forcing slices that cannot work independently.
