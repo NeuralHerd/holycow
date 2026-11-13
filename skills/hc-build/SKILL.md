@@ -19,6 +19,7 @@ Whether invoked by name or read directly, load the applicable references before 
 | --- | --- |
 | Before choosing checks for an implementation or verification task | [Verification](references/verification.md) |
 | Before designing or changing trust boundaries, persistent or shared state, service reliability, or infrastructure | [Production concerns](references/production.md), limited to the affected concerns |
+| Before coordinating a release or resuming delivery across sessions or repositories | [Delivery and handoffs](references/delivery.md) |
 | Before investigating a reported bug, performance regression, or unexplained failure | [Debugging](references/debugging.md) |
 
 If a condition arises later, load its guidance then. Include the applicable guidance in the implementation and verification approach. Disclose unavailable guidance and its practical limits; reading this entrypoint alone does not establish that the complete workflow was followed.

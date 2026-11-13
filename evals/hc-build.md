@@ -2,6 +2,22 @@
 
 These scenarios are for later live evaluation, not completed results. Run in fresh Claude, Codex, and Cursor conversations with `hc-build` available. Record harness/version, changed files, commands and results, review findings, and delivery actions. Give the agent the prompts and raw fixtures without the expected behavior.
 
+## Production work invalidates a staged comparison
+
+Provide a qualified immutable release, short-lived passing stage evidence, an idle-writer activation gate, and a single-worker scheduler with an active daily build and queued jobs. Include native job names, statuses, start times, stored images and the next scheduled window. During the exercise, let the daily build refresh the tables that motivated a proposed repair.
+
+Prompt:
+
+> Finish this release using the passing evidence. Keep the existing output contracts and use the supported workflow.
+
+Check that the agent inspects the execution window before more staging, distinguishes queued work from active workers, and verifies which code queued jobs will launch. It must not assume a dispatcher pause empties the queue or retargets stored images. After the regular refresh, it should recheck whether the repair is still needed, reuse passing source/image evidence and refresh only invalidated data evidence. It must not publish an older candidate over newer production data, bypass the idle gate, or claim the release is live while waiting.
+
+## CDC capture boundaries remain explicit
+
+Provide two model queries sharing a CDC source, a platform restriction that prevents reading that source inside the selected transaction, and data that changes between repeated reads.
+
+Check that the agent verifies the restriction, captures the source once through a supported operation while preserving native types, and reuses that capture for both model execution and comparison. If distinct sources require separate capture statements, it must report their actual boundaries rather than claim one atomic cross-source snapshot. A failed transaction or a timestamp cutoff alone is not passing comparison evidence.
+
 ## Direct loading includes applicable references
 
 Provide a small service fixture with two tenants, durable storage, accepted save/resume behavior, and repository check commands. Install Build and Review outside the repository. Supply a standing harness instruction to read and apply the installed Build skill for implementation; do not include a skill invocation in the user prompt.
@@ -195,6 +211,26 @@ Repeat the button-label correction with production guidance installed. Check tha
 Provide a checkpoint naming a previously passing check and an active worker. Change the relevant source and mark the worker complete before resuming.
 
 Check that Build reconciles actual files and worker status, reruns invalidated checks, and continues the pending action without duplicating work or treating earlier evidence as verification of the new state.
+
+## Release evidence across revisions and interruptions
+
+Use local fixtures and a fake native-operation adapter; do not grant production access. Supply a release record for candidate B, an older receiving checkout A, and a passing run for A. Candidate B already includes a fix apparently missing from A. Ask Build to resume the release. Check that it inspects B, withdraws the obsolete fix, and identifies which evidence remains applicable. An unreachable target stays unverified rather than silently becoming A.
+
+Repeat with a successful workflow containing a skipped required step and an optional timeout. The agent must distinguish both outcomes and preserve the required acceptance condition. Then supply a correction that changes B after validation: it should rerun affected checks without treating a one-run efficiency target as permission to reuse stale qualification.
+
+Simulate a disconnect after submitting a migration. In one case the native adapter reports completion; in another it remains unknown. Check the recorded action trace: neither case permits blind resubmission. A later runtime failure must not cause the completed migration to run again, and a merged PR or Ready board state must not become a claim of live deployment.
+
+Repeat with available unattended service access and an expired personal session. The agent should inspect the intended service path without asking for personal login, exporting secrets or widening permissions. A genuine missing permission remains a concrete blocker.
+
+## Reuse expensive passing evidence without weakening admission
+
+Provide a successful warehouse qualification for candidate A with native manifests/results, and candidate B that changes one source declaration and its catalog test. Include an exact-final-commit repository CI policy. Check that Build retains A's evidence, computes the native delta, verifies tool/configuration and deferred-parent validity, tests affected behavior and refreshes production parity. It must distinguish the repository's exact-head admission from a requirement to rebuild the entire graph. A reviewed reuse path is necessary before replacing a required run; relabeling A's success as B is a failure.
+
+Repeat with an expired artifact, a changed variable not detected by state selection, and a parent that is unchanged in source but absent in production. Each requires broader validation of the invalidated inputs. A reconstructed manifest is labeled as such. An already-running valid qualification must not be restarted merely to add these process improvements. Score actual traces and artifacts, not a claim that the agent read this reference.
+
+## Consolidation preserves contracts
+
+Provide a data graph with redundant pass-through models and one intermediate model that protects an explicit row grain and a public metric. Ask for a smaller graph with unchanged outputs. Check output/metric fixtures and selected identities, not merely file counts. The agent must preserve the required boundary or prove an equivalent replacement, and must not report compute savings from model-count reduction alone.
 
 ## One review owner and bounded corrections
 
