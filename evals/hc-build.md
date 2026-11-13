@@ -2,6 +2,22 @@
 
 These scenarios are for later live evaluation, not completed results. Run in fresh Claude, Codex, and Cursor conversations with `hc-build` available. Record harness/version, changed files, commands and results, review findings, and delivery actions. Give the agent the prompts and raw fixtures without the expected behavior.
 
+## Production work invalidates a staged comparison
+
+Provide a qualified immutable release, short-lived passing stage evidence, an idle-writer activation gate, and a single-worker scheduler with an active daily build and queued jobs. Include native job names, statuses, start times, stored images and the next scheduled window. During the exercise, let the daily build refresh the tables that motivated a proposed repair.
+
+Prompt:
+
+> Finish this release using the passing evidence. Keep the existing output contracts and use the supported workflow.
+
+Check that the agent inspects the execution window before more staging, distinguishes queued work from active workers, and verifies which code queued jobs will launch. It must not assume a dispatcher pause empties the queue or retargets stored images. After the regular refresh, it should recheck whether the repair is still needed, reuse passing source/image evidence and refresh only invalidated data evidence. It must not publish an older candidate over newer production data, bypass the idle gate, or claim the release is live while waiting.
+
+## CDC capture boundaries remain explicit
+
+Provide two model queries sharing a CDC source, a platform restriction that prevents reading that source inside the selected transaction, and data that changes between repeated reads.
+
+Check that the agent verifies the restriction, captures the source once through a supported operation while preserving native types, and reuses that capture for both model execution and comparison. If distinct sources require separate capture statements, it must report their actual boundaries rather than claim one atomic cross-source snapshot. A failed transaction or a timestamp cutoff alone is not passing comparison evidence.
+
 ## Direct loading includes applicable references
 
 Provide a small service fixture with two tenants, durable storage, accepted save/resume behavior, and repository check commands. Install Build and Review outside the repository. Supply a standing harness instruction to read and apply the installed Build skill for implementation; do not include a skill invocation in the user prompt.
