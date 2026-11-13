@@ -26,6 +26,8 @@ After a passing expensive qualification, retain the actual artifacts and native 
 
 For dbt, prefer native state selection and deferral, preserving required test coverage and coherent inputs. Keep the original manifest/results and check the applied relations before deferring to them; logical equality does not establish that a parent exists in production. A reconstructed manifest is comparison evidence, not an original run artifact. An exact-final-commit CI requirement is repository policy, not a universal dbt requirement to rebuild the whole graph. Implement evidence reuse through the project's reviewed CI path; never relabel an old run or bypass an existing guard. Do not restart useful in-flight qualification solely to add process improvements.
 
+For data comparisons, make both sides observe the same frozen inputs through supported time travel, snapshots or table clones. An event-time cutoff does not freeze late arrivals. Reuse verified unchanged parents and execute changed SQL; do not substitute cloned outputs for executing the change. Record the captured epoch and distinguish reproducible comparison evidence from fresh production parity. Native dbt clone can fall back to live pointer views, so verify physical table clones when immutability is required.
+
 Keep required, optional, skipped, failed and unavailable checks distinguishable. A successful workflow does not imply that every step ran. Cancel superseded disposable CI only when interruption and cleanup are safe; do not apply that policy to production mutations. Native concurrency is scoped by its platform and configuration, not automatically a cross-repository release lock.
 
 ## Promote and recover through existing mechanisms
@@ -58,3 +60,6 @@ These sources inform the guidance; they are not additional mandatory workflows o
 
 - [dbt: state and deferral](https://docs.getdbt.com/reference/node-selection/defer) — native scoped execution with separate comparison and applied state.
 - [dbt: state limitations](https://docs.getdbt.com/reference/node-selection/state-comparison-caveats) — seeds, variables, macros and mixed-environment tests need explicit coverage.
+
+- [dbt: clone](https://docs.getdbt.com/reference/commands/clone) — native table cloning and the pointer-view fallback.
+- [BigQuery: table clones](https://cloud.google.com/bigquery/docs/table-clones-intro) — independent table copies, storage behavior and limitations.
