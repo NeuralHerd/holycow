@@ -22,6 +22,8 @@ Keep fields safe and metric labels bounded. Use accepted service objectives or m
 
 ## Compatibility and recovery
 
+For data-model consolidation, preserve row grain, identifiers, metric definitions, freshness and downstream contracts. Prefer shared business entities and combine redundant pass-through chains; retain boundaries that clarify complex transformations or reuse. A smaller graph, fewer physical relations and lower compute cost are different claims. Measure each claimed result. dbt's guidance on [intermediate models](https://docs.getdbt.com/best-practices/how-we-structure/3-intermediate) and [marts](https://docs.getdbt.com/best-practices/how-we-structure/4-marts) supports purposeful boundaries and notes that semantic-layer designs affect denormalization choices.
+
 For deployments, configuration, or migrations, identify affected consumers, required ordering, and the recovery action. Explain effects a code revert cannot undo, including persisted data changes or external messages. Check old/new compatibility when versions can coexist.
 
 Use the project's rollout and recovery conventions. If a feature flag is warranted, verify the relevant states and record ownership and removal conditions. Do not introduce a flag or staged rollout for every change.
