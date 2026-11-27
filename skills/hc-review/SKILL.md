@@ -3,6 +3,8 @@ name: hc-review
 description: Use when the user asks to review a pull request, branch, commit, or work-in-progress changes for correctness, agreed requirements, and project standards.
 license: MIT
 disable-model-invocation: true
+metadata:
+  version: "0.1.0"
 ---
 
 # hc-review

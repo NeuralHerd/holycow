@@ -3,6 +3,8 @@ name: hc-compass
 description: Use when the user wants to map or resume an uncertain effort spanning multiple sessions, for a new idea or an existing system.
 license: MIT
 disable-model-invocation: true
+metadata:
+  version: "0.1.0"
 ---
 
 # hc-compass

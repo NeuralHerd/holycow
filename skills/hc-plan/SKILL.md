@@ -3,6 +3,8 @@ name: hc-plan
 description: Use when the user wants to turn agreed ideas, decisions, a plan, or prototype findings into an implementation brief or dependency-aware delivery tickets.
 license: MIT
 disable-model-invocation: true
+metadata:
+  version: "0.1.0"
 ---
 
 # hc-plan

@@ -3,6 +3,8 @@ name: hc-pr
 description: Use when writing or updating a pull request description from the actual changes, verification evidence, and merge risks.
 license: MIT
 disable-model-invocation: true
+metadata:
+  version: "0.1.0"
 ---
 
 # hc-pr

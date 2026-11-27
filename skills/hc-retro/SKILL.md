@@ -3,6 +3,8 @@ name: hc-retro
 description: Use when the user asks for a retrospective on development sessions to identify evidence-backed improvements to agent workflows, instructions, tooling, or checks.
 license: MIT
 disable-model-invocation: true
+metadata:
+  version: "0.1.0"
 ---
 
 # hc-retro

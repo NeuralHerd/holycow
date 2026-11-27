@@ -3,6 +3,8 @@ name: holycow-init
 description: Use when the user wants to initialize, inspect, or refresh a repository's HolyCow workflow configuration, including tracking, project guidance, checks, and available tools.
 license: MIT
 disable-model-invocation: true
+metadata:
+  version: "0.1.0"
 ---
 
 # holycow-init

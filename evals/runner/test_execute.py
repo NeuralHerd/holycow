@@ -58,6 +58,7 @@ class RunCaseTests(unittest.TestCase):
         self.assertEqual(result["skills_installed"], skill_names())
         self.assertEqual(result["changed_files"], ["README.md"])
         self.assertEqual(result["agent_version"], "fake 1.0")
+        self.assertEqual(result["skills_version"], (Path(__file__).resolve().parents[2] / "VERSION").read_text().strip())
         self.assertEqual(json.loads((self.out / "with" / "result.json").read_text())["verdict"], "pass")
         self.assertIn("+", (self.out / "with" / "diff.patch").read_text())
         self.assertIsNone(result["workspace"])

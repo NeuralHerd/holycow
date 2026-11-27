@@ -3,6 +3,8 @@ name: holycow-guide
 description: Use when the user asks which HolyCow skill or workflow to use next, or whether the toolkit needs an additional skill.
 license: MIT
 disable-model-invocation: true
+metadata:
+  version: "0.1.0"
 ---
 
 # HolyCow Guide

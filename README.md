@@ -57,6 +57,19 @@ npx skills@latest update -g
 
 Use `-p` instead of `-g` with `update` for project installations, from the project root. See the [Skills CLI update reference](https://github.com/vercel-labs/skills/blob/main/docs/commands.md#skills-update).
 
+### Versions
+
+Each skill records its HolyCow version in the `metadata.version` field of its `SKILL.md`, so you can tell which release an installed copy came from. Releases are tagged `vMAJOR.MINOR.PATCH`; the [changelog](https://github.com/NeuralHerd/holycow/blob/main/CHANGELOG.md) lists what changed in each one and how versions are chosen.
+
+The commands above follow `main`. To install a fixed release instead, clone its tag and install from that folder:
+
+```sh
+git clone --branch v0.1.0 --depth 1 https://github.com/NeuralHerd/holycow.git holycow-0.1.0
+npx skills@latest add ./holycow-0.1.0 -g -a claude-code codex cursor --skill '*'
+```
+
+Keep that folder if the installer links to it.
+
 ### Renamed skills
 
 Install the replacement name, confirm it is available, then remove the old name. For the `ask-holycow` to `holycow-guide` rename:

@@ -3,6 +3,8 @@ name: hc-build
 description: Use when the user asks to implement agreed work, diagnose or fix a bug or performance regression, and verify the resulting outcome.
 license: MIT
 disable-model-invocation: true
+metadata:
+  version: "0.1.0"
 ---
 
 # hc-build

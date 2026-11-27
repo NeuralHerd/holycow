@@ -3,6 +3,8 @@ name: hc-refine
 description: Use when the user asks to refine or stress-test an idea, requirement, plan, or decision before acting.
 license: MIT
 disable-model-invocation: true
+metadata:
+  version: "0.1.0"
 ---
 
 # hc-refine

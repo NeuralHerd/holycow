@@ -3,6 +3,8 @@ name: hc-lab
 description: Use when the user wants a prototype, interactive experiment, or diagram to answer a specific design, behavior, or integration question before implementation.
 license: MIT
 disable-model-invocation: true
+metadata:
+  version: "0.1.0"
 ---
 
 # hc-lab

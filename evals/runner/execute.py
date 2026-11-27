@@ -94,6 +94,7 @@ def run_case(case, adapter, arm: str, run_index: int, out_dir: Path, model: str 
         "model_reported": next((trace.model for trace in traces if trace.model), None),
         "arm": arm,
         "run": run_index,
+        "skills_version": (root / "VERSION").read_text().strip() if (root / "VERSION").is_file() else None,
         "skills_revision": workspace.skills_revision(root),
         "skills_installed": installed,
         "skills_reported": traces[0].skills_available if traces else None,
