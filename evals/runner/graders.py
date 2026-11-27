@@ -8,6 +8,7 @@ from __future__ import annotations
 import os
 import re
 import shutil
+import signal
 import subprocess
 import tempfile
 from dataclasses import dataclass
@@ -92,34 +93,62 @@ def changed_files(grader, evidence, step):
     return "fail", f"changed {evidence.changed_files}, expected {expected}"
 
 
-def sandboxed(argv: list, workspace: Path) -> tuple:
-    """Wrap a check so code the agent wrote runs without network, writing only to the workspace and temp.
+# Deny by default: no network, no macOS services (so no asking an unsandboxed process to act), no launching
+# apps or scripts through open, osascript or launchctl, and no reading the home folder, where keys and agent
+# logins live. Reads elsewhere are allowed so system tools and interpreters work; writes go only to the
+# workspace and a private temp folder.
+PROFILE = """(version 1)
+(deny default)
+(allow process-fork)
+(allow process-exec)
+(deny process-exec (literal "/usr/bin/open") (literal "/usr/bin/osascript") (literal "/bin/launchctl"))
+(allow signal (target same-sandbox))
+(allow sysctl-read)
+(allow file-read*)
+(deny file-read* (subpath "{home}"))
+(allow file-read* (subpath "{workspace}") (subpath "{temp}"))
+(allow file-write* (subpath "{workspace}") (subpath "{temp}") (literal "/dev/null"))
+(allow file-ioctl (literal "/dev/null"))
+"""
 
-    Uses macOS sandbox-exec; elsewhere the check runs unsandboxed and the result says so.
+
+def sandboxed(argv: list, workspace: Path, temp: Path) -> tuple:
+    """Wrap a check so code the agent wrote runs contained, with an environment that holds no tokens.
+
+    Uses macOS sandbox-exec; elsewhere the check runs unsandboxed and the result says so. Tools installed
+    under the home folder, such as pyenv interpreters, are not readable inside the sandbox.
     """
-    temp = os.path.realpath(tempfile.gettempdir())
-    workspace = os.path.realpath(workspace)
-    env = {"PATH": os.environ.get("PATH", "/usr/bin:/bin"), "HOME": str(workspace), "TMPDIR": temp,
+    paths = {name: os.path.realpath(path) for name, path in
+             {"home": Path.home(), "workspace": workspace, "temp": temp}.items()}
+    env = {"PATH": os.environ.get("PATH", "/usr/bin:/bin"), "HOME": paths["workspace"], "TMPDIR": paths["temp"],
            "LANG": "en_US.UTF-8", "PYTHONDONTWRITEBYTECODE": "1"}
     if shutil.which("sandbox-exec") is None:
         return argv, env, False
-    profile = (
-        "(version 1)(allow default)(deny network*)(deny file-write*)"
-        f'(allow file-write* (subpath "{workspace}") (subpath "{temp}") (literal "/dev/null"))'
-    )
-    return ["sandbox-exec", "-p", profile, *argv], env, True
+    return ["sandbox-exec", "-p", PROFILE.format(**paths), *argv], env, True
 
 
 def check_command(grader, evidence, step):
-    argv, env, contained = sandboxed(grader["argv"], evidence.workspace)
-    try:
-        result = subprocess.run(argv, cwd=evidence.workspace, env=env, stdin=subprocess.DEVNULL,
-                                capture_output=True, text=True, timeout=120)
-    except subprocess.TimeoutExpired:
-        return "fail", "timed out after 120s"
-    output = (result.stdout + result.stderr).strip()[-300:]
+    with tempfile.TemporaryDirectory(prefix="holycow-check-") as temp:
+        argv, env, contained = sandboxed(grader["argv"], evidence.workspace, Path(temp))
+        process = subprocess.Popen(argv, cwd=evidence.workspace, env=env, stdin=subprocess.DEVNULL,
+                                   stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, start_new_session=True)
+        try:
+            stdout, stderr = process.communicate(timeout=120)
+            timed_out = False
+        except subprocess.TimeoutExpired:
+            timed_out = True
+        finally:
+            # Stop anything the check left running in the background.
+            try:
+                os.killpg(process.pid, signal.SIGKILL)
+            except ProcessLookupError:
+                pass
+        if timed_out:
+            process.communicate()
+            return "fail", "timed out after 120s"
+    output = (stdout + stderr).strip()[-300:]
     note = "" if contained else " (unsandboxed: sandbox-exec is unavailable)"
-    return ("pass" if result.returncode == 0 else "fail"), f"exit {result.returncode}{note}: {output}"
+    return ("pass" if process.returncode == 0 else "fail"), f"exit {process.returncode}{note}: {output}"
 
 
 def judge(grader, evidence, step):

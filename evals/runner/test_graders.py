@@ -1,6 +1,7 @@
 import os
 import shutil
 import tempfile
+import time
 import unittest
 from pathlib import Path
 from unittest import mock
@@ -92,6 +93,23 @@ class WorkspaceGraderTests(unittest.TestCase):
         grader = {"type": "check_command", "argv": ["/bin/sh", "-c", f"echo x > {outside}/escaped"]}
         self.assertEqual(verdict(grader, evidence()), "fail")
         self.assertFalse((outside / "escaped").exists())
+        (outside / "secret.txt").write_text("key")
+        reads_home = {"type": "check_command", "argv": ["/bin/cat", str(outside / "secret.txt")]}
+        self.assertEqual(verdict(reads_home, evidence()), "fail")
+
+    @unittest.skipUnless(shutil.which("sandbox-exec"), "needs macOS sandbox-exec")
+    def test_check_command_cannot_hand_work_to_other_apps(self):
+        for argv in (["/usr/bin/osascript", "-e", "return 1"], ["/usr/bin/open", "-h"]):
+            with self.subTest(argv=argv[0]):
+                self.assertEqual(verdict({"type": "check_command", "argv": argv}, evidence()), "fail")
+
+    def test_check_command_stops_background_processes(self):
+        proof = evidence()
+        # Detached from the output pipes, so the check returns at once and the leftover must be stopped.
+        grader = {"type": "check_command", "argv": ["/bin/sh", "-c", "(sleep 1; touch late) >/dev/null 2>&1 & exit 0"]}
+        self.assertEqual(verdict(grader, proof), "pass")
+        time.sleep(1.5)
+        self.assertFalse((proof.workspace / "late").exists())
 
 
 class JudgeAndOverallTests(unittest.TestCase):
