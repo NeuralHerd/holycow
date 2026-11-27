@@ -1,7 +1,9 @@
+import os
 import shutil
 import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
 
 from runner import graders
 from runner.agents import ToolCall, Trace
@@ -73,6 +75,23 @@ class WorkspaceGraderTests(unittest.TestCase):
         (proof.workspace / "marker").write_text("x")
         self.assertEqual(verdict({"type": "check_command", "argv": ["test", "-f", "marker"]}, proof), "pass")
         self.assertEqual(verdict({"type": "check_command", "argv": ["test", "-f", "absent"]}, proof), "fail")
+        written = {"type": "check_command", "argv": ["/bin/sh", "-c", "echo x > made-here"]}
+        self.assertEqual(verdict(written, proof), "pass")
+
+    def test_check_command_gets_no_secrets_from_the_environment(self):
+        with mock.patch.dict(os.environ, {"GH_TOKEN": "secret"}):
+            grader = {"type": "check_command", "argv": ["/bin/sh", "-c", 'test -z "$GH_TOKEN"']}
+            self.assertEqual(verdict(grader, evidence()), "pass")
+
+    @unittest.skipUnless(shutil.which("sandbox-exec"), "needs macOS sandbox-exec")
+    def test_check_command_cannot_write_outside_the_workspace(self):
+        local = Path(__file__).resolve().parents[2] / ".local"  # outside the workspace and temp, ignored by git
+        local.mkdir(exist_ok=True)
+        outside = Path(tempfile.mkdtemp(dir=local))
+        self.addCleanup(shutil.rmtree, outside, True)
+        grader = {"type": "check_command", "argv": ["/bin/sh", "-c", f"echo x > {outside}/escaped"]}
+        self.assertEqual(verdict(grader, evidence()), "fail")
+        self.assertFalse((outside / "escaped").exists())
 
 
 class JudgeAndOverallTests(unittest.TestCase):

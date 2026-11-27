@@ -39,10 +39,12 @@ The site renders only top-level `evals/*.md`, so cases under `evals/cases/` do n
 1. Copy the fixture into a temporary directory, `git init`, and commit.
 2. With-skill arm: copy every skill into the agent's project-level skill folder, hidden from `git status` through `.git/info/exclude`. Without-skill arm: install nothing.
 3. Run each step headless, in its own process group, with the case's time limit. Writes are allowed only inside the workspace.
-4. Keep the raw event stream, final reply, `git diff` (including new files), duration and reported usage.
+4. Keep the raw event stream, final reply, a diff against the fixture, duration and reported usage.
 5. Grade, then write the result.
 
-The runner removes `CLAUDE_*` and `ANTHROPIC_*` variables from every child environment. Claude Code creates an empty `~/.claude/projects/<workspace>/memory/` folder even with `--no-session-persistence`; the runner removes it after the run.
+After a step the agent controls the workspace, including `.git/config` and `.gitattributes`, which can make git run commands. So the runner measures changes in Python against the original fixture (committed changes count; symlinks are recorded, never followed) and runs no git command there except a commit count with hooks and fsmonitor off. Check commands run code the agent wrote, so they run under macOS `sandbox-exec` with no network, writes limited to the workspace and temp folder, and only `PATH`, `HOME`, `TMPDIR`, `LANG` and `PYTHONDONTWRITEBYTECODE` in the environment. Without `sandbox-exec`, a check runs unsandboxed and its result says so.
+
+The agents themselves run inside their own sandboxes with your environment, minus `CLAUDE_*` and `ANTHROPIC_*` variables. Claude Code creates an empty `~/.claude/projects/<workspace>/memory/` folder even with `--no-session-persistence`; the runner removes it after the run.
 
 ## Agent adapters (observed 27 November 2026)
 
@@ -87,7 +89,7 @@ Swap in API keys with spending caps for any agent when eval usage needs separati
 | `no_command` | No shell command in any step matches the patterns. |
 | `diff_matches` | Every pattern matches the final diff. |
 | `changed_files` | The changed, added and deleted files are exactly the list. |
-| `check_command` | The command exits 0 in the final workspace. |
+| `check_command` | The command exits 0 in the final workspace, run sandboxed as described above. |
 | `judge` | `claude -p` with the judge model reads the rubric, the task, the tool calls, the reply and the diff, and returns pass. It is not told the arm. |
 
 Graders may be limited to one arm with `arms` and to one step with `step` (1-based; default the last). A grader that cannot decide reports `error`; a judge without a model reports `skipped`. A run's verdict is `invalid` if its arm proof fails, `error` if the agent failed or timed out, then `error`, `fail`, `incomplete` (something skipped) or `pass` from its graders.

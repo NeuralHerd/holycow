@@ -78,8 +78,7 @@ def run_case(case, adapter, arm: str, run_index: int, out_dir: Path, model: str 
                 "error": trace.error,
             })
 
-        changed = workspace.changed_files(folder)
-        diff = workspace.diff(folder)
+        changed, diff = workspace.changes(case.fixture, folder, skip=[adapter.skill_dir] if installed else [])
         (out_dir / "diff.patch").write_text(diff)
         problem = arm_problem(arm, installed, traces, known)
         evidence = graders.Evidence(

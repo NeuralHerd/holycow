@@ -7,7 +7,9 @@ from __future__ import annotations
 
 import os
 import re
+import shutil
 import subprocess
+import tempfile
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -90,15 +92,34 @@ def changed_files(grader, evidence, step):
     return "fail", f"changed {evidence.changed_files}, expected {expected}"
 
 
+def sandboxed(argv: list, workspace: Path) -> tuple:
+    """Wrap a check so code the agent wrote runs without network, writing only to the workspace and temp.
+
+    Uses macOS sandbox-exec; elsewhere the check runs unsandboxed and the result says so.
+    """
+    temp = os.path.realpath(tempfile.gettempdir())
+    workspace = os.path.realpath(workspace)
+    env = {"PATH": os.environ.get("PATH", "/usr/bin:/bin"), "HOME": str(workspace), "TMPDIR": temp,
+           "LANG": "en_US.UTF-8", "PYTHONDONTWRITEBYTECODE": "1"}
+    if shutil.which("sandbox-exec") is None:
+        return argv, env, False
+    profile = (
+        "(version 1)(allow default)(deny network*)(deny file-write*)"
+        f'(allow file-write* (subpath "{workspace}") (subpath "{temp}") (literal "/dev/null"))'
+    )
+    return ["sandbox-exec", "-p", profile, *argv], env, True
+
+
 def check_command(grader, evidence, step):
-    env = dict(os.environ, PYTHONDONTWRITEBYTECODE="1")
+    argv, env, contained = sandboxed(grader["argv"], evidence.workspace)
     try:
-        result = subprocess.run(grader["argv"], cwd=evidence.workspace, env=env, stdin=subprocess.DEVNULL,
+        result = subprocess.run(argv, cwd=evidence.workspace, env=env, stdin=subprocess.DEVNULL,
                                 capture_output=True, text=True, timeout=120)
     except subprocess.TimeoutExpired:
         return "fail", "timed out after 120s"
     output = (result.stdout + result.stderr).strip()[-300:]
-    return ("pass" if result.returncode == 0 else "fail"), f"exit {result.returncode}: {output}"
+    note = "" if contained else " (unsandboxed: sandbox-exec is unavailable)"
+    return ("pass" if result.returncode == 0 else "fail"), f"exit {result.returncode}{note}: {output}"
 
 
 def judge(grader, evidence, step):
