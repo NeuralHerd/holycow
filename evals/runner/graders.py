@@ -8,11 +8,13 @@ from __future__ import annotations
 import os
 import re
 import shutil
-import signal
-import subprocess
 import tempfile
 from dataclasses import dataclass
 from pathlib import Path
+
+from . import process
+
+CHECK_TIMEOUT_SECONDS = 120
 
 
 @dataclass
@@ -130,25 +132,12 @@ def sandboxed(argv: list, workspace: Path, temp: Path) -> tuple:
 def check_command(grader, evidence, step):
     with tempfile.TemporaryDirectory(prefix="holycow-check-") as temp:
         argv, env, contained = sandboxed(grader["argv"], evidence.workspace, Path(temp))
-        process = subprocess.Popen(argv, cwd=evidence.workspace, env=env, stdin=subprocess.DEVNULL,
-                                   stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, start_new_session=True)
-        try:
-            stdout, stderr = process.communicate(timeout=120)
-            timed_out = False
-        except subprocess.TimeoutExpired:
-            timed_out = True
-        finally:
-            # Stop anything the check left running in the background.
-            try:
-                os.killpg(process.pid, signal.SIGKILL)
-            except ProcessLookupError:
-                pass
-        if timed_out:
-            process.communicate()
-            return "fail", "timed out after 120s"
+        stdout, stderr, code, timed_out = process.run(argv, evidence.workspace, env, CHECK_TIMEOUT_SECONDS)
+    if timed_out:
+        return "fail", f"timed out after {CHECK_TIMEOUT_SECONDS}s"
     output = (stdout + stderr).strip()[-300:]
     note = "" if contained else " (unsandboxed: sandbox-exec is unavailable)"
-    return ("pass" if process.returncode == 0 else "fail"), f"exit {process.returncode}{note}: {output}"
+    return ("pass" if code == 0 else "fail"), f"exit {code}{note}: {output}"
 
 
 def judge(grader, evidence, step):

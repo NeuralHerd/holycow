@@ -3,32 +3,13 @@
 from __future__ import annotations
 
 import json
-import os
 import shutil
-import signal
-import subprocess
 import time
 from datetime import datetime, timezone
 from pathlib import Path
 
-from . import graders, workspace
+from . import graders, process, workspace
 from .cases import ROOT, SKILLS_DIR, skill_names
-
-
-def _run(argv: list, cwd: Path, env: dict, timeout: int) -> tuple:
-    """Run in its own process group so a timeout also stops anything the agent started."""
-    process = subprocess.Popen(argv, cwd=cwd, env=env, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE,
-                               stderr=subprocess.PIPE, text=True, start_new_session=True)
-    try:
-        stdout, stderr = process.communicate(timeout=timeout)
-        return stdout, stderr, process.returncode, False
-    except subprocess.TimeoutExpired:
-        try:
-            os.killpg(process.pid, signal.SIGKILL)
-        except ProcessLookupError:
-            pass
-        stdout, stderr = process.communicate()
-        return stdout or "", stderr or "", None, True
 
 
 def arm_problem(arm: str, installed: list, traces: list, known: list):
@@ -59,7 +40,7 @@ def run_case(case, adapter, arm: str, run_index: int, out_dir: Path, model: str 
             prompt = f"{adapter.invocation(invoke)} {step.prompt}" if invoke else step.prompt
             argv, env = adapter.command(folder, prompt, model)
             step_started = time.time()
-            stdout, stderr, code, timed_out = _run(argv, folder, env, case.timeout_seconds)
+            stdout, stderr, code, timed_out = process.run(argv, folder, env, case.timeout_seconds)
             (out_dir / f"step-{index}.events.jsonl").write_text(stdout)
             (out_dir / f"step-{index}.stderr.txt").write_text(stderr)
             trace = adapter.parse(stdout)
