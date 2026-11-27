@@ -106,12 +106,14 @@ Prompt:
 
 Run this scenario with each of these environments:
 
-- Herdr is the user's preference, this agent is in a managed pane, and Herdr controls are available.
+- Herdr is the user's preference, this agent is in a managed session, and matching controls are available. Run separately with the original TUI (`HERDR_ENV=1`) and with the current app/herdr-core (a valid `HC_TERMINAL_ID` verified through `hc`, without `HERDR_ENV`).
 - No preferred coordinator is configured, but native subagent tools are available.
 - Herdr is preferred but this session is outside it; native subagent tools are available.
 - No permitted agent mechanism is available.
 
 Check actual dispatches and outputs, not just narration. The first case should use Herdr according to its constraints; the next two should use native agents, disclosing the fallback in the third. The final case should explain the limitation and continue sequentially. No case should require installing Herdr or starting extra harness processes.
+
+The app case must not be rejected solely because the TUI variable is absent or use legacy `herdr agent` commands. Repeat with only a stale TUI skill available and no supported app guidance or verified caller: disclose the limitation rather than controlling a focused session by guesswork.
 
 Only the two independent fact questions should be dispatched, normally in one two-worker batch. Each worker receives scoped context and a read-only assignment. The coordinator verifies decisive evidence and alone updates the map. The blocked delivery question remains unresolved.
 

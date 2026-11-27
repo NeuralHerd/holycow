@@ -88,6 +88,8 @@ Check that Retro counts planning, workers, reviews, corrections, and fallbacks w
 
 For live comparison of the new guidance, include a small settled change, a substantial feature, and a risky retry or migration fix under comparable conditions. Record the actual outcomes and later defects as well as total usage. These scenarios and instruction word counts are not benchmark results.
 
+Repeat with coordinator usage exceeding worker usage and one extra discovery round in the updated review. Supply large startup context before skill loading and warmer caches in the second run. Retro must include coordinator overhead, distinguish repeated context from skill-body size, and avoid attributing savings or monetary cost to raw totals. A checkpoint must not be called a complete task total. Recommend repeated comparisons with alternating order and preserved quality criteria; do not double-count nested usage or propose removing required checks to meet a token target.
+
 ## Board history and lifecycle ownership
 
 Provide active and archived records containing completed reports, merged work, approval-stage PRs, and stopped tasks. Include a stale PR status after an externally recorded merge, duplicated sent/delivered messages, a reset correction counter, review execution errors, and one recorded agent fallback. Supply an earlier retrospective, the installed skill revision, current board settings and coordinator guidance.

@@ -4,7 +4,7 @@ Parallelism is for independent fact-finding that benefits from separate attentio
 
 ## Choose the available mechanism
 
-1. Use the user's preferred coordinator when available. For Herdr, follow its installed skill and current CLI guidance; control it only inside a managed pane (`HERDR_ENV=1`). Do not control a focused Herdr session from outside it.
+1. Use the user's preferred coordinator when available. For Herdr, identify the runtime before choosing its guidance: the current app uses herdr-core (`hc`), while the original TUI uses `herdr`. Follow installed guidance for that runtime and verify the caller's managed session and target identities before control. The TUI requires `HERDR_ENV=1`; for herdr-core, verify the current `HC_TERMINAL_ID` through its supported CLI. A legacy TUI skill does not establish app support. Do not control a focused session from outside its supported environment.
 2. Otherwise use the harness's available native subagent tools. Report when a preferred coordinator is unavailable and identify the fallback. If the user required that coordinator exclusively, explain the limitation instead of substituting another.
 3. If no permitted agent mechanism is available, say so and research sequentially. Do not install tools, create new user-facing chats, or launch extra harness processes as an automatic workaround.
 

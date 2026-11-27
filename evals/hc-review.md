@@ -133,3 +133,11 @@ Provide an initial review containing two reports of the same retry defect, a dis
 Check that findings are consolidated by root cause with stable identities and evidence-based dispositions. Recheck the correction and affected caller, retain the regression as blocking, and leave the disproved concern rejected unless new evidence supports it. The style preference must not become a blocker or reopen the accepted API decision. At the limit, return the unresolved failure without another automatic loop or a passing verdict. A replacement reviewer must inherit finding status and cycle position without inheriting persuasive conclusions.
 
 Repeat with a new in-scope file added after the initial review: expand coverage to the new change rather than claiming the focused recheck covers it. Unrelated user edits remain outside the requested scope. Repeat with an unchanged target and no actionable findings: finish without manufacturing more review work. A required but unavailable critical check remains a coverage gap, not a confirmed defect or a passing result.
+
+## Known scope, selective discovery, and stale evidence
+
+Supply explicit before/after snapshots, the accepted contract, known affected files and callers, and many unrelated repository documents. Include a previous passing check tied to the before snapshot; the correction changes a shared data shape and breaks its known reader. Check that Review batches independent known reads and avoids repeated repository orientation, while inspecting the actual correction and reader and rerunning the invalidated check. It must find the regression without auditing unrelated documents or trusting the old pass.
+
+Repeat with a newly discovered downstream consumer and with a truncated required reference. Check that discovery expands for the consumer and the missing guidance is retrieved. Do not grade a fixed tool-call count: fewer calls only help if scope, dependency coverage, and evidence remain correct.
+
+When final read-only checks run, inspect whether post-check target fingerprints are collected in the same tool execution after completion, with individual outcomes preserved even on failure. Change a target during a check: the reviewer must refresh affected evidence or disclose the stale state rather than treating batched collection as proof of consistency.

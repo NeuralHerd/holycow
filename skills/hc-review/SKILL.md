@@ -15,6 +15,8 @@ In a repository, use the HolyCow context linked by its instructions, or `docs/ag
 
 Identify the requested PR, revision range, staged changes, or local work. Before selecting a Git comparison, read [change scope](references/change-scope.md), resolving the path from this skill's directory. This applies equally to standalone review and Build's self-review, including when the skill is read directly. Reuse complete, unchanged guidance already read in this session; disclose an unavailable reference and the resulting scope-verification limits. Include relevant new files when reviewing work in progress; a commit-only diff is insufficient.
 
+Batch applicable guidance with independent reads of the supplied contract, known source entry points, and checkout status. Once the comparison is established, gather the diff and known affected source together. Discover missing paths selectively; do not repeat repository orientation when the target is already known. Bound output and retrieve any omitted evidence before relying on it. Keep dependent decisions and checks sequential.
+
 Record the baseline, target revision or local state, and included paths. Use the supplied target or reliably established workflow context; ask only when ambiguity materially changes the review. An invalid ref must be resolved before reviewing that comparison, not silently replaced.
 
 Preserve existing changes and distinguish the task from unrelated edits. Read relevant surrounding code and affected callers, not just isolated diff hunks. Changes outside the selected scope may explain a defect but must not silently become the subject of the review.
@@ -73,6 +75,6 @@ Lead with actionable findings, ordered by impact. For each, provide:
 
 Preserve each finding's perspective when consolidating reports. Briefly state coverage of requirements, correctness, and standards; checks run; and material limitations. If there are no actionable findings, say so within the reviewed scope without implying that tests ran or the change is proven correct.
 
-Recheck the target before handing off. If it changed during review, inspect affected changes and refresh findings or clearly identify the older state and remaining review. After authorized fixes, revalidate affected findings and checks; do not mark every concern resolved merely because code changed.
+Recheck the target before handing off. When running final read-only checks, collect the post-check target identity in the same tool execution after the checks finish, including when a check fails; preserve each result separately. If the target changed, inspect affected changes and refresh findings or identify the older state and remaining review. After authorized fixes, revalidate affected findings and checks; changed code alone does not establish resolution.
 
 Return findings to Build or the current conversation. If publication was requested, use the actual target and supported review format, verify submission, and link the result. Review completion is separate from CI, approval, merge, and deployment.
