@@ -85,12 +85,6 @@ HolyCow Guide recommends the smallest useful next step:
 
 These are chat invocations, not shell commands. Replace `holycow-guide` with any skill below when you already know what you need. `holycow-init` is optional repository onboarding; the other skills work without it.
 
-## Recommended setup: Herdr + BossGoat
-
-For coordinating several agents, we recommend **HolyCow + [Herdr](https://herdr.dev) + [BossGoat](https://github.com/NeuralHerd/BossGoat)**. Herdr provides the app and agent terminals; BossGoat adds an Assistant, tasks, review, and acceptance; HolyCow supplies the workflow guidance. BossGoat is NeuralHerd's fork of [Shepherdr](https://github.com/eliasstravik/shepherdr), with Cursor support and built-in HolyCow skill assignment and per-skill model settings.
-
-Meet [BossGoat](website/src/content/docs/bossgoat.md) to see what it does, then follow the [Recommended Setup](website/src/content/docs/herdr.md) for installation, HolyCow settings, checkout choices, and updates. BossGoat uses the `bossgoat` command; `shepherdr` remains a compatibility alias. HolyCow also works directly in your usual agent chat.
-
 ## Choose a skill
 
 | Skill | Use it for | Outcome |
@@ -139,8 +133,6 @@ In standalone agent chats, HolyCow is configured for **explicit invocation**. An
 
 - **Claude Code and Cursor:** `disable-model-invocation: true` in each `SKILL.md`. See [Claude Code skills](https://code.claude.com/docs/en/skills) and [Cursor skills](https://cursor.com/docs/skills).
 - **Codex:** `policy.allow_implicit_invocation: false` in each `agents/openai.yaml`. See [OpenAI's skill documentation](https://learn.chatgpt.com/docs/build-skills).
-
-Inside BossGoat, the Assistant selects a HolyCow skill for each software task, and BossGoat requires its installed instructions before launch. This integration has its own [skill and model settings](website/src/content/docs/herdr.md#configure-holycow); installing HolyCow alone does not enable it in other chats.
 
 Full skill instructions load when selected, and supporting references are read as needed. A selected workflow may read relevant companion guidance within its scope and the harness's permissions. Discovery metadata can still consume context depending on the harness, and loaded instructions may remain in the conversation. HolyCow makes no zero-token or measured token-saving claim.
 
@@ -192,7 +184,7 @@ The [evaluation directory](evals/) contains manual scenarios for all ten skills 
 
 ## Documentation website
 
-The Astro website in [`website/`](website/) renders this README, skill instructions, supporting references, and public documentation directly from the repository. It is live at [holycow.neuralherd.dev](https://holycow.neuralherd.dev) on Cloudflare Workers Static Assets.
+The documentation at [neuralherd.dev/holycow](https://neuralherd.dev/holycow/) is built by the [neuralherd.dev](https://github.com/NeuralHerd/neuralherd.dev) repository from this README and the `skills/`, `docs/`, and `evals/` Markdown files. Moving or renaming those files changes the site's pages.
 
 ## Contribute
 

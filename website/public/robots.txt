@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://holycow.neuralherd.dev/sitemap-index.xml
