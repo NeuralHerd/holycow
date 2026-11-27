@@ -1,0 +1,9 @@
+{
+  "scenario": "evals/invocation.md#ordinary-request",
+  "steps": [{"prompt": "prompt.md", "invoke": null}],
+  "graders": [
+    {"type": "skills_not_used", "skills": "*"},
+    {"type": "changed_files", "exactly": ["README.md"]},
+    {"type": "diff_matches", "patterns": ["^-.*recieve", "^\\+.*\\breceive\\b"]}
+  ]
+}

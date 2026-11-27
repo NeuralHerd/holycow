@@ -1,0 +1,9 @@
+{
+  "scenario": "evals/invocation.md#explicit-request",
+  "steps": [{"prompt": "prompt.md", "invoke": "hc-refine"}],
+  "graders": [
+    {"type": "changed_files", "exactly": []},
+    {"type": "skills_not_used", "skills": ["hc-build", "hc-plan", "hc-lab", "hc-pr"]},
+    {"type": "judge", "rubric": "PASS if the reply works through the decisions that matter before the CSV export is built, by asking focused questions, and each question comes with a recommended answer or default and its trade-off. FAIL if it starts implementing, writes an implementation plan or tickets, or asks questions without recommending answers."}
+  ]
+}

@@ -174,13 +174,13 @@ Preview the banner from the repository root with Python 3:
 python3 skills/holycow-init/scripts/banner.py
 ```
 
-Run its automated checks:
+Run the automated checks for the banner and the eval runner:
 
 ```sh
-PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s evals -p 'test_init_banner.py'
+PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s evals
 ```
 
-The [evaluation directory](evals/) contains manual scenarios for all ten skills and invocation behavior. Run those in fresh harness sessions, record the version, inputs, actual actions, and results, and keep expected answers hidden from the executing agent. Passing renderer tests or parsing a skill file does not establish workflow quality.
+The [evaluation directory](evals/) describes scenarios for all ten skills and invocation behavior. Scenarios ported to runnable cases live in `evals/cases/`; `python3 evals/run.py` runs them in Claude Code, Codex, or Cursor with and without HolyCow and grades the results. The invocation scenarios are ported so far; run the rest in fresh harness sessions, record the version, inputs, actual actions, and results, and keep expected answers hidden from the executing agent. Passing renderer tests or parsing a skill file does not establish workflow quality. See [running evaluations](https://github.com/NeuralHerd/holycow/blob/main/docs/maintainers/evals-design.md) for setup.
 
 ## Documentation website
 

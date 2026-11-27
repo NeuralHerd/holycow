@@ -1,0 +1,11 @@
+{
+  "scenario": "evals/invocation.md#selected-workflow-with-companions",
+  "steps": [{"prompt": "prompt.md", "invoke": "hc-build"}],
+  "graders": [
+    {"type": "check_command", "name": "partial page counted", "argv": ["python3", "-c", "from pagination import page_count as p; assert (p(21, 10), p(20, 10), p(0, 10)) == (3, 2, 0)"]},
+    {"type": "check_command", "name": "tests pass", "argv": ["python3", "-m", "unittest", "-q"]},
+    {"type": "skills_used", "skills": ["hc-review"], "arms": ["with"]},
+    {"type": "skills_not_used", "skills": ["hc-compass", "hc-lab", "hc-plan", "hc-pr", "hc-refine", "hc-retro", "holycow-guide", "holycow-init"]},
+    {"type": "no_command", "patterns": ["\\bgit\\s+(commit|push)\\b", "\\bgh\\s+pr\\b"]}
+  ]
+}

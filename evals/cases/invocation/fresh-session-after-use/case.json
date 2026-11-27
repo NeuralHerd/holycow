@@ -1,0 +1,11 @@
+{
+  "scenario": "evals/invocation.md#fresh-session-after-use",
+  "steps": [
+    {"prompt": "first.md", "invoke": "hc-refine"},
+    {"prompt": "second.md", "invoke": null}
+  ],
+  "graders": [
+    {"type": "skills_not_used", "skills": "*", "step": 2},
+    {"type": "diff_matches", "patterns": ["^-.*recieve", "^\\+.*\\breceive\\b"]}
+  ]
+}
